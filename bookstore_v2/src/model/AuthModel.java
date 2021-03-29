@@ -5,14 +5,14 @@ import dao.UserDao;
 /*
  * Creates instances of classes that pertain to LOGIN and REGISTRATION.
  */
-public class auth_model {
+public class AuthModel {
 
 	public UserDao userCon;
 	
 	/*
 	 * Constructor must create a new instance of a UserDao
 	 */
-	public auth_model() {
+	public AuthModel() {
 		
 		userCon = new UserDao();
 	}
@@ -28,6 +28,7 @@ public class auth_model {
 	 */
 	public int registerUser(String fname, String pass, String lname, String email) {
 	
-		return 0;
+		return userCon.register(fname, lname, pass, email);
+		
 	}
 }

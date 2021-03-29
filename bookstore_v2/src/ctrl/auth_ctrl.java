@@ -6,6 +6,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.AuthModel;
 
 /**
  * Controller that handles all requests relating to the login and registration page.
@@ -27,8 +28,16 @@ public class auth_ctrl extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		
+		/*
+		 * Detect an AJAX call from the webpage. If an AJAX call is made continue...
+		 */
+		
+		AuthModel model = new AuthModel();
+		
+		model.registerUser("Guy", "abc123", "Man", "someguy@gmail.com");
+		
+		
 	}
 
 	/**
