@@ -1,6 +1,8 @@
 package ctrl;
 
 import java.io.IOException;
+
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,7 +14,7 @@ import model.AuthModel;
  * Controller that handles all requests relating to the login and registration page.
  */
 
-@WebServlet("/auth_ctrl")
+@WebServlet({"/auth_ctrl", "/auth_ctrl/*"})
 public class auth_ctrl extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -29,13 +31,24 @@ public class auth_ctrl extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		/*
-		 * Detect an AJAX call from the webpage. If an AJAX call is made continue...
-		 */
-		
+		ServletContext sc = getServletContext();
 		AuthModel model = new AuthModel();
 		
-		model.registerUser("Guy", "abc123", "Man", "someguy@gmail.com");
+		/*
+		 * Detect AJAX calls below. Specifically for the login and register page
+		 */
+		
+		if(request.getRequestURI().equals("/bookstore_v2/auth_ctrl/register")) {
+			
+			String fname = request.getParameter("fname");
+			String lname = request.getParameter("lname");
+			String email = request.getParameter("email");
+			String pass = request.getParameter("password");
+			
+			model.registerUser(fname, pass, lname, email);
+			
+			sc.getRequestDispatcher("/main_page.jspx").forward(request, response);			
+		}
 		
 		
 	}
