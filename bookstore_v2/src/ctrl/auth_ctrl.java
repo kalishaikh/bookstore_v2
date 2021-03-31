@@ -1,6 +1,7 @@
 package ctrl;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -34,23 +35,27 @@ public class auth_ctrl extends HttpServlet {
 		ServletContext sc = getServletContext();
 		AuthModel model = new AuthModel();
 		
+		
 		/*
 		 * Detect AJAX calls below. Specifically for the login and register page
 		 */
 		
 		if(request.getRequestURI().equals("/bookstore_v2/auth_ctrl/register")) {
 			
+			PrintWriter out = response.getWriter();
 			String fname = request.getParameter("fname");
 			String lname = request.getParameter("lname");
 			String email = request.getParameter("email");
 			String pass = request.getParameter("password");
 			
-			model.registerUser(fname, pass, lname, email);
+			int result = model.registerUser(fname, pass, lname, email);
 			
-			sc.getRequestDispatcher("/main_page.jspx").forward(request, response);			
+			//Tell JavaScript (auth.js) if the result was successful or not;
+			
+			out.print(result);
 		}
 		
-		
+			
 	}
 
 	/**

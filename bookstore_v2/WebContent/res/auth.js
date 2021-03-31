@@ -26,7 +26,7 @@ function isValid() {
 
 function registerUser() {
 	
-	if (isValid() == true){
+	if (isValid()){
 		
 		var request = new XMLHttpRequest();
 		var fname = document.getElementById("fname").value;
@@ -47,19 +47,32 @@ function registerUser() {
 		request.open("GET", (address + "?" + data), true);
 		
 		request.onreadystatechange = function() {
-		
+
 		if ((this.readyState == 4) && (this.status == 200)){
-			window.location.href("main_page.jspx");
-		}
+			
+			if (request.responseText == "100"){
+				alert("Email already registered!");
+				return false;
+			}
+			
+			else {
+				alert("Registration successful...redirecting...");
+				window.location.replace("main_page.jspx");
+			}
+			alert(request.responseText);
+			
+			}
 		 
-	};
-	 
-	request.send(null);
-	alert("User has been registered...redirecting to the main page'");
-	return true;
-	 }
-	
-	else return false;
-		
+		};
+		request.send(null);
+		return false;
 	}
+	
+	else {
+		alert("Validation failed");
+		return false;
+	}
+		
+		
+}
 	
