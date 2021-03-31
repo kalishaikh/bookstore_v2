@@ -8,16 +8,47 @@
 
 function isValid() {
 	
+	
+	//Define variables
 	var validEmail = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 	var userEmail = document.getElementById("email").value;
+	var fname = document.getElementById("fname").value;
+	var lname = document.getElementById("lname").value;
+	var pass = document.getElementById("password").value;
+	var valid = false;
 	
-	if (userEmail.match(validEmail)){
-		alert("Valid Email!");
-		return true;
+	//On click make sure that all classes go back to neutral
+	document.getElementById("email").className = "form-control";
+	document.getElementById("fname").className = "form-control";
+	document.getElementById("lname").className = "form-control";
+	
+	if (!userEmail.match(validEmail)){
+		document.getElementById("email").className = "form-control is-invalid";
+		valid = false;
+	}
+
+	else if(!fname || fname.length == 0){
+		document.getElementById("fname").className = "form-control is-invalid";
+		valid = false;
+	}
+
+	else if(!lname || lname.length == 0){
+		document.getElementById("lname").className = "form-control is-invalid";
+		valid = false;
+	}
+
+	else if(!pass || pass.length < 6){
+		document.getElementById("password").className = "form-control is-invalid";
+		alert("Password must be 6 characters long");
+		valid = false;
 	}
 	
-		alert("Invalid Email!");
-		return false;	
+	else {
+		alert("Valid email");
+		valid = true;
+	}
+
+	return valid;	
 }
 
 /**
@@ -59,9 +90,8 @@ function registerUser() {
 				alert("Registration successful...redirecting...");
 				window.location.replace("main_page.jspx");
 			}
-			alert(request.responseText);
 			
-			}
+		}
 		 
 		};
 		request.send(null);

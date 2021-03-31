@@ -48,7 +48,11 @@ public class auth_ctrl extends HttpServlet {
 			String email = request.getParameter("email");
 			String pass = request.getParameter("password");
 			
-			int result = model.registerUser(fname, pass, lname, email);
+			String hashPw = model.md5Hash(pass);
+			
+			int result = model.registerUser(fname, hashPw, lname, email);
+			
+			
 			
 			//Tell JavaScript (auth.js) if the result was successful or not;
 			
