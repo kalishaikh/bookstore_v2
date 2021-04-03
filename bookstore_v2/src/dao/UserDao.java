@@ -41,4 +41,29 @@ public class UserDao {
 			}
 		return 0;
 	}
+	
+	
+	public String login(String email, String pass) {
+		
+		String name = "";
+		try {
+			
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://us-cdbr-east-03.cleardb.com/heroku_e71303011de1bce", "bbb09bc37f79b0", "7c9226ac");
+			Statement stmt=con.createStatement();
+			System.out.println("Connected to Heroku...");
+			String query = String.format("SELECT fname FROM users WHERE email = '%s' AND pass = '%s'",email,pass);
+			System.out.println("querey is " + query);
+			ResultSet set = stmt.executeQuery(query);
+			while(set.next())  
+				System.out.println(set.getString(0));  
+			con.close();
+			} catch(Exception e) {
+				System.out.println(e);
+				return "100";
+				
+			}
+		return name;
+		
+	}
 }

@@ -6,6 +6,7 @@
  * Validate a user email
  */
 
+
 function isValid() {
 	
 	
@@ -15,7 +16,7 @@ function isValid() {
 	var fname = document.getElementById("fname").value;
 	var lname = document.getElementById("lname").value;
 	var pass = document.getElementById("password").value;
-	var valid = false;
+	var valid = true;
 	
 	//On click make sure that all classes go back to neutral
 	document.getElementById("email").className = "form-control";
@@ -24,17 +25,21 @@ function isValid() {
 	
 	if (!userEmail.match(validEmail)){
 		document.getElementById("email").className = "form-control is-invalid";
+		alert("email invalid");
 		valid = false;
 	}
 
 	else if(!fname || fname.length == 0){
 		document.getElementById("fname").className = "form-control is-invalid";
+		alert("fname too short");
 		valid = false;
 	}
 
 	else if(!lname || lname.length == 0){
 		document.getElementById("lname").className = "form-control is-invalid";
+		alert("lname too short");
 		valid = false;
+		
 	}
 
 	else if(!pass || pass.length < 6){
@@ -43,11 +48,7 @@ function isValid() {
 		valid = false;
 	}
 	
-	else {
-		alert("Valid email");
-		valid = true;
-	}
-
+	
 	return valid;	
 }
 
@@ -89,8 +90,7 @@ function registerUser() {
 			else {
 				alert("Registration successful...redirecting...");
 				window.location.replace("main_page.jspx");
-			}
-			
+			}	
 		}
 		 
 		};
@@ -102,7 +102,24 @@ function registerUser() {
 		alert("Validation failed");
 		return false;
 	}
-		
-		
+	
 }
+
+//Use Jquery to send data (seeing which method is easier)
+$( document ).ready(function() {
+	
+	$("#login").submit(function (event){
+		alert("login was clicked");
+		event.preventDefault();
+		
+		$.post("auth_ctrl/login", {email : $("#email").val(), pass : $("#email").val()}, function(data, status){
+			alert(data);
+		});
+	});
+	
+});
+
+
+
+
 	

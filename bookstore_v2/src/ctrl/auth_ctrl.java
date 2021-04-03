@@ -36,6 +36,7 @@ public class auth_ctrl extends HttpServlet {
 		AuthModel model = new AuthModel();
 		
 		
+		
 		/*
 		 * Detect AJAX calls below. Specifically for the login and register page
 		 */
@@ -46,17 +47,43 @@ public class auth_ctrl extends HttpServlet {
 			String fname = request.getParameter("fname");
 			String lname = request.getParameter("lname");
 			String email = request.getParameter("email");
-			String pass = request.getParameter("password");
-			
-			String hashPw = model.md5Hash(pass);
-			
-			int result = model.registerUser(fname, hashPw, lname, email);
+			String pass = request.getParameter("password");			
 			
 			
+			int result = model.registerUser(fname, model.bcrypt(pass), lname, email);
+			
+			//Store the name of the user in the session variable to be displayed on the front page.
+			if (result == 0) {
+				
+				request.getSession().setAttribute("fname", fname);
+			}
 			
 			//Tell JavaScript (auth.js) if the result was successful or not;
 			
 			out.print(result);
+			out.flush();
+		}
+		
+		else if (request.getRequestURI().equals("/bookstore_v2/auth_ctrl/login")) {
+			
+
+				PrintWriter out = response.getWriter();
+				
+				String email = request.getParameter("email");
+				String pass = request.getParameter("pass");	
+				
+				System.out.println("got a request from the login page");
+				
+				String result = model.loginUser(email, model.bcrypt(pass));
+				
+				if(!result.equals("100")) {
+					request.getSession().setAttribute("fname", result);
+				}
+				
+				out.print(result);
+
+			
+			
 		}
 		
 			

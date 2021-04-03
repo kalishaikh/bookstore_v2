@@ -7,6 +7,8 @@
 <link href = "res/login_style.css" rel = "stylesheet">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript" src="res/auth.js"></script>
+
 </head>
 <body>
 
@@ -36,8 +38,8 @@
 	
     <!-- Login Form -->
     
-    <form>
-      <input type="text" id="login" class="fadeIn second" name="login" placeholder="Email">
+    <form id="login">
+      <input type="text" id="email" class="fadeIn second" name="login" placeholder="Email">
       <input type="password" id="password" class="fadeIn third" name="login" placeholder="Password">
       <input type="submit" class="fadeIn fourth" value="Log In">
     </form>
