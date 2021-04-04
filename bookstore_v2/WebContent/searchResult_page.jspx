@@ -12,7 +12,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<!-- Bootstrap core CSS -->
-	<link href="/BKNJ_Bookstore/bootstrap/css/bootstrap.min.css"
+	<link href="/bookstore_v2/bootstrap/css/bootstrap.min.css"
 		rel="stylesheet" />
 	
 	<style>
@@ -37,9 +37,9 @@
 		href="https://fonts.googleapis.com/css?family=Playfair&#43;Display:700,900&amp;display=swap"
 		rel="stylesheet" />
 	<!-- Custom styles for this template -->
-	<link href="/BKNJ_Bookstore/res/blog.css" rel="stylesheet" />
+	<link href="/bookstore_v2/res/blog.css" rel="stylesheet" />
 	
-	<link rel="StyleSheet" href="${pageContext.request.contextPath}/res/bknj.css" type="text/css" title="cse4413" media="screen, print"/>
+	<link rel="StyleSheet" href="/bookstore_v2/res/bknj.css" type="text/css" title="cse4413" media="screen, print"/>
 	
 	<title>${search} | BKNJ Bookstore</title>
 </head>
@@ -144,7 +144,7 @@
 		</p>
 	</footer>
 	
-	<script src="/BKNJ_Bookstore/bootstrap/js/bootstrap.min.js"></script>
+	<script src="/bookstore_v2/bootstrap/js/bootstrap.min.js"></script>
 	<script type="text/javascript"> 
         function submitSearch() {   document.search.submit(); } 
    </script> 

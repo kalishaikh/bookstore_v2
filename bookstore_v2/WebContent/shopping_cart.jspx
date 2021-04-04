@@ -9,7 +9,7 @@
 	<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <!-- Bootstrap core CSS -->
-<link href="res/bootstrap.min.css"
+<link href="/bookstore_v2/res/bootstrap.min.css"
 	rel="stylesheet" />
 
 <style>
@@ -35,7 +35,7 @@
 	rel="stylesheet" />
 <!-- Custom styles for this template -->
 <link href="res/form-validation.css" rel="stylesheet" />
-<link href="res/blog.css" rel="stylesheet" />
+<link href="/bookstore_v2/res/blog.css" rel="stylesheet" />
 </head>
 <body class="bg-light">
 
@@ -85,8 +85,7 @@
 								total amount (including VAT) in CAD</span> <strong>$20</strong></li>
 					</ul>
 
-					<button type="button" class="btn btn-primary btn-block" href="#">Go
-						to Checkout</button>
+					<a class="w-100 btn btn-primary btn-md" href="checkout">Checkout</a>	
 				</div>
 				<div class="col-md-7 col-lg-8">
 
