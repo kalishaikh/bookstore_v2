@@ -12,17 +12,26 @@ import java.sql.Statement;
 public class UserDao {
 
 	/*
-	 * Register a user
+	 *Creates a connection with the MySQL server hosted on Heroku. Inputs the parameters into the database.
+	 *If an e-mail has already been registered with the database an error code of 100 is thrown.
+	 *
+	 * @param fname : First name of the new user
+	 * @param lnam : Last name of the new user
+	 * @param email : Email address of the new user
+	 * @param pass : Password of the user
+	 * @return 0 : Successfully registered a user with the database
+	 * @return 100 : Email has already been taken
+	 * 
 	 */
-	
+
 	public int register(String fname, String lname, String pass, String email) {
 		try {
 			
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			Connection con = DriverManager.getConnection("jdbc:mysql://us-cdbr-east-03.cleardb.com/heroku_e71303011de1bce", "bbb09bc37f79b0", "7c9226ac");
 			Statement stmt=con.createStatement();
-			System.out.println("Connected to heroku...");
-			String query = String.format("INSERT INTO users(fname, lname, password, email) values('%s', '%s', '%s', '%s')",fname,lname,pass,email);
+			System.out.println("Connected to Heroku...");
+			String query = String.format("INSERT INTO users(fname, lname, pass, email) values('%s', '%s', '%s', '%s')",fname,lname,pass,email);
 			stmt.executeUpdate(query);  
 			con.close();
 			} catch(Exception e) {
@@ -30,7 +39,6 @@ public class UserDao {
 				return 100;
 				
 			}
-		
 		return 0;
 	}
 }

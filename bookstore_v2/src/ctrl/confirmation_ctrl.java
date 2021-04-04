@@ -1,0 +1,53 @@
+package ctrl;
+
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * Servlet implementation class confirmation_ctrl
+ */
+
+// Not in use 
+@WebServlet("/confirmation/*")
+public class confirmation_ctrl extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	private static int count; 
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public confirmation_ctrl() {
+        super();
+        count = 1;
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// Boolean confirmed = (Boolean) request.getAttribute("confirmed");
+		Boolean confirmed = true;
+		if (confirmed) {			
+							
+			String target = "/confirmation_page.jspx";
+			request.getRequestDispatcher(target).forward(request, response);
+		} else {
+			String target = "/checkout_denied_page.jspx";
+			request.getRequestDispatcher(target).forward(request, response);
+		}
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
+
+}
