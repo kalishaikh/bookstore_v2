@@ -33,7 +33,7 @@ public class auth_ctrl extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		AuthModel model = new AuthModel();
-		
+
 		/*
 		 * Detect AJAX calls below. Specifically for the login and register page
 		 */
@@ -51,8 +51,9 @@ public class auth_ctrl extends HttpServlet {
 			
 			//Store the name of the user in the session variable to be displayed on the front page.
 			if (result == 0) {
-				
+	
 				request.getSession().setAttribute("fname", fname);
+				System.out.println("Added a session variable: " + request.getSession().getAttribute("fname"));
 			}
 			
 			//Tell JavaScript (auth.js) if the result was successful or not;
@@ -61,6 +62,9 @@ public class auth_ctrl extends HttpServlet {
 			out.flush();
 		}
 		
+		/*
+		 * Detects if a user is trying to login
+		 */
 		else if (request.getRequestURI().equals("/bookstore_v2/auth_ctrl/login")) {
 			
 				PrintWriter out = response.getWriter();
@@ -70,13 +74,20 @@ public class auth_ctrl extends HttpServlet {
 				
 				if (!result.equals("200") && !result.equals("100")) {
 					request.getSession().setAttribute("fname", result);
+					System.out.println("Added a session variable: " + request.getSession().getAttribute("fname"));
 				}
 				
-				out.print(model.loginUser(email, pass));
-			
-			
+				out.print(result);
+				
 		}
 		
+		/*
+		 * Detects if a user is logging out
+		 */
+		else if (request.getRequestURI().equals("/bookstore_v2/auth_ctrl/logout")) {
+			System.out.println(request.getSession().getAttribute("fname") + " Has successfully logged out");
+			request.getSession().setAttribute("fname", "");
+		}
 			
 	}
 

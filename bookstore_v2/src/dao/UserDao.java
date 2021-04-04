@@ -58,7 +58,7 @@ public class UserDao {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			Connection con = DriverManager.getConnection("jdbc:mysql://us-cdbr-east-03.cleardb.com/heroku_e71303011de1bce", "bbb09bc37f79b0", "7c9226ac");
 			Statement stmt=con.createStatement();
-			System.out.println("Connected to Heroku...");
+			System.out.println("Connected to Heroku...\nRetrieving first name");
 			String query = String.format("SELECT fname FROM users WHERE email = '%s'",email);
 			ResultSet set = stmt.executeQuery(query);
 			if(set.next())  
@@ -91,18 +91,18 @@ public class UserDao {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			Connection con = DriverManager.getConnection("jdbc:mysql://us-cdbr-east-03.cleardb.com/heroku_e71303011de1bce", "bbb09bc37f79b0", "7c9226ac");
 			Statement stmt=con.createStatement();
-			System.out.println("Connected to Heroku...");
+			System.out.println("Connected to Heroku...\nChecking if passwords match...");
 			String query = String.format("SELECT pass FROM users WHERE email = '%s'",email);
 			ResultSet set = stmt.executeQuery(query);
 			if(set.next())  
 				
 				if(BCrypt.checkpw(pass, set.getString(1))) {
-						System.out.println("Passwords match!");
+						System.out.println("SUCCESS Passwords match!");
 						return loginName(email);
 				}
 				
 				else if(!BCrypt.checkpw(pass, set.getString(1))) {
-						System.out.println("Passwords do not match!");
+						System.out.println("FAILURE Passwords do not match!");
 						return "200";
 				}
 				
@@ -111,7 +111,7 @@ public class UserDao {
 				System.out.println(e);
 				
 			}
-		System.out.println("No user in database");
+		System.out.println("FAILURE No user in database");
 		return "100";
 	}
 }

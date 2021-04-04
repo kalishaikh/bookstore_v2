@@ -109,7 +109,6 @@ function registerUser() {
 $( document ).ready(function() {
 	
 	$("#login").submit(function (event){
-		alert("login was clicked");
 		event.preventDefault();
 		$("#email").attr('class', 'form-control');
 		$("#password").attr('class', 'form-control');

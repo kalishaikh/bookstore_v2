@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
-	<jsp:directive.page contentType="text/html; charset=UTF-8" 
-		pageEncoding="UTF-8" session="false"/>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:f="http://java.sun.com/jsp/jstl/fmt" version="2.0">
+	<jsp:directive.page contentType="text/html; charset=UTF-8"
+		pageEncoding="UTF-8" session="true" />
 	<jsp:output doctype-root-element="html"
 		doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
 		doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
 		omit-xml-declaration="true" />
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
+	<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
 
-
-    
-
+<title>BKNJ Bookstore</title>
     <!-- Bootstrap core CSS -->
 <link href="res/bootstrap.min.css" rel="stylesheet"/>
+
 
     <style>
       .bd-placeholder-img {
@@ -36,6 +38,8 @@
     <link href="https://fonts.googleapis.com/css?family=Playfair&#43;Display:700,900&amp;display=swap" rel="stylesheet"/>
     <!-- Custom styles for this template -->
     <link href="res/blog.css" rel="stylesheet"/>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">;</script>
+    <script type="text/javascript" src="res/main_page_javascript.js">;</script>
   </head>
   <body>
  
@@ -52,7 +56,19 @@
         <a class="link-secondary" href="#" aria-label="Search">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="mx-3" role="img" viewBox="0 0 24 24"><title>Search</title><circle cx="10.5" cy="10.5" r="7.5"/><path d="M21 21l-5.2-5.2"/></svg>
         </a>
-        <a class="btn btn-sm btn-outline-secondary" href="login.html">Log In</a>   
+
+        <c:choose>
+        	<c:when test="${empty fname}">
+       		<a class="btn btn-sm btn-outline-secondary" href="login.html">Log In</a>   
+       		</c:when>
+       		<c:otherwise>
+       		<form id = "log" method = "post">
+       			<a>Welcome, ${fname}</a>
+       		<a class="btn btn-sm btn-outline-secondary" id="logout" type="button" href="main_page.jspx">Log Out</a>
+			</form>       	   
+       	   </c:otherwise>
+       	</c:choose>
+       	
 		<a class="btn btn-sm btn-outline-secondary" href="shopping_cart.jspx">Shopping Cart</a>
       </div>
     </div>
@@ -227,6 +243,7 @@
 </main><!-- /.container -->
 
 <footer class="blog-footer">
+
 <p class="mb-1">2021 BKNJ Bookstore</p>
   <p>
     <a href="#">Back to top</a>
