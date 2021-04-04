@@ -51,9 +51,9 @@ public class BookDao {
 	
 	
 	
-	public Map<Integer,BookBean> searchBook(String q) throws ClassNotFoundException, SQLException {
+	public ArrayList<BookBean> searchBook(String q) throws ClassNotFoundException, SQLException {
 		
-		Map<Integer,BookBean> search = new HashMap<Integer,BookBean>(); 
+		ArrayList<BookBean> search = new ArrayList<BookBean>(); 
 		
 		Class.forName("com.mysql.cj.jdbc.Driver");
 		Connection con = DriverManager.getConnection(url, user, password);
@@ -69,7 +69,7 @@ public class BookDao {
 			Double price = rs.getDouble("price");
 			String category = rs.getString("category");
 			String isbn = rs.getString("isbn");
-			search.put(bid, new BookBean(bid, title, author, price, category, isbn));
+			search.add(new BookBean(bid, title, author, price, category, isbn));
 		}
 		  
 		
@@ -118,12 +118,13 @@ public class BookDao {
 	
 	public static void main(String[] args) throws ClassNotFoundException, SQLException {
 		BookDao bd = new BookDao();
-		Map<Integer,BookBean> allBooks = new HashMap<Integer,BookBean>(); 
+		 
 		
 		ArrayList<String> auth = new ArrayList<String>();
-//		auth.add("James Patterson");
-//		auth.add("Candice Fox");
-//		bd.insertBook("Hush", auth, 12.99, "Mystery & Suspense", "9781538751145");
+		auth.add("Laura Lynne Jackson");
+		//auth.add("Patricia Shaw");
+		//auth.add("John McPhee");
+		bd.insertBook("Signs: The Secret Language Of The Universe", auth,24.00, "Faith and Spirituality", "9780399591617");
 		
 		//allBooks = bd.retrieveAll();
 		//System.out.println(allBooks.get(4).getTitle());
