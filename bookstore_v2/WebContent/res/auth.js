@@ -111,9 +111,28 @@ $( document ).ready(function() {
 	$("#login").submit(function (event){
 		alert("login was clicked");
 		event.preventDefault();
+		$("#email").attr('class', 'form-control');
+		$("#password").attr('class', 'form-control');
 		
-		$.post("auth_ctrl/login", {email : $("#email").val(), pass : $("#email").val()}, function(data, status){
-			alert(data);
+		$.post("auth_ctrl/login", {email : $("#email").val(), pass : $("#password").val()}, function(data, status){
+			
+			//Error Code 100 relates to an invalid e-mail
+			if(data == "100"){
+				$("#email").attr('class', 'form-control is-invalid');
+				alert("E-mail does not exist in the database.");
+			}
+			
+			//Error Code 200 relates to an invalid password
+			else if(data == "200"){
+				$("#password").attr('class', 'form-control is-invalid');
+				alert("Password is invalid");
+			}
+			
+			//Successful Login
+			else {
+				alert("User Authenticated, Welcome Back : " + data);
+				window.location.replace("main_page.jspx");
+			}
 		});
 	});
 	

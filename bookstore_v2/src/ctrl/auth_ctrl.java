@@ -31,11 +31,8 @@ public class auth_ctrl extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		ServletContext sc = getServletContext();
+
 		AuthModel model = new AuthModel();
-		
-		
 		
 		/*
 		 * Detect AJAX calls below. Specifically for the login and register page
@@ -66,22 +63,16 @@ public class auth_ctrl extends HttpServlet {
 		
 		else if (request.getRequestURI().equals("/bookstore_v2/auth_ctrl/login")) {
 			
-
 				PrintWriter out = response.getWriter();
-				
 				String email = request.getParameter("email");
 				String pass = request.getParameter("pass");	
+				String result = model.loginUser(email, pass);
 				
-				System.out.println("got a request from the login page");
-				
-				String result = model.loginUser(email, model.bcrypt(pass));
-				
-				if(!result.equals("100")) {
+				if (!result.equals("200") && !result.equals("100")) {
 					request.getSession().setAttribute("fname", result);
 				}
 				
-				out.print(result);
-
+				out.print(model.loginUser(email, pass));
 			
 			
 		}

@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 
 /*
  * This class creates a data access for users. This DAO will create a user if a user is not already registered and it will authenticate
@@ -42,8 +43,14 @@ public class UserDao {
 		return 0;
 	}
 	
-	
-	public String login(String email, String pass) {
+	/*
+	 * After authenticating using the getCredentials() method the login() method retrieves the name of the user whose email has been validated. The name is sent back to the controller
+	 * so that it may be stored in the session variable to be displayed on the website.
+	 * 
+	 * @return : Name of a registered user queried by email address.
+	 * 
+	 */
+	public String loginName(String email) {
 		
 		String name = "";
 		try {
@@ -52,18 +59,59 @@ public class UserDao {
 			Connection con = DriverManager.getConnection("jdbc:mysql://us-cdbr-east-03.cleardb.com/heroku_e71303011de1bce", "bbb09bc37f79b0", "7c9226ac");
 			Statement stmt=con.createStatement();
 			System.out.println("Connected to Heroku...");
-			String query = String.format("SELECT fname FROM users WHERE email = '%s' AND pass = '%s'",email,pass);
-			System.out.println("querey is " + query);
+			String query = String.format("SELECT fname FROM users WHERE email = '%s'",email);
 			ResultSet set = stmt.executeQuery(query);
-			while(set.next())  
-				System.out.println(set.getString(0));  
+			if(set.next())  
+				System.out.println("Name relating to email is " + set.getString(1));
+				name = set.getString(1);
 			con.close();
 			} catch(Exception e) {
 				System.out.println(e);
-				return "100";
-				
 			}
 		return name;
 		
+	}
+	
+	/*
+	 * Checks password against what is stored in the database using BCrypt salt. A query will call using an email and return 0
+	 * only if the password matches the BCrypt hashing algorithm.
+	 * 
+	 * @param pass : Password to be checked against the database
+	 * @param email : Email to be checked against the database
+	 * @return 0 : If password matches what is in the database
+	 * @return 100 : If there is no email that matches the email input
+	 * @return 200 : If the password the user entered does not match what is in the database
+	 * 
+	 */
+	
+	public String checkCredentials(String email, String pass) {
+		
+		try {
+			
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://us-cdbr-east-03.cleardb.com/heroku_e71303011de1bce", "bbb09bc37f79b0", "7c9226ac");
+			Statement stmt=con.createStatement();
+			System.out.println("Connected to Heroku...");
+			String query = String.format("SELECT pass FROM users WHERE email = '%s'",email);
+			ResultSet set = stmt.executeQuery(query);
+			if(set.next())  
+				
+				if(BCrypt.checkpw(pass, set.getString(1))) {
+						System.out.println("Passwords match!");
+						return loginName(email);
+				}
+				
+				else if(!BCrypt.checkpw(pass, set.getString(1))) {
+						System.out.println("Passwords do not match!");
+						return "200";
+				}
+				
+			con.close();
+			} catch(Exception e) {
+				System.out.println(e);
+				
+			}
+		System.out.println("No user in database");
+		return "100";
 	}
 }

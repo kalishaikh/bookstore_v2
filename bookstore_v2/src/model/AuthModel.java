@@ -50,7 +50,7 @@ public class AuthModel {
 	
 	public String loginUser(String email, String pass) {
 		
-		return userCon.login(email, pass);
+		return userCon.checkCredentials(email, pass);
 	}
 	
 	public String bcrypt(String password) {
