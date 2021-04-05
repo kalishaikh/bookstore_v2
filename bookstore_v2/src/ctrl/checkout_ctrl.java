@@ -7,10 +7,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import bean.CartItemBean;
+import bean.ShoppingCartBean;
 import model.POModel;
 
 /**
@@ -38,6 +41,7 @@ public class checkout_ctrl extends HttpServlet {
     	COMPLETED, 
     	DENIED;
     }
+    
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		// If fresh request, redirect to UI page
@@ -45,6 +49,27 @@ public class checkout_ctrl extends HttpServlet {
 					
 			String target = "/checkout.jspx";
 			request.getRequestDispatcher(target).forward(request, response);
+			
+			// Shopping cart testing stuff
+			CartItemBean first = new CartItemBean("1", 12.00, 1);
+			CartItemBean second = new CartItemBean("2", 13.99, 2);
+			
+			HttpSession this_session = request.getSession();
+			ShoppingCartBean cart;
+			if (this_session.getAttribute("cart") == null) {
+				cart = new ShoppingCartBean();
+				cart.addCartItem(first);
+				cart.addCartItem(second);
+				this_session.setAttribute("cart", cart);
+			} else {
+				cart = (ShoppingCartBean) this_session.getAttribute("cart");
+				cart.addCartItem(first);
+				cart.addCartItem(second);
+				this_session.setAttribute("cart", cart);
+			}
+			
+			cart.printCartItems();
+			
 				
 		// If not fresh request, process checkout 
 		} else {
