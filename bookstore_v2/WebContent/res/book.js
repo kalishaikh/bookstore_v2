@@ -12,3 +12,13 @@ function validateSearch(){
 		
 	return ok;
 }
+
+function showReview(){
+	document.getElementById('reviewShow').style = "display: none;";
+	document.getElementById('review').style = "display: block;";
+}
+
+function hideReview(){
+	document.getElementById('review').style = "display: none;";
+	document.getElementById('reviewShow').style = "display: block;";
+}

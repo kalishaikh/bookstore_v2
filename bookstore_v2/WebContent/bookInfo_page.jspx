@@ -114,22 +114,28 @@
 		</div>
 		
 		
+		<div class="d-flex justify-content-center" >
+			<input id="reviewShow" type="button" class="btn btn-outline-dark" onClick="showReview()" value="Write a Review" style="display: block;"></input>
+		</div>
 		
-		<div class="review">
+		<div class="review" id="review" style="display: none;">
 			<fieldset>
 			<legend>Write a Review</legend>
 			<form method="POST" class="reviewForm"><!-- add the servlet name -->
-				<label for="name">Enter your Name:</label> 
+				<label for="name"><strong>Enter your Name:</strong><BR /><small>Name to be displayed in review.</small></label> 
 					<input type="text" id="name" name="name"></input><BR /> 
-				<label for="reviewTitle">Write a Title for Your Review:</label> 
-					<input type="text" id="reviewTitle" name="reviewTitle"></input><BR /> 
-				
-				<label for="reviewContent">Write Your Review:</label> 
+				<label for="reviewTitle"><strong>Write a Title:</strong></label> 
+					<input type="text" id="reviewTitle" name="reviewTitle"></input><BR />
+			
+				<label for="reviewContent"><strong>Write Your Review:</strong></label> 
 					<textarea rows="5" id="reviewContent" name="reviewContent">Write your review here...</textarea><BR /> 
 				
 				<button class="btn btn-outline-dark" type="submit" value="true">Submit Review</button>
 			</form>
 			</fieldset>
+			<div class="d-flex justify-content-end">
+				<input type="button" class="btn btn-outline-dark" onClick="hideReview()" value="Cancel"></input>
+			</div>
 		</div>
 		
 		
@@ -145,6 +151,7 @@
 	</footer>
 	
 	<script src="bootstrap/js/bootstrap.min.js"></script>
+	
 	 
 </body>
 </html>
