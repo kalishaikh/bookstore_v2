@@ -38,10 +38,10 @@
 	<!-- Custom styles for this template -->
 	<link href="res/blog.css" rel="stylesheet" />
 	
-	<link rel="StyleSheet" href="res/bknj.css" type="text/css" title="cse4413" media="screen, print"/>
+	<link rel="StyleSheet" href="res/bknj.css" type="text/css"/>
 	<script type="text/javascript" src="res/book.js">;</script>
 	
-	<title>${book.title} | BKNJ Bookstore</title>
+	<title>${bookI.title} | BKNJ Bookstore</title>
 </head>
 <body>
 
@@ -57,7 +57,7 @@
 				</div>
 				<div class="col-4 d-flex justify-content-end align-items-center">
 					<form action="Search" onsubmit="return validateSearch();" method="POST" name="mySearch">	
-						<input type="text" placeholder="Search.." name="search" value="${search}"/>	
+						<input type="text" placeholder="Search..." name="search" value="${search}"/>	
       					<button class="btn btn-sm btn-dark" type="submit" name="button" value="bookInfo">Go</button>
 					</form>
 					<a class="btn btn-sm btn-outline-secondary" href="#">Log In</a> 
@@ -86,20 +86,25 @@
 	<main class="container">
 		<div class="d-flex flex-row align-items-center justify-content-center">
 			<div>
-			<svg class="bd-placeholder-img" width="200" height="250"
-				xmlns="http://www.w3.org/2000/svg" role="img"
-				aria-label="Placeholder: Thumbnail"
-				preserveAspectRatio="xMidYMid slice" focusable="false">
-				<title>Placeholder</title><rect width="100%" height="100%"
-					fill="#55595c" />
-				<text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+				<div class="bookcover"><p>${bookI.title}</p></div>
 			</div>
 			
 			<div class="m-4 col-5">
-				<strong class="d-inline-block mb-2 text-primary">${book[i].category} Category</strong>
-				<h3 class="mb-0">${book[i].title} Book Title</h3>
-				<div class="mb-1 text-muted">${book[i].author} Book Author</div>
-				<div class="mb-1">${book[i].price} $4.00</div>
+				<strong class="d-inline-block mb-2 text-primary">${bookI.category}</strong>
+				<h3 class="mb-0">${bookI.title}</h3>
+				<c:if test="${fn:length(bookI.getAuthor()) == 1}">
+					<div class="mb-1 text-muted">By ${bookI.getAuthor()[0]}</div>
+				</c:if>
+				<c:if test="${fn:length(bookI.getAuthor()) > 1}">
+				<div class="d-inline">
+					<div class="d-inline mb-1 text-muted">By </div>
+					<c:forEach items="${bookI.getAuthor()}" var="auth" end="${fn:length(bookI.getAuthor())-2}">
+						<div class="d-inline mb-1 text-muted">${auth}, </div>
+					</c:forEach>
+					<div class="d-inline mb-1 text-muted">${bookI.getAuthor()[fn:length(bookI.getAuthor())-1]}</div>
+				</div>
+				</c:if>
+				<strong class="mb-1 ml-2 text-dark"><f:formatNumber type="currency" currencySymbol="$" maxFractionDigits="2">${bookI.price}</f:formatNumber></strong>
 				<BR />
 				<BR />
 				<div class="d-flex justify-content-end">
@@ -107,6 +112,7 @@
 				</div>
 			</div>
 		</div>
+		
 		
 		
 		<div class="review">

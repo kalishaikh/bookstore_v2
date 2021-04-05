@@ -53,7 +53,7 @@ public class Search extends HttpServlet {
 					for(BookBean sr: searchResult)
 						System.out.println(sr.getTitle());
 				this_session.setAttribute("searchResult", searchResult);
-				this_session.setAttribute("searchNum", searchResult.size());
+				
 				
 			} catch (ClassNotFoundException | SQLException e) {
 				// TODO Auto-generated catch block

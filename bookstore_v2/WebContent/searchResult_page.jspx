@@ -39,7 +39,7 @@
 	<!-- Custom styles for this template -->
 	<link href="res/blog.css" rel="stylesheet" />
 	
-	<link rel="StyleSheet" href="res/bknj.css" type="text/css" title="cse4413" media="screen, print"/>
+	<link rel="StyleSheet" href="res/bknj.css" type="text/css"/>
 	<script type="text/javascript" src="res/book.js">;</script>
 	
 	<title>${search} | BKNJ Bookstore</title>
@@ -58,7 +58,7 @@
 				</div>
 				<div class="col-4 d-flex justify-content-end align-items-center">
 					<form action="Search" onsubmit="return validateSearch();" method="POST" name="mySearch">	
-						<input type="text" placeholder="Search.." name="search" value="${search}"/>	
+						<input type="text" placeholder="Search..." name="search" value="${search}"/>	
       					<button class="btn btn-sm btn-dark" type="submit" name="button" value="bookInfo">Go</button>
 					</form>
 					<a class="btn btn-sm btn-outline-secondary" href="#">Log In</a> 
@@ -91,28 +91,32 @@
 	
 	<c:forEach items="${searchResult}" var="book"> 	
 		<div class="row mb-2">
-				<div class="col-md-6">
+				<div class="col-md-9">
 					<div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
 						<div class="col-auto d-none d-lg-block">
-							<svg class="bd-placeholder-img" width="200" height="250"
-								xmlns="http://www.w3.org/2000/svg" role="img"
-								aria-label="Placeholder: Thumbnail"
-								preserveAspectRatio="xMidYMid slice" focusable="false">
-								<title>Placeholder</title><rect width="100%" height="100%"
-									fill="#55595c" />
-								<text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+							<div class="bookcover"><p>${book.title}</p></div>
 						</div>
-						<div class="col p-4 d-flex flex-column position-static">
+						<div class="col p-2 d-flex flex-column position-relative">
 							<strong class="d-inline-block mb-2 text-primary">${book.category}</strong>
-							<h3 class="mb-0">${book.title}</h3>
-							<c:forEach items="${book.getAuthor()}" var="auth">
-								<div class="mb-1 text-muted">${auth}</div>
-							</c:forEach>
-							<div class="mb-1">${book.price}</div>
-							
+							<h5 class="mb-0">${book.title}</h5>
+							<c:if test="${fn:length(book.getAuthor()) == 1}">
+								<div class="mb-1 text-muted">${book.getAuthor()[0]}</div>
+							</c:if>
+							<c:if test="${fn:length(book.getAuthor()) > 1}">
+							<div class="d-inline">
+								<c:forEach items="${book.getAuthor()}" var="auth" end="${fn:length(book.getAuthor())-2}">
+									<div class="d-inline mb-1 text-muted">${auth}, </div>
+								</c:forEach>
+								<div class="d-inline mb-1 text-muted">${book.getAuthor()[fn:length(book.getAuthor())-1]}</div>
+							</div>
+							</c:if>
+							<div class="mb-1"><f:formatNumber type="currency" currencySymbol="$" maxFractionDigits="2">${book.price}</f:formatNumber></div>
 							<BR />
 							<div class="d-flex justify-content-end">
-								<a href="#" class="btn btn-outline-primary" type="button">More Information</a>
+								<form action="bookinfo_ctrl" method="POST">	
+									<input type="hidden" name="isbn" id="isbn" value="${book.isbn}"/>	
+			      					<button class="btn btn-outline-primary" type="submit" name="bookInfo" id="bookInfo">More Information</button>
+								</form>
 							</div>
 							<div class="d-flex justify-content-end">
 								<a href="#" class="btn btn-outline-primary" type="button">Add to Cart</a>
@@ -144,7 +148,7 @@
 		</p>
 	</footer>
 	
-	<script src="/BKNJ_Bookstore/bootstrap/js/bootstrap.min.js"></script>
+	<script src="bootstrap/js/bootstrap.min.js"></script>
 	
 </body>
 </html>

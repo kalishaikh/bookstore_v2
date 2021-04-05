@@ -52,7 +52,7 @@
       </div>
       <div class="col-4 d-flex justify-content-end align-items-center">
         <form action="Search" onsubmit="return validateSearch();" method="POST" name="mySearch">	
-						<input type="text" placeholder="Search.." name="search" value="${search}"/>	
+						<input type="text" placeholder="Search..." name="search" value="${search}"/>	
       					<button class="btn btn-sm btn-dark" type="submit" name="button" value="bookInfo">Go</button>
 		</form>
         <a class="btn btn-sm btn-outline-secondary" href="login.html">Log In</a>   
