@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:f="http://java.sun.com/jsp/jstl/fmt" version="2.0">
+	<jsp:directive.page contentType="text/html; charset=ISO-8859-1" 
+		pageEncoding="ISO-8859-1" session="true"/>
+	<jsp:output doctype-root-element="html"
+		doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
+		doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
+		omit-xml-declaration="true" />
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<!-- Bootstrap core CSS -->
+	<link href="res/bootstrap.min.css"
+		rel="stylesheet" />
+	
+	<style>
+	.bd-placeholder-img {
+		font-size: 1.125rem;
+		text-anchor: middle;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		user-select: none;
+	}
+	
+	@media ( min-width : 768px) {
+		.bd-placeholder-img-lg {
+			font-size: 3.5rem;
+		}
+	}
+	
+	div.bookcover {
+  
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		height: 250px;
+		width: 200px;
+		background-color: #292b2c;
+	  
+	}
+	div.bookcover p{
+		padding: 30px;
+		text-align: center;
+		color: #f7f7f7;
+	}
+	</style>
+	
+	
+	<!-- Custom styles for this template -->
+	<link
+		href="https://fonts.googleapis.com/css?family=Playfair&#43;Display:700,900&amp;display=swap"
+		rel="stylesheet" />
+	<!-- Custom styles for this template -->
+	<link href="res/blog.css" rel="stylesheet" />
+	
+	<link rel="StyleSheet" href="res/bknj.css" type="text/css" title="cse4413" media="screen, print"/>
+	<script type="text/javascript" src="res/book.js">;</script>
+	
+	<title>BKNJ Bookstore</title>
+</head>
+
+<body>
+	<div class="container">
+		<header class="blog-header py-3">
+			
+				
+				<div class=" text-center">
+					<a class="blog-header-logo text-dark justify-content-center" href="main_page.jspx">BKNJ Bookstore</a>
+				</div>
+				
+		
+		</header>
+
+		
+		
+	</div>
+	
+	<main class="container">
+	<div class="justify-content-center">
+	<H1>Error!</H1>
+	<p>
+		 Please go back to the <a href="main_page.jspx">Home Page</a>
+	</p>
+	</div>
+	
+	</main>
+	
+	
+	
+	
+	
+	<footer class="blog-footer">
+		<p>
+			Website built for <a href="main_page.jspx">BKNJ Bookstore</a>
+		</p>
+		<p>
+			<a href="#">Back to top</a>
+		</p>
+	</footer>
+	
+	<script src="bootstrap/js/bootstrap.min.js"></script>
+	
+</body>
+</html>
+</jsp:root>

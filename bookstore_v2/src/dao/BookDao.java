@@ -80,6 +80,33 @@ public class BookDao {
 		return search;
 	}
 	
+	public BookBean retrieveBookInfo(String ISBN) throws SQLException, ClassNotFoundException {
+		
+		BookBean book = null;
+		Class.forName("com.mysql.cj.jdbc.Driver");
+		Connection con = DriverManager.getConnection(url, user, password);
+		Statement stmt=con.createStatement();
+		System.out.println("Connected for retrieveBook in book");
+		
+		ResultSet rs=stmt.executeQuery("select * from book where isbn = '"+ISBN+"'");  
+		while(rs.next()) {
+			int bid = rs.getInt("bid");
+			String title = rs.getString("title");
+			String [] auth = rs.getString("author").split(";");
+			ArrayList<String> author = new ArrayList<String>(getAuthor(auth));
+			Double price = rs.getDouble("price");
+			String category = rs.getString("category");
+			String isbn = rs.getString("isbn");
+			book = new BookBean(bid, title, author, price, category, isbn);
+		}
+		rs.close();
+		stmt.close();
+		con.close();
+		
+		return book;
+		
+	}
+	
 	public int insertBook (String title, ArrayList<String> author, double price, String category, String isbn) throws SQLException, ClassNotFoundException {
 
 		Class.forName("com.mysql.cj.jdbc.Driver");
@@ -116,18 +143,18 @@ public class BookDao {
 	}
 	
 	
-	public static void main(String[] args) throws ClassNotFoundException, SQLException {
-		BookDao bd = new BookDao();
-		 
-		
-		ArrayList<String> auth = new ArrayList<String>();
-		auth.add("Laura Lynne Jackson");
-		//auth.add("Patricia Shaw");
-		//auth.add("John McPhee");
-		bd.insertBook("Signs: The Secret Language Of The Universe", auth,24.00, "Faith and Spirituality", "9780399591617");
-		
-		//allBooks = bd.retrieveAll();
-		//System.out.println(allBooks.get(4).getTitle());
-	}
+//	public static void main(String[] args) throws ClassNotFoundException, SQLException {
+//		BookDao bd = new BookDao();
+//		 
+//		
+//		ArrayList<String> auth = new ArrayList<String>();
+//		auth.add("Laura Lynne Jackson");
+//		//auth.add("Patricia Shaw");
+//		//auth.add("John McPhee");
+//		bd.insertBook("Signs: The Secret Language Of The Universe", auth,24.00, "Faith and Spirituality", "9780399591617");
+//		
+//		//allBooks = bd.retrieveAll();
+//		//System.out.println(allBooks.get(4).getTitle());
+//	}
 	
 }

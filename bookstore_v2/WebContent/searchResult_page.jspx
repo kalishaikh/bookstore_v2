@@ -29,22 +29,23 @@
 			font-size: 3.5rem;
 		}
 	}
-
 	</style>
 	
 	
 	<!-- Custom styles for this template -->
-	<link href="https://fonts.googleapis.com/css?family=Playfair&#43;Display:700,900&amp;display=swap" rel="stylesheet" />
+	<link
+		href="https://fonts.googleapis.com/css?family=Playfair&#43;Display:700,900&amp;display=swap"
+		rel="stylesheet" />
 	<!-- Custom styles for this template -->
 	<link href="res/blog.css" rel="stylesheet" />
 	
 	<link rel="StyleSheet" href="res/bknj.css" type="text/css"/>
 	<script type="text/javascript" src="res/book.js">;</script>
 	
-	<title>${bookI.title} | BKNJ Bookstore</title>
+	<title>${search} | BKNJ Bookstore</title>
 </head>
-<body>
 
+<body>
 	<div class="container">
 		<header class="blog-header py-3">
 			<div
@@ -82,58 +83,61 @@
 		</div>
 		<HR />
 	</div>
-
+	
 	<main class="container">
-		<div class="d-flex flex-row align-items-center justify-content-center">
-			<div>
-				<div class="bookcover"><p>${bookI.title}</p></div>
-			</div>
-			
-			<div class="m-4 col-5">
-				<strong class="d-inline-block mb-2 text-primary">${bookI.category}</strong>
-				<h3 class="mb-0">${bookI.title}</h3>
-				<c:if test="${fn:length(bookI.getAuthor()) == 1}">
-					<div class="mb-1 text-muted">By ${bookI.getAuthor()[0]}</div>
-				</c:if>
-				<c:if test="${fn:length(bookI.getAuthor()) > 1}">
-				<div class="d-inline">
-					<div class="d-inline mb-1 text-muted">By </div>
-					<c:forEach items="${bookI.getAuthor()}" var="auth" end="${fn:length(bookI.getAuthor())-2}">
-						<div class="d-inline mb-1 text-muted">${auth}, </div>
-					</c:forEach>
-					<div class="d-inline mb-1 text-muted">${bookI.getAuthor()[fn:length(bookI.getAuthor())-1]}</div>
+	<div class="row">
+		<h5 class="pb-4 mb-4 fst-italic border-bottom"> ${fn:length(searchResult)} Results for '${search}'</h5> 
+		
+	
+	<c:forEach items="${searchResult}" var="book"> 	
+		<div class="row mb-2">
+				<div class="col-md-9">
+					<div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+						<div class="col-auto d-none d-lg-block">
+							<div class="bookcover"><p>${book.title}</p></div>
+						</div>
+						<div class="col p-2 d-flex flex-column position-relative">
+							<strong class="d-inline-block mb-2 text-primary">${book.category}</strong>
+							<h5 class="mb-0">${book.title}</h5>
+							<c:if test="${fn:length(book.getAuthor()) == 1}">
+								<div class="mb-1 text-muted">${book.getAuthor()[0]}</div>
+							</c:if>
+							<c:if test="${fn:length(book.getAuthor()) > 1}">
+							<div class="d-inline">
+								<c:forEach items="${book.getAuthor()}" var="auth" end="${fn:length(book.getAuthor())-2}">
+									<div class="d-inline mb-1 text-muted">${auth}, </div>
+								</c:forEach>
+								<div class="d-inline mb-1 text-muted">${book.getAuthor()[fn:length(book.getAuthor())-1]}</div>
+							</div>
+							</c:if>
+							<div class="mb-1"><f:formatNumber type="currency" currencySymbol="$" maxFractionDigits="2">${book.price}</f:formatNumber></div>
+							<BR />
+							<div class="d-flex justify-content-end">
+								<form action="bookinfo_ctrl" method="POST">	
+									<input type="hidden" name="isbn" id="isbn" value="${book.isbn}"/>	
+			      					<button class="btn btn-outline-primary" type="submit" name="bookInfo" id="bookInfo">More Information</button>
+								</form>
+							</div>
+							<div class="d-flex justify-content-end">
+								<a href="#" class="btn btn-outline-primary" type="button">Add to Cart</a>
+							</div>
+							
+						</div>
+						
+					</div>
 				</div>
-				</c:if>
-				<strong class="mb-1 ml-2 text-dark"><f:formatNumber type="currency" currencySymbol="$" maxFractionDigits="2">${bookI.price}</f:formatNumber></strong>
-				<BR />
-				<BR />
-				<div class="d-flex justify-content-end">
-					<button class="btn btn-outline-primary" type="button">Add to Cart</button>
-				</div>
-			</div>
 		</div>
+	</c:forEach>
+	
 		
-		
-		
-		<div class="review">
-			<fieldset>
-			<legend>Write a Review</legend>
-			<form method="POST" class="reviewForm"><!-- add the servlet name -->
-				<label for="name">Enter your Name:</label> 
-					<input type="text" id="name" name="name"></input><BR /> 
-				<label for="reviewTitle">Write a Title for Your Review:</label> 
-					<input type="text" id="reviewTitle" name="reviewTitle"></input><BR /> 
-				
-				<label for="reviewContent">Write Your Review:</label> 
-					<textarea rows="5" id="reviewContent" name="reviewContent">Write your review here...</textarea><BR /> 
-				
-				<button class="btn btn-outline-dark" type="submit" value="true">Submit Review</button>
-			</form>
-			</fieldset>
-		</div>
-		
-		
+	</div>
+
+	
 	</main>
+	
+	
+	
+	
 	
 	<footer class="blog-footer">
 		<p>
@@ -145,7 +149,7 @@
 	</footer>
 	
 	<script src="bootstrap/js/bootstrap.min.js"></script>
-	 
+	
 </body>
 </html>
 </jsp:root>
