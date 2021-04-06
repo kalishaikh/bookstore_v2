@@ -2,9 +2,6 @@ package model;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-
 import dao.UserDao;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
@@ -62,15 +59,5 @@ public class AuthModel {
 		System.out.println(hashedPW);
 		return hashedPW;
 		
-	}
-	
-	public LinkedHashMap<Integer,Integer> getMostBooks() {
-		
-		return userCon.getMostBooks();
-	}
-	
-	public LinkedHashMap<String,Integer> getBestGenres(){
-		
-		return userCon.getBestSellingGenre();
 	}
 }
