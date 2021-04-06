@@ -41,6 +41,7 @@
 	
 	<link rel="StyleSheet" href="res/bknj.css" type="text/css"/>
 	<script type="text/javascript" src="res/book.js">;</script>
+
 	
 	<title>${search} | BKNJ Bookstore</title>
 </head>
@@ -72,7 +73,7 @@
 							</form>       	   
 						</c:otherwise>
 				     </c:choose>
-					<a class="btn btn-sm btn-outline-secondary" href="#">Shopping Cart</a>
+					<a class="btn btn-sm btn-outline-secondary" href="shopping_cart">Shopping Cart</a>
 				</div>
 			</div>
 		</header>
@@ -124,12 +125,14 @@
 							<BR />
 							<div class="d-flex justify-content-end">
 								<form action="bookinfo_ctrl" method="POST">	
-									<input type="hidden" name="isbn" id="isbn" value="${book.isbn}"/>	
+									<input type="hidden" name="isbn" id="isbn" value="${book.isbn}"/>		
 			      					<button class="btn btn-outline-primary" type="submit" name="bookInfo" id="bookInfo">More Information</button>
 								</form>
 							</div>
 							<div class="d-flex justify-content-end">
-								<a href="#" class="btn btn-outline-primary" type="button">Add to Cart</a>
+								<button name="addToCart" value="true" class="btn btn-outline-primary" 
+								onclick="addToCart('/bookstore_v2/Search?addToCart=true',${book.bid},${book.price},'${book.title}','${book.authorsToString()}','${book.category}');">
+								Add to Cart</button>
 							</div>
 							
 						</div>

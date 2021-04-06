@@ -13,6 +13,9 @@ function validateSearch(){
 	return ok;
 }
 
+/**
+ * Show and Hide the review form
+ */
 function showReview(){
 	document.getElementById('reviewShow').style = "display: none;";
 	document.getElementById('review').style = "display: block;";
@@ -32,4 +35,20 @@ function isLoggedIn(){
 	else{
 		showReview();
 	}
+}
+
+/**
+ * Add to the cart
+ */
+function addToCart(address,bid,price,title,author,category) {
+	var request = new XMLHttpRequest();
+	var data = "";
+	data = "&" + "bid=" + bid
+	+ "&" + "price=" + price
+	+ "&" + "title=" + title
+	+ "&" + "author=" + author
+	+ "&" + "category=" + category;
+	
+	request.open("POST", (address + data), true);
+	request.send(null);
 }

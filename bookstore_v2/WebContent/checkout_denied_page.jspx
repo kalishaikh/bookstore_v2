@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" 
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://java.sun.com/jsp/jstl/fmt" 
+	version="2.0">
+	<jsp:directive.page contentType="text/html; charset=UTF-8"
+		pageEncoding="UTF-8" session="false" />
+	<jsp:output doctype-root-element="html"
+		doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
+		doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
+		omit-xml-declaration="true" />
+	<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<!-- Bootstrap core CSS -->
+<link href="/bookstore_v2/res/bootstrap.min.css" rel="stylesheet" />
+
+<style>
+.bd-placeholder-img {
+	font-size: 1.125rem;
+	text-anchor: middle;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	user-select: none;
+}
+
+@media ( min-width : 768px) {
+	.bd-placeholder-img-lg {
+		font-size: 3.5rem;
+	}
+}
+</style>
+
+
+<!-- Custom styles for this template -->
+<link
+	href="https://fonts.googleapis.com/css?family=Playfair&#43;Display:700,900&amp;display=swap"
+	rel="stylesheet" />
+<!-- Custom styles for this template -->
+<link href="res/form-validation.css" rel="stylesheet" />
+<link href="/bookstore_v2/res/blog.css" rel="stylesheet" />
+</head>
+<body class="bg-light">
+
+
+	<div class="container">
+
+		<header class="blog-header py-3">
+			<div
+				class="row flex-nowrap justify-content-between align-items-center">
+				<div class="col-4 pt-1">
+					<a class="link-secondary" href="#"></a>
+				</div>
+				<div class="col-4 text-center">
+					<a class="blog-header-logo text-dark" href="main_page.jspx">BKNJ
+						Bookstore</a>
+				</div>
+				<div class="col-4 d-flex justify-content-end align-items-center">
+
+				</div>
+			</div>
+		</header>
+		<main>
+			<div class="py-5 text-center">
+			
+
+				<h5 class="mb-4">
+					Uh oh!
+					<p>There was a problem with your checkout. Please try again.</p>
+				</h5>
+	
+
+				
+
+				<a class="w-40 btn btn-primary btn-md" href="main_page.jspx">Back
+					to Main Page</a>
+			</div>
+
+
+
+
+		</main>
+	</div>
+	<!--Section: Block Content-->
+
+</body>
+<footer class="blog-footer">
+	<p class="mb-1">2021 BKNJ Bookstore</p>
+	<p>
+		<a href="#">Back to top</a>
+	</p>
+</footer>
+	</html>
+</jsp:root>

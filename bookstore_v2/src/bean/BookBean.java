@@ -69,7 +69,16 @@ public class BookBean {
 		this.isbn = isbn;
 	}
 	
-	
+	public String authorsToString() {
+		String authors = "";
+		for (int i=0; i<author.size(); i++) {
+			if (i != 0) {
+				authors += ", ";
+			}
+			authors += author.get(i);
+		}
+		return authors;
+	}
 	
 	
 

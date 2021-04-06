@@ -72,8 +72,8 @@
        		<a class="btn btn-sm btn-outline-secondary" id="logout" type="button" href="main_page.jspx">Log Out</a>
 			</form>       	   
        	   </c:otherwise>
-       	</c:choose>
-		<a class="btn btn-sm btn-outline-secondary" href="shopping_cart.jspx">Shopping Cart</a>
+       	</c:choose> 
+		<a class="btn btn-sm btn-outline-secondary" href="shopping_cart">Shopping Cart</a>
       </div>
     </div>
   </header>
