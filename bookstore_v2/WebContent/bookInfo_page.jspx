@@ -4,7 +4,7 @@
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	xmlns:f="http://java.sun.com/jsp/jstl/fmt" version="2.0">
 	<jsp:directive.page contentType="text/html; charset=ISO-8859-1" 
-		pageEncoding="ISO-8859-1" session="false"/>
+		pageEncoding="ISO-8859-1" session="true"/>
 	<jsp:output doctype-root-element="html"
 		doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
 		doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
@@ -38,8 +38,13 @@
 	<!-- Custom styles for this template -->
 	<link href="res/blog.css" rel="stylesheet" />
 	
-	<link rel="StyleSheet" href="res/bknj.css" type="text/css" title="cse4413" media="screen, print"/>
-	<title>${book.name} | BKNJ Bookstore</title>
+	<link rel="StyleSheet" href="res/bknj.css" type="text/css"/>
+	<link rel="StyleSheet" href="res/star-rating.css" type="text/css"/>
+	<script type="text/javascript" src="res/book.js">;</script>
+	
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">;</script>
+	
+	<title>${bookI.title} | BKNJ Bookstore</title>
 </head>
 <body>
 
@@ -54,20 +59,22 @@
 					<a class="blog-header-logo text-dark" href="main_page.jspx">BKNJ Bookstore</a>
 				</div>
 				<div class="col-4 d-flex justify-content-end align-items-center">
-					<form method="POST" name="search"><!-- add the search servlet name -->
-				
-						<input type="text" placeholder="Search..." id="searchItem" name="searchItem"></input>
-						<a class="link-secondary" href="javascript: submitSearch" aria-label="Search"> <svg
-									xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-									fill="none" stroke="currentColor" stroke-linecap="round"
-									stroke-linejoin="round" stroke-width="2" class="mx-1" role="img"
-									viewBox="0 0 24 24">
-									<title>Search</title><circle cx="10.5" cy="10.5" r="7.5" />
-									<path d="M21 21l-5.2-5.2" /></svg>
-						</a>
+					<form action="Search" onsubmit="return validateSearch();" method="POST" name="mySearch">	
+						<input type="text" placeholder="Search..." name="search" value="${search}"/>	
+      					<button class="btn btn-sm btn-dark" type="submit" name="button" value="bookInfo">Go</button>
 					</form>
-					<a class="btn btn-sm btn-outline-secondary" href="#">Log In</a> 
-					<a class="btn btn-sm btn-outline-secondary" href="#">Shopping Cart</a>
+					<c:choose>
+						<c:when test="${empty fname}">
+							<a class="btn btn-sm btn-outline-secondary" href="login.html">Log In</a>   
+						</c:when>
+						<c:otherwise>
+							<form id = "log" method = "post">
+								<a>Welcome, ${fname}</a>
+								<a class="btn btn-sm btn-outline-secondary" id="logout" type="button" href="main_page.jspx">Log Out</a>
+							</form>       	   
+						</c:otherwise>
+				     </c:choose>
+					<a class="btn btn-sm btn-outline-secondary" href="shopping_cart">Shopping Cart</a>
 				</div>
 			</div>
 		</header>
@@ -92,44 +99,72 @@
 	<main class="container">
 		<div class="d-flex flex-row align-items-center justify-content-center">
 			<div>
-			<svg class="bd-placeholder-img" width="200" height="250"
-				xmlns="http://www.w3.org/2000/svg" role="img"
-				aria-label="Placeholder: Thumbnail"
-				preserveAspectRatio="xMidYMid slice" focusable="false">
-				<title>Placeholder</title><rect width="100%" height="100%"
-					fill="#55595c" />
-				<text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+				<div class="bookcover"><p>${bookI.title}</p></div>
 			</div>
 			
 			<div class="m-4 col-5">
-				<strong class="d-inline-block mb-2 text-primary">${book[i].category} Category</strong>
-				<h3 class="mb-0">${book[i].title} Book Title</h3>
-				<div class="mb-1 text-muted">${book[i].author} Book Author</div>
-				<div class="mb-1">${book[i].price} $4.00</div>
+				<strong class="d-inline-block mb-2 text-primary">${bookI.category}</strong>
+				<h3 class="mb-0">${bookI.title}</h3>
+				<c:if test="${fn:length(bookI.getAuthor()) == 1}">
+					<div class="mb-1 text-muted">By ${bookI.getAuthor()[0]}</div>
+				</c:if>
+				<c:if test="${fn:length(bookI.getAuthor()) > 1}">
+				<div class="d-inline">
+					<div class="d-inline mb-1 text-muted">By </div>
+					<c:forEach items="${bookI.getAuthor()}" var="auth" end="${fn:length(bookI.getAuthor())-2}">
+						<div class="d-inline mb-1 text-muted">${auth}, </div>
+					</c:forEach>
+					<div class="d-inline mb-1 text-muted">${bookI.getAuthor()[fn:length(bookI.getAuthor())-1]}</div>
+				</div>
+				</c:if>
+				<strong class="mb-1 ml-2 text-dark"><f:formatNumber type="currency" currencySymbol="$" maxFractionDigits="2">${bookI.price}</f:formatNumber></strong>
 				<BR />
 				<BR />
 				<div class="d-flex justify-content-end">
-					<button class="btn btn-outline-primary" type="button">Add to Cart</button>
+					<form action="bookinfo_ctrl" method="POST">	
+							<input type="hidden" name="price" id="price" value="${bookI.price}"/>	
+									<input type="hidden" name="bid" id="bid" value="${bookI.bid}"/>
+									</form>
+		<button name="addToCart" value="true" class="btn btn-outline-primary" 
+								onclick="addToCart('/bookstore_v2/bookinfo_ctrl?addToCart=true',${bookI.bid},${bookI.price},'${bookI.title}','${bookI.authorsToString()}','${bookI.category}');">
+								Add to Cart</button>
 				</div>
 			</div>
 		</div>
 		
 		
-		<div class="review">
+		<div class="d-flex justify-content-center" >
+			<input type="hidden" name="fname" id="fname" value="${fname}"/>	
+			<input id="reviewShow" type="button" class="btn btn-outline-dark" onClick="isLoggedIn()" value="Write a Review" style="display: block;"></input>
+		</div>
+		
+		<div class="review" id="review" style="display: none;">
 			<fieldset>
 			<legend>Write a Review</legend>
-			<form method="POST" class="reviewForm"><!-- add the servlet name -->
-				<label for="name">Enter your Name:</label> 
-					<input type="text" id="name" name="name"></input><BR /> 
-				<label for="reviewTitle">Write a Title for Your Review:</label> 
-					<input type="text" id="reviewTitle" name="reviewTitle"></input><BR /> 
-				
-				<label for="reviewContent">Write Your Review:</label> 
+			<form method="POST" class="reviewForm" name="myReview"><!-- add the servlet name -->
+				<label for="reviewTitle"><strong>Write a Title:</strong><span id="rTitle-error">*</span></label> 
+					<input type="text" id="reviewTitle" name="reviewTitle"></input><BR />
+				<label for="rating"><strong>Overall Rating:</strong><span id="rate-error">*</span></label>	
+					<div class="rate">
+						<input type="radio" id="star5" name="rate" value="5" />
+					    <label for="star5" title="Excellent">5 stars</label>
+					    <input type="radio" id="star4" name="rate" value="4" />
+					    <label for="star4" title="Above Average">4 stars</label>
+					    <input type="radio" id="star3" name="rate" value="3" />
+					    <label for="star3" title="Average">3 stars</label>
+					    <input type="radio" id="star2" name="rate" value="2" />
+					    <label for="star2" title="Below Average">2 stars</label>
+					    <input type="radio" id="star1" name="rate" value="1" />
+					    <label for="star1" title="Very Poor">1 star</label>
+					</div><BR />
+				<label for="reviewContent"><strong>Write Your Review:</strong><span id="content-error">*</span></label> 
 					<textarea rows="5" id="reviewContent" name="reviewContent">Write your review here...</textarea><BR /> 
-				
-				<button class="btn btn-outline-dark" type="submit" value="true">Submit Review</button>
 			</form>
+			<button class="btn btn-outline-dark" type="reviewSubmit" value="true" onClick="addReview('/bookstore_v2/bookinfo_ctrl?reviewSubmit=true',${bookI.bid});">Submit Review</button>
 			</fieldset>
+			<div class="d-flex justify-content-end">
+				<input type="button" class="btn btn-outline-dark" onClick="hideReview()" value="Cancel"></input>
+			</div>
 		</div>
 		
 		
@@ -145,9 +180,9 @@
 	</footer>
 	
 	<script src="bootstrap/js/bootstrap.min.js"></script>
-	<script type="text/javascript"> 
-        function submitSearch() {   document.search.submit(); } 
-   </script> 
+	
+	
+	 
 </body>
 </html>
 </jsp:root>

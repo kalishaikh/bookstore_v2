@@ -30,7 +30,7 @@ legend
  display: grid;
  grid-template-columns: [labels]auto[controls]1fr;
  grid-auto-flow: row;
- grid-gap: 0.2em;
+ grid-gap: 0.3em;
  border-radius: 5px;
  background: #eee;
  padding: 1.0em;
@@ -43,6 +43,7 @@ legend
 }
 
 
+.reviewForm div.rate,
 .reviewForm input,
 .reviewForm textarea,
 .reviewForm button{
@@ -50,4 +51,21 @@ legend
 	grid-row: auto;
 	border: none;
 	padding: 0.5em;
+}
+
+div.bookcover {
+  
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 250px;
+	width: 200px;
+	background-color: #292b2c;
+  
+}
+
+div.bookcover p{
+	padding: 30px;
+	text-align: center;
+	color: #f7f7f7;
 }

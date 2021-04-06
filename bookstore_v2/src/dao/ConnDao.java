@@ -15,7 +15,12 @@ public class ConnDao {
 		ResultSet rs=stmt.executeQuery("select * from test");  
 		while(rs.next())  
 		System.out.println(rs.getInt(1)+"  "+rs.getString(2));  
+		
+		rs.close();
+		stmt.close();
 		con.close();
+		
+		
 		} catch(Exception e) {
 			System.out.println(e);
 			
