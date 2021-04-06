@@ -9,6 +9,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import bean.ShoppingCartBean;
 import model.AuthModel;
 
 /**
@@ -74,6 +76,7 @@ public class auth_ctrl extends HttpServlet {
 				
 				if (!result.equals("200") && !result.equals("100")) {
 					request.getSession().setAttribute("fname", result);
+					request.getSession().setAttribute("email", email);
 					System.out.println("Added a session variable: " + request.getSession().getAttribute("fname"));
 				}
 				
@@ -87,6 +90,9 @@ public class auth_ctrl extends HttpServlet {
 		else if (request.getRequestURI().equals("/bookstore_v2/auth_ctrl/logout")) {
 			System.out.println(request.getSession().getAttribute("fname") + " Has successfully logged out");
 			request.getSession().setAttribute("fname", "");
+			request.getSession().setAttribute("email", "");
+			ShoppingCartBean sc = new ShoppingCartBean();
+			request.getSession().setAttribute("cart", sc);
 		}
 			
 	}

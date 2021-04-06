@@ -30,17 +30,19 @@ public class confirmation_ctrl extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// Boolean confirmed = (Boolean) request.getAttribute("confirmed");
-		Boolean confirmed = true;
-		if (confirmed) {			
-							
-			String target = "/confirmation_page.jspx";
-			request.getRequestDispatcher(target).forward(request, response);
-		} else {
-			String target = "/checkout_denied_page.jspx";
-			request.getRequestDispatcher(target).forward(request, response);
+
+	
+			Boolean confirmed = true;
+			if (confirmed) {			
+								
+				String target = "/confirmation_page.jspx";
+				request.getRequestDispatcher(target).forward(request, response);
+			} else {
+				String target = "/checkout_denied_page.jspx";
+				request.getRequestDispatcher(target).forward(request, response);
+			}
 		}
-	}
+
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)

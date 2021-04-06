@@ -43,6 +43,15 @@
 	<script type="text/javascript" src="res/book.js">;</script>
 	
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">;</script>
+	<script type="text/javascript" src="res/book.js">;</script>
+	<script>
+		$(document).ready(function(){
+		  $(".cart").click(function(){
+			      alert("Item added to cart!");
+ 
+		}); 
+	});
+</script>
 	
 	<title>${bookI.title} | BKNJ Bookstore</title>
 </head>
@@ -125,7 +134,7 @@
 							<input type="hidden" name="price" id="price" value="${bookI.price}"/>	
 									<input type="hidden" name="bid" id="bid" value="${bookI.bid}"/>
 									</form>
-		<button name="addToCart" value="true" class="btn btn-outline-primary" 
+		<button name="addToCart" value="true" class="cart btn btn-outline-primary" 
 								onclick="addToCart('/bookstore_v2/bookinfo_ctrl?addToCart=true',${bookI.bid},${bookI.price},'${bookI.parseTitle()}','${bookI.authorsToString()}','${bookI.category}');">
 								Add to Cart</button>
 				</div>

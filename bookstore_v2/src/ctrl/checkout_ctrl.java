@@ -47,13 +47,17 @@ public class checkout_ctrl extends HttpServlet {
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		// If user not logged in, redirect to login page 
+		if (request.getSession().getAttribute("email") == null || request.getSession().getAttribute("email").equals("")) {
+			String target = "/login.html";
+			request.getRequestDispatcher(target).forward(request, response);
+		}
+		
 		// If fresh request, redirect to UI page
 		if (!request.getParameterMap().containsKey("checkout")) {			
-					
 			String target = "/checkout.jspx";
 			request.getRequestDispatcher(target).forward(request, response);
-			
-				
+							
 		// If not fresh request, process checkout 
 		} else {
 			
@@ -64,7 +68,7 @@ public class checkout_ctrl extends HttpServlet {
 			
 			fname = request.getParameter("firstName");
 			lname = request.getParameter("lastName");
-			email = request.getParameter("email");
+			email = (String) request.getSession().getAttribute("email");
 			phone = request.getParameter("phone");
 			address = request.getParameter("address");
 			country = request.getParameter("country");
