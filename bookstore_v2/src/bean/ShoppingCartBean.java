@@ -26,6 +26,15 @@ public class ShoppingCartBean {
 		return false;
 	}
 	
+	public void removeItem(String bid) {
+		for (int i=0; i<cart.size(); i++) {
+			if (cart.get(i).getBid().equals(bid)) {
+				cart.remove(i);
+				System.out.print("\nItem with bid " + bid + " removed from cart");
+			}
+		}
+	}
+	
 	public ArrayList<CartItemBean> getCart() {
 		return cart;
 	}
@@ -51,6 +60,24 @@ public class ShoppingCartBean {
 		for (int i=0; i<cart.size(); i++) {
 			if (cart.get(i).getBid().equals(c.getBid())) {
 				cart.get(i).setQuantity(quantity);
+			}
+		}
+	}
+	
+	public void increment(String bid) {
+		for (int i=0; i<cart.size(); i++) {
+			if (cart.get(i).getBid().equals(bid)) {
+				cart.get(i).setQuantity((cart.get(i).getQuantity()+1));
+				System.out.println("\nItem quantity incremented by 1");
+			}
+		}
+	}
+	
+	public void decrement(String bid) {
+		for (int i=0; i<cart.size(); i++) {
+			if (cart.get(i).getBid().equals(bid)) {
+				cart.get(i).setQuantity((cart.get(i).getQuantity()-1));
+				System.out.println("\nItem quantity decremented by 1");
 			}
 		}
 	}

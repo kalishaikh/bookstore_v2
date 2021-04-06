@@ -36,6 +36,11 @@ public class BookBean {
 	public void setTitle(String title) {
 		this.title = title;
 	}
+	
+	public String parseTitle() {
+		String newTitle = title.replaceAll("'", "\\\\\\\'");
+		return newTitle;
+	}
 
 	public ArrayList<String> getAuthor() {
 		return author;

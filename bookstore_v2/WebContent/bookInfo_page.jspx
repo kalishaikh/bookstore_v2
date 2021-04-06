@@ -113,7 +113,7 @@
 									<input type="hidden" name="bid" id="bid" value="${bookI.bid}"/>
 									</form>
 		<button name="addToCart" value="true" class="btn btn-outline-primary" 
-								onclick="addToCart('/bookstore_v2/bookinfo_ctrl?addToCart=true',${bookI.bid},${bookI.price},'${bookI.title}','${bookI.authorsToString()}','${bookI.category}');">
+								onclick="addToCart('/bookstore_v2/bookinfo_ctrl?addToCart=true',${bookI.bid},${bookI.price},'${bookI.parseTitle()}','${bookI.authorsToString()}','${bookI.category}');">
 								Add to Cart</button>
 				</div>
 			</div>

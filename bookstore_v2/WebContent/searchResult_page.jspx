@@ -121,8 +121,8 @@
 							</div>
 							<div class="d-flex justify-content-end">
 								<button name="addToCart" value="true" class="btn btn-outline-primary" 
-								onclick="addToCart('/bookstore_v2/Search?addToCart=true',${book.bid},${book.price},'${book.title}','${book.authorsToString()}','${book.category}');">
-								Add to Cart</button>
+								onclick="addToCart('/bookstore_v2/Search?addToCart=true',${book.bid},${book.price},'${book.parseTitle()}','${book.authorsToString()}','${book.category}');">
+								Add to Cart </button>
 							</div>
 							
 						</div>
