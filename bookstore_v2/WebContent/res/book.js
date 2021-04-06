@@ -24,5 +24,12 @@ function hideReview(){
 }
 
 function isLoggedIn(){
-	showReview();
+	var p = document.getElementById("fname").value;
+	
+	if(p === null || p === ""){
+		alert("Please login to write a review!");
+	}
+	else{
+		showReview();
+	}
 }

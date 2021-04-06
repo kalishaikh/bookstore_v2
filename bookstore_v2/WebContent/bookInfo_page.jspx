@@ -61,7 +61,17 @@
 						<input type="text" placeholder="Search..." name="search" value="${search}"/>	
       					<button class="btn btn-sm btn-dark" type="submit" name="button" value="bookInfo">Go</button>
 					</form>
-					<a class="btn btn-sm btn-outline-secondary" href="#">Log In</a> 
+					<c:choose>
+						<c:when test="${empty fname}">
+							<a class="btn btn-sm btn-outline-secondary" href="login.html">Log In</a>   
+						</c:when>
+						<c:otherwise>
+							<form id = "log" method = "post">
+								<a>Welcome, ${fname}</a>
+								<a class="btn btn-sm btn-outline-secondary" id="logout" type="button" href="main_page.jspx">Log Out</a>
+							</form>       	   
+						</c:otherwise>
+				     </c:choose>
 					<a class="btn btn-sm btn-outline-secondary" href="#">Shopping Cart</a>
 				</div>
 			</div>
@@ -116,6 +126,7 @@
 		
 		
 		<div class="d-flex justify-content-center" >
+			<input type="hidden" name="fname" id="fname" value="${fname}"/>	
 			<input id="reviewShow" type="button" class="btn btn-outline-dark" onClick="isLoggedIn()" value="Write a Review" style="display: block;"></input>
 		</div>
 		
@@ -141,7 +152,7 @@
 				<label for="reviewContent"><strong>Write Your Review:</strong></label> 
 					<textarea rows="5" id="reviewContent" name="reviewContent">Write your review here...</textarea><BR /> 
 				
-				<button class="btn btn-outline-dark" type="submit" value="true">Submit Review</button>
+				<button class="btn btn-outline-dark" type="reviewSubmit" value="true">Submit Review</button>
 			</form>
 			</fieldset>
 			<div class="d-flex justify-content-end">
