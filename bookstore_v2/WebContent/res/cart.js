@@ -4,6 +4,10 @@ var priceChanges = 0;
 var taxChanges = 0;
 var totalPriceChanges = 0;
 
+function validate() {
+	
+}
+
 function changeQuantity(address, quantity, bid, type, cartSize, price, subtotal, tax, total) {
 
 	var request = new XMLHttpRequest();

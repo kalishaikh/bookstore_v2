@@ -16,6 +16,7 @@
 <link href="res/bootstrap.min.css"
 	rel="stylesheet" />
 	
+	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">;</script>
 <script type="text/javascript"
 	src="res/checkout.js">
 	;
@@ -176,24 +177,12 @@
 								<div class="invalid-feedback">Please select a valid
 									country.</div>
 							</div>
-
+		
 							<div class="col-md-4">
 								<label for="province" class="form-label">Province</label> <select
-									class="form-select" id="province" required="" name="province">
-									<option value="">Choose...</option>
-									<option>NL</option>
-									<option>PE</option>
-									<option>NS</option>
-									<option>NB</option>
-									<option>QC</option>
-									<option>ON</option>
-									<option>MB</option>
-									<option>SK</option>
-									<option>AB</option>
-									<option>BC</option>
-									<option>YT</option>
-									<option>NT</option>
-									<option>NU</option>
+									class="form-select" id="province" required="" name="province" onClick="getStates()">
+									<option value="NoneSelected" disabled="true">Choose...</option>
+				
 									
 								</select>
 								<div class="invalid-feedback">Please provide a valid
@@ -294,7 +283,48 @@
 			</ul>
 		</footer>
 	</div>
-
+<script>				
+				$(document).ready(function () {
+		
+		var list1 = document.getElementById('country');
+		
+	
+		list1.options[0] = new Option('Canada', 'Canada');
+		list1.options[1] = new Option('US', 'US');
+		});
+		</script>
+		
+		<script>function getStates(){
+			var list1 = document.getElementById('country');
+			var list2 = document.getElementById('province');
+			var list1SelectedValue = list1.options[list1.selectedIndex].value;
+			
+			if (list1SelectedValue=='Canada')
+            {
+				
+				list2.options.length=0;
+				list2.options[0] = new Option('ON', 'ON');
+				list2.options[1] = new Option('AB', 'AB');
+				list2.options[2] = new Option('MN', 'MN');
+				list2.options[3] = new Option('QC', 'QC');
+				list2.options[4] = new Option('BC', 'BC');
+				list2.options[5] = new Option('YK', 'YK');
+				
+			}
+			else if (list1SelectedValue=='US')
+            {
+				
+				list2.options.length=0;
+				list2.options[0] = new Option('TX', 'TX');
+				list2.options[1] = new Option('CA', 'CA');
+				list2.options[2] = new Option('AR', 'AR');
+				list2.options[3] = new Option('AK', 'AK');
+				list2.options[4] = new Option('CO', 'CO');
+				list2.options[5] = new Option('FL', 'FL');
+				
+			}
+		
+}</script>	
 
 	<script src="/bopokstore_v2/bootstrap/js/bootstrap.bundle.min.js"></script>
 
