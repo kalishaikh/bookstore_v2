@@ -25,48 +25,24 @@ public class BookBean {
 		return bid;
 	}
 
-	public void setBid(int bid) {
-		this.bid = bid;
-	}
-
 	public String getTitle() {
 		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
 	}
 
 	public ArrayList<String> getAuthor() {
 		return author;
 	}
 
-	public void setAuthor(ArrayList<String> author) {
-		this.author = author;
-	}
-
 	public double getPrice() {
 		return price;
-	}
-
-	public void setPrice(double price) {
-		this.price = price;
 	}
 
 	public String getCategory() {
 		return category;
 	}
 
-	public void setCategory(String category) {
-		this.category = category;
-	}
-
 	public String getIsbn() {
 		return isbn;
-	}
-
-	public void setIsbn(String isbn) {
-		this.isbn = isbn;
 	}
 	
 	public String authorsToString() {

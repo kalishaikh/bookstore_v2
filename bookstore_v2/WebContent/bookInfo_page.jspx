@@ -42,6 +42,8 @@
 	<link rel="StyleSheet" href="res/star-rating.css" type="text/css"/>
 	<script type="text/javascript" src="res/book.js">;</script>
 	
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">;</script>
+	
 	<title>${bookI.title} | BKNJ Bookstore</title>
 </head>
 <body>
@@ -139,10 +141,10 @@
 		<div class="review" id="review" style="display: none;">
 			<fieldset>
 			<legend>Write a Review</legend>
-			<form method="POST" class="reviewForm"><!-- add the servlet name -->
-				<label for="reviewTitle"><strong>Write a Title:</strong></label> 
+			<form method="POST" class="reviewForm" name="myReview"><!-- add the servlet name -->
+				<label for="reviewTitle"><strong>Write a Title:</strong><span id="rTitle-error">*</span></label> 
 					<input type="text" id="reviewTitle" name="reviewTitle"></input><BR />
-				<label for="rating"><strong>Overall Rating:</strong></label>	
+				<label for="rating"><strong>Overall Rating:</strong><span id="rate-error">*</span></label>	
 					<div class="rate">
 						<input type="radio" id="star5" name="rate" value="5" />
 					    <label for="star5" title="Excellent">5 stars</label>
@@ -155,11 +157,10 @@
 					    <input type="radio" id="star1" name="rate" value="1" />
 					    <label for="star1" title="Very Poor">1 star</label>
 					</div><BR />
-				<label for="reviewContent"><strong>Write Your Review:</strong></label> 
+				<label for="reviewContent"><strong>Write Your Review:</strong><span id="content-error">*</span></label> 
 					<textarea rows="5" id="reviewContent" name="reviewContent">Write your review here...</textarea><BR /> 
-				
-				<button class="btn btn-outline-dark" type="reviewSubmit" value="true">Submit Review</button>
 			</form>
+			<button class="btn btn-outline-dark" type="reviewSubmit" value="true" onClick="addReview('/bookstore_v2/bookinfo_ctrl?reviewSubmit=true',${bookI.bid});">Submit Review</button>
 			</fieldset>
 			<div class="d-flex justify-content-end">
 				<input type="button" class="btn btn-outline-dark" onClick="hideReview()" value="Cancel"></input>

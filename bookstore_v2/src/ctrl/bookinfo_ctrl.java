@@ -1,6 +1,7 @@
 package ctrl;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 
 import javax.servlet.ServletException;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import bean.BookBean;
 import bean.CartItemBean;
+import bean.ReviewBean;
 import bean.ShoppingCartBean;
 import model.BookModel;
 
@@ -40,7 +42,21 @@ public class bookinfo_ctrl extends HttpServlet {
 		String bookInfo_target = "bookInfo_page.jspx";
 		String error_target = "error_page.jspx";
 		
-		if(request.getParameter("isbn") != null && !request.getParameter("isbn").equals("")) {
+		
+		 if (request.getParameter("addToCart") != null && request.getParameter("addToCart").equals("true")) { // Add to Cart button clicked. 
+			
+			this.addToCart(this_session, request);
+			
+		} else if (request.getParameter("reviewSubmit") != null && request.getParameter("reviewSubmit").equals("true")) { // Add Review button clicked.
+			
+			try {
+				this.addReview(this_session, request, response);
+			} catch (ClassNotFoundException | SQLException | IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		} else if(request.getParameter("isbn") != null && !request.getParameter("isbn").equals("")) {
 			String isbn = request.getParameter("isbn");
 			
 			BookModel bmodel = new BookModel();
@@ -56,10 +72,6 @@ public class bookinfo_ctrl extends HttpServlet {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
-		} else if (request.getParameter("addToCart").equals("true")) { // Add to Cart button clicked. 
-			
-			this.addToCart(this_session, request);
 			
 		} else {
 			request.getRequestDispatcher(error_target).forward(request, response);
@@ -106,6 +118,21 @@ public class bookinfo_ctrl extends HttpServlet {
 		System.out.println("\nBook with bid " + request.getParameter("bid") + " added to cart! Price of the book is: " + request.getParameter("price"));
 
 		
+	}
+	
+	public void addReview(HttpSession this_session, HttpServletRequest request, HttpServletResponse response) throws ClassNotFoundException, SQLException, IOException {
+		ReviewBean rev = new ReviewBean(Integer.parseInt(request.getParameter("bid")),
+				request.getParameter("name"),
+				request.getParameter("reviewTitle"),
+				Integer.parseInt(request.getParameter("rate")),
+				request.getParameter("reviewContent"));
+		BookModel bm = new BookModel();
+		
+		response.setContentType("application/json");
+		PrintWriter out = response.getWriter();
+		out.print(bm.addReview(rev));
+		out.flush();
+		out.close();
 	}
 
 }
