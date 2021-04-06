@@ -12,3 +12,17 @@ function validateSearch(){
 		
 	return ok;
 }
+
+function addToCart(address,bid,price,title,author,category) {
+	var request = new XMLHttpRequest();
+	var data = "";
+	data = "&" + "bid=" + bid
+	+ "&" + "price=" + price
+	+ "&" + "title=" + title
+	+ "&" + "author=" + author
+	+ "&" + "category=" + category;
+	
+	request.open("POST", (address + data), true);
+	request.send(null);
+
+}

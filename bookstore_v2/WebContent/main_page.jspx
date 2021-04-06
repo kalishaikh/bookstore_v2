@@ -56,7 +56,7 @@
       					<button class="btn btn-sm btn-dark" type="submit" name="button" value="bookInfo">Go</button>
 		</form>
         <a class="btn btn-sm btn-outline-secondary" href="login.html">Log In</a>   
-		<a class="btn btn-sm btn-outline-secondary" href="shopping_cart.jspx">Shopping Cart</a>
+		<a class="btn btn-sm btn-outline-secondary" href="shopping_cart">Shopping Cart</a>
       </div>
     </div>
   </header>

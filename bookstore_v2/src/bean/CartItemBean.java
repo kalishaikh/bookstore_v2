@@ -2,19 +2,47 @@ package bean;
 
 public class CartItemBean {
 	
-	public String bid; 
+	public String bid, author, title, category; 
 	public double price; 
 	public int quantity;
 	
-	public CartItemBean(String bid, double price, int quantity) {
+	
+	public CartItemBean(String bid, double price, int quantity, String title, String author, String category) {
 		super();
 		this.bid = bid;
 		this.price = price;
 		this.quantity = quantity;
+		this.title = title;
+		this.author = author;
+		this.category = category;
 	}
 
 	public String getBid() {
 		return bid;
+	}
+
+	public String getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(String author) {
+		this.author = author;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	public void setBid(String bid) {

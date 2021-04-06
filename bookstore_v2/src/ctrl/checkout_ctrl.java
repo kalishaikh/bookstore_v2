@@ -2,6 +2,8 @@ package ctrl;
 
 import java.awt.Component;
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,6 +16,7 @@ import javax.swing.JOptionPane;
 
 import bean.CartItemBean;
 import bean.ShoppingCartBean;
+import model.POItemModel;
 import model.POModel;
 
 /**
@@ -50,34 +53,12 @@ public class checkout_ctrl extends HttpServlet {
 			String target = "/checkout.jspx";
 			request.getRequestDispatcher(target).forward(request, response);
 			
-			// Shopping cart testing stuff
-			CartItemBean first = new CartItemBean("1", 12.00, 1);
-			CartItemBean second = new CartItemBean("2", 13.99, 2);
-			
-			HttpSession this_session = request.getSession();
-			ShoppingCartBean cart;
-			if (this_session.getAttribute("cart") == null) {
-				cart = new ShoppingCartBean();
-				cart.addCartItem(first);
-				cart.addCartItem(second);
-				this_session.setAttribute("cart", cart);
-			} else {
-				cart = (ShoppingCartBean) this_session.getAttribute("cart");
-				cart.addCartItem(first);
-				cart.addCartItem(second);
-				this_session.setAttribute("cart", cart);
-			}
-			
-			cart.printCartItems();
-			
 				
 		// If not fresh request, process checkout 
 		} else {
-			System.out.println("TEST: " + request.getParameter("country") + " " + request.getParameter("address")); // for testing
 			
-		
 			// Process PO 
-			String fname, lname, email, phone, address, country, province, zip;
+			String fname, lname, email, phone, address, country, province, zip, pid;
 			Enum status; 
 			Boolean confirmed;
 			
@@ -91,30 +72,44 @@ public class checkout_ctrl extends HttpServlet {
 			zip = request.getParameter("zip");
 			
 			// Reject every third payment request 
-
 			if (count%3!=0) {
 			
 				status = statusType.COMPLETED;
-			//	request.setAttribute("confirmed", true);
 				confirmed = true;
 			} else {
 				status = statusType.DENIED;
-			//	request.setAttribute("confirmed", false);
 				confirmed = false;
 			}
 			count++;
 			
 			pmodel.addAddress(address, province, country, zip, phone);
-			pmodel.addPurchaseOrder(email, lname, fname, status, address);
-
+			pid = pmodel.addPurchaseOrder(email, lname, fname, status, address);
+			
+			ShoppingCartBean sc = (ShoppingCartBean) request.getSession().getAttribute("cart");
+			
+			
 			
 			// Redirect to confirmation/denial page
 			String target = "";
 			if (confirmed) {
+				// Add cart items to poitem db 
+				this.addPOItems(sc.cart, pid);
+				
 				target = "confirmation_page.jspx";
+				System.out.println("\n************ CHECKOUT ************");
+				System.out.println("ORDER STATUS: CONFIRMED");
+				sc.printCartItems();
+				
+				// Reset to fresh shopping cart 
+				sc = new ShoppingCartBean();
+				request.getSession().setAttribute("cart", sc);
 			} else {
 				target = "checkout_denied_page.jspx";
+				System.out.println("ORDER STATUS: DENIED");
+				System.out.println("Shopping cart will be persisted.");
+				sc.printCartItems();
 			};
+			
 			response.sendRedirect(target);
 		}
 	}
@@ -125,6 +120,15 @@ public class checkout_ctrl extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
+	}
+	
+	public void addPOItems(ArrayList<CartItemBean> cartItems, String pid) {
+		System.out.println("\nAdding cart items to poitem db...");
+		POItemModel poi = new POItemModel();
+		for (int i=0; i<cartItems.size(); i++) {
+			CartItemBean c = cartItems.get(i);
+			poi.addPOItem(pid, c.getBid(), c.getPrice(), c.getQuantity());
+		}
 	}
 
 }

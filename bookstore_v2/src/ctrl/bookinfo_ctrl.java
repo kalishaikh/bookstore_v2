@@ -11,12 +11,14 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import bean.BookBean;
+import bean.CartItemBean;
+import bean.ShoppingCartBean;
 import model.BookModel;
 
 /**
  * Servlet implementation class bookinfo_ctrl
  */
-@WebServlet("/bookinfo_ctrl")
+@WebServlet({"/bookinfo_ctrl", "/bookinfo_ctrl/*"})
 public class bookinfo_ctrl extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -55,7 +57,11 @@ public class bookinfo_ctrl extends HttpServlet {
 				e.printStackTrace();
 			}
 			
-		}else {
+		} else if (request.getParameter("addToCart").equals("true")) { // Add to Cart button clicked. 
+			
+			this.addToCart(this_session, request);
+			
+		} else {
 			request.getRequestDispatcher(error_target).forward(request, response);
 		}
 		
@@ -68,6 +74,38 @@ public class bookinfo_ctrl extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
+	}
+	
+	public void addToCart(HttpSession this_session, HttpServletRequest request) {
+		
+		CartItemBean item = new CartItemBean(request.getParameter("bid"), 
+				Double.parseDouble(request.getParameter("price")), 
+				1,
+				request.getParameter("title"),
+				request.getParameter("author"),
+				request.getParameter("category"));
+		ShoppingCartBean cart;
+		
+		// Fresh session shopping cart
+		if (this_session.getAttribute("cart") == null) {
+			cart = new ShoppingCartBean();
+			cart.addCartItem(item);
+			this_session.setAttribute("cart", cart);
+			
+		// Existing session shopping cart
+		} else {
+			cart = (ShoppingCartBean) this_session.getAttribute("cart");
+			if (cart.hasItem(item)) {
+				cart.changeQuantity(item, (cart.getQuantity(item)+1));
+			} else { 
+				cart.addCartItem(item);
+			}
+			this_session.setAttribute("cart", cart);
+		} 
+		
+		System.out.println("\nBook with bid " + request.getParameter("bid") + " added to cart! Price of the book is: " + request.getParameter("price"));
+
+		
 	}
 
 }

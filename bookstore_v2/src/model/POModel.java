@@ -24,15 +24,17 @@ public class POModel {
 		pdao.addAddress(street, province, country, zip, phone);
 		
 	}
+	
+	public int getAid(String street) {
+		return pdao.getAid(street);
+	}
 
-	public void addPurchaseOrder(String email, String lname, String fname, Enum status, String address) {
+
+	public String addPurchaseOrder(String email, String lname, String fname, Enum status, String address) {
 		
 		int aid = pdao.getAid(address);
-		pdao.addPO(email, lname, fname, status, aid);
+		return pdao.addPO(email, lname, fname, status, aid);
 		
 	}
 	
-	public void closeCon() {
-		pdao.closeCon();
-	}
 }

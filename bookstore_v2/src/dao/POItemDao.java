@@ -15,6 +15,7 @@ public class POItemDao {
 		
 	}
 	
+	// TODO: This could be sped up by taking cart as a parameter so only one connection needs to be opened
 	public void addPOItem(String pid, String bid, double price, int quantity) {
 
 		try {
@@ -23,7 +24,7 @@ public class POItemDao {
 			Statement stmt = con.createStatement();
 			String query = String.format("INSERT INTO poitem(pid, bid, price, quantity) values('%s', '%s', '%s', '%s')",pid, bid, price, quantity);
 			stmt.executeUpdate(query);  
-			System.out.println(bid + " added to poitem db");
+			System.out.println("Book with bid: " + bid + " added to poitem db with pid: " + pid);
 			con.close();
 			} catch(Exception e) {
 				System.out.println(bid + " not added to poitem database: " + e);	

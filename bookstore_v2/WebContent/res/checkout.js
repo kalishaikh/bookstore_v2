@@ -17,3 +17,4 @@ function checkoutAjax(address) {
 	request.send(null);
 
 }
+

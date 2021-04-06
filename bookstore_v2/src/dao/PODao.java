@@ -6,26 +6,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import bean.addressBean;
 
 public class PODao {
 	Connection con;
 
 	public PODao() {
-	/*
-			try {
-				Class.forName("com.mysql.cj.jdbc.Driver");
-				con = DriverManager.getConnection("jdbc:mysql://us-cdbr-east-03.cleardb.com/heroku_e71303011de1bce", "bbb09bc37f79b0", "7c9226ac");
-				System.out.println("Connected to heroku...");
-			} catch (Exception e) {
-				e.printStackTrace();
-			} */
+
 	
 	}
 	
 	public void addAddress(String street, String province, String country, String zip, String phone) {
-		// TODO: Address verification. Address previously entered but with different zip/phone #?? 
-		// Currently address must be unique. 
 		
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
@@ -33,74 +23,56 @@ public class PODao {
 			Statement stmt = con.createStatement();
 			String query = String.format("INSERT INTO address(street, province, country, zip, phone) values('%s', '%s', '%s', '%s', '%s')",street, province, country, zip, phone);
 			stmt.executeUpdate(query);  
-			System.out.println(street + " added to address db");
+			System.out.println("\n" + street + " added to address db");
 			con.close();
 			} catch(Exception e) {
-				System.out.println(street + " not added to database: " + e);	
+				System.out.println("\nAddress " + street + " not added, already exists in db.");	
 			}	
 	}
 	
 	public int getAid(String street) {
 		try {
+			int aid = 0;
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			con = DriverManager.getConnection("jdbc:mysql://us-cdbr-east-03.cleardb.com/heroku_e71303011de1bce", "bbb09bc37f79b0", "7c9226ac");
 			Statement stmt = con.createStatement();
 			String query = String.format("SELECT aid FROM address WHERE street='%s'", street);
 			ResultSet rs = stmt.executeQuery(query);
-			con.close();
+			
 			while (rs.next()) {
-				System.out.println(rs.getString("aid"));
-				return Integer.parseInt(rs.getString("aid"));
+				aid = Integer.parseInt(rs.getString("aid"));
 			}
+			con.close();
+			return aid;
 		} catch(Exception e) {
-			e.printStackTrace();
+			System.out.println("\nCould not get aid for " + street + ": " + e);
 		}
 		return 0;
 	}
 	
-	public void addPO(String email, String lname, String fname, Enum status, int aid) {
+	public String addPO(String email, String lname, String fname, Enum status, int aid) {
+		String pid = "";
 		try {
+			
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			con = DriverManager.getConnection("jdbc:mysql://us-cdbr-east-03.cleardb.com/heroku_e71303011de1bce", "bbb09bc37f79b0", "7c9226ac");
 			Statement stmt = con.createStatement();
 			
 			String query = String.format("INSERT INTO po(email, lname, fname, status, address) values('%s', '%s', '%s', '%s', '%s')", email, lname, fname, status, aid);
 			stmt.executeUpdate(query); 
-			con.close();
-			} catch(Exception e) {
-				e.printStackTrace();		
-			}	
-	}
-	
-	// Not used for anything right now. 
-	public addressBean getAddressBean(int aid) {
-		String street, province, country, zip, phone;
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			con = DriverManager.getConnection("jdbc:mysql://us-cdbr-east-03.cleardb.com/heroku_e71303011de1bce", "bbb09bc37f79b0", "7c9226ac");
-			Statement stmt = con.createStatement();
-			String query = String.format("SELECT * FROM address WHERE aid='%s'", Integer.toString(aid));
+			query = String.format("SELECT LAST_INSERT_ID();");
 			ResultSet rs = stmt.executeQuery(query);
 			while (rs.next()) {
-				street = rs.getString("street");
-				province = rs.getString("province");
-				country = rs.getString("country");
-				zip = rs.getString("zip");
-				phone = rs.getString("phone");
+				pid = rs.getString("last_insert_id()");
 			}
 			con.close();
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-		return null;
+			System.out.println("\nPurchase order with pid " + pid + " for " + email + " entered into db!");
+			
+			} catch(Exception e) {
+				System.out.println("\nPurchase order not added: " + e);	
+			}	
+		return pid;
 	}
 	
-	public void closeCon() {
-		try {
-			con.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
 	
 }
