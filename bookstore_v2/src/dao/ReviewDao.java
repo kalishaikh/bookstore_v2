@@ -21,13 +21,17 @@ public class ReviewDao {
 	}
 	
 	public int insertReview (ReviewBean rev) throws SQLException, ClassNotFoundException {
-
+		
+		String title = rev.getTitle().replace("'", "''").replace('"', '\"');
+		String content = rev.getContent().replace("'", "''").replace('"', '\"');
+		
+		
 		Class.forName("com.mysql.cj.jdbc.Driver");
 		Connection con = DriverManager.getConnection(url, user, password);
 		Statement stmt=con.createStatement();
 		System.out.println("Connected for insertReview in review");
 		
-		String insertq = "insert into review (bid,name,title,rate,content) values ('"+rev.getBid()+"','"+rev.getName()+"','"+rev.getTitle()+"','"+rev.getRate()+"','"+rev.getContent()+"')";
+		String insertq = "insert into review (bid,name,title,rate,content) values ('"+rev.getBid()+"','"+rev.getName()+"','"+title+"','"+rev.getRate()+"','"+content+"')";
 		
 		return stmt.executeUpdate(insertq);
 	}
@@ -83,6 +87,5 @@ public class ReviewDao {
 		
 		return averageRate;
 	}
-
 
 }
