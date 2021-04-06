@@ -39,6 +39,7 @@
 	<link href="res/blog.css" rel="stylesheet" />
 	
 	<link rel="StyleSheet" href="res/bknj.css" type="text/css"/>
+	<link rel="StyleSheet" href="res/star-rating.css" type="text/css"/>
 	<script type="text/javascript" src="res/book.js">;</script>
 	
 	<title>${bookI.title} | BKNJ Bookstore</title>
@@ -115,18 +116,28 @@
 		
 		
 		<div class="d-flex justify-content-center" >
-			<input id="reviewShow" type="button" class="btn btn-outline-dark" onClick="showReview()" value="Write a Review" style="display: block;"></input>
+			<input id="reviewShow" type="button" class="btn btn-outline-dark" onClick="isLoggedIn()" value="Write a Review" style="display: block;"></input>
 		</div>
 		
 		<div class="review" id="review" style="display: none;">
 			<fieldset>
 			<legend>Write a Review</legend>
 			<form method="POST" class="reviewForm"><!-- add the servlet name -->
-				<label for="name"><strong>Enter your Name:</strong><BR /><small>Name to be displayed in review.</small></label> 
-					<input type="text" id="name" name="name"></input><BR /> 
 				<label for="reviewTitle"><strong>Write a Title:</strong></label> 
 					<input type="text" id="reviewTitle" name="reviewTitle"></input><BR />
-			
+				<label for="rating"><strong>Overall Rating:</strong></label>	
+					<div class="rate">
+						<input type="radio" id="star5" name="rate" value="5" />
+					    <label for="star5" title="Excellent">5 stars</label>
+					    <input type="radio" id="star4" name="rate" value="4" />
+					    <label for="star4" title="Above Average">4 stars</label>
+					    <input type="radio" id="star3" name="rate" value="3" />
+					    <label for="star3" title="Average">3 stars</label>
+					    <input type="radio" id="star2" name="rate" value="2" />
+					    <label for="star2" title="Below Average">2 stars</label>
+					    <input type="radio" id="star1" name="rate" value="1" />
+					    <label for="star1" title="Very Poor">1 star</label>
+					</div><BR />
 				<label for="reviewContent"><strong>Write Your Review:</strong></label> 
 					<textarea rows="5" id="reviewContent" name="reviewContent">Write your review here...</textarea><BR /> 
 				
@@ -151,6 +162,7 @@
 	</footer>
 	
 	<script src="bootstrap/js/bootstrap.min.js"></script>
+	
 	
 	 
 </body>

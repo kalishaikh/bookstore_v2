@@ -22,3 +22,7 @@ function hideReview(){
 	document.getElementById('review').style = "display: none;";
 	document.getElementById('reviewShow').style = "display: block;";
 }
+
+function isLoggedIn(){
+	showReview();
+}
