@@ -62,7 +62,17 @@
 						<input type="text" placeholder="Search..." name="search" value="${search}"/>	
       					<button class="btn btn-sm btn-dark" type="submit" name="button" value="bookInfo">Go</button>
 					</form>
-					<a class="btn btn-sm btn-outline-secondary" href="#">Log In</a> 
+					<c:choose>
+						<c:when test="${empty fname}">
+							<a class="btn btn-sm btn-outline-secondary" href="login.html">Log In</a>   
+						</c:when>
+						<c:otherwise>
+							<form id = "log" method = "post">
+								<a>Welcome, ${fname}</a>
+								<a class="btn btn-sm btn-outline-secondary" id="logout" type="button" href="main_page.jspx">Log Out</a>
+							</form>       	   
+						</c:otherwise>
+				     </c:choose>
 					<a class="btn btn-sm btn-outline-secondary" href="shopping_cart">Shopping Cart</a>
 				</div>
 			</div>

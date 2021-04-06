@@ -2,8 +2,8 @@ package model;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-
 import dao.UserDao;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 
 /*
  * Creates instances of classes that pertain to LOGIN and REGISTRATION.
@@ -33,37 +33,31 @@ public class AuthModel {
 	 * 
 	 */
 	public int registerUser(String fname, String pass, String lname, String email) {
-	
+		
 		return userCon.register(fname, lname, pass, email);
 		
 	}
 	
-	public String md5Hash(String password) {
+	/*
+	 * Calls the login method in the UserDao class. UserDao will create a connection with the database
+	 * and login the user if they are registered with the databse.
+	 * @param email : Email address of the new user
+	 * @param pass : Password of the user
+	 * @return "name" : If login is successful return the name of the client
+	 * @return 100 : Email is not registered
+	 * 
+	 */
+	
+	public String loginUser(String email, String pass) {
 		
-		String passwordToHash = password;
-        String generatedPassword = null;
-        try {
-            // Create MessageDigest instance for MD5
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            //Add password bytes to digest
-            md.update(passwordToHash.getBytes());
-            //Get the hash's bytes 
-            byte[] bytes = md.digest();
-            //This bytes[] has bytes in decimal format;
-            //Convert it to hexadecimal format
-            StringBuilder sb = new StringBuilder();
-            for(int i=0; i< bytes.length ;i++)
-            {
-                sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
-            }
-            //Get complete hashed password in hex format
-            generatedPassword = sb.toString();
-        } 
-        catch (NoSuchAlgorithmException e) 
-        {
-            e.printStackTrace();
-        }
-        
-        return generatedPassword;
+		return userCon.checkCredentials(email, pass);
+	}
+	
+	public String bcrypt(String password) {
+		
+		String hashedPW = BCrypt.hashpw(password, BCrypt.gensalt(10));
+		System.out.println(hashedPW);
+		return hashedPW;
+		
 	}
 }

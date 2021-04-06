@@ -107,6 +107,35 @@ public class BookDao {
 		
 	}
 	
+	public ArrayList<BookBean> searchCategory(String q) throws ClassNotFoundException, SQLException {
+		
+		ArrayList<BookBean> search = new ArrayList<BookBean>(); 
+		
+		Class.forName("com.mysql.cj.jdbc.Driver");
+		Connection con = DriverManager.getConnection(url, user, password);
+		Statement stmt=con.createStatement();
+		System.out.println("Connected for searchCategory in book");
+		
+		ResultSet rs=stmt.executeQuery("select * from book where category = '"+q+"'");  
+		while(rs.next()) {
+			int bid = rs.getInt("bid");
+			String title = rs.getString("title");
+			String [] auth = rs.getString("author").split(";");
+			ArrayList<String> author = new ArrayList<String>(getAuthor(auth));
+			Double price = rs.getDouble("price");
+			String category = rs.getString("category");
+			String isbn = rs.getString("isbn");
+			search.add(new BookBean(bid, title, author, price, category, isbn));
+		}
+		  
+		
+		rs.close();
+		stmt.close();
+		con.close();
+		
+		return search;
+	}
+	
 	public int insertBook (String title, ArrayList<String> author, double price, String category, String isbn) throws SQLException, ClassNotFoundException {
 
 		Class.forName("com.mysql.cj.jdbc.Driver");
