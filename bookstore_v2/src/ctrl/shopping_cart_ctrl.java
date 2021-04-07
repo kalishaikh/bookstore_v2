@@ -29,14 +29,36 @@ public class shopping_cart_ctrl extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		ShoppingCartBean sc;
 		
+		// If session shopping cart has not be initialized 
 		if (request.getSession().getAttribute("cart") == null) {
-			ShoppingCartBean sc = new ShoppingCartBean();
+			
+			sc = new ShoppingCartBean();
 			request.getSession().setAttribute("cart", sc);
+			
+		} else {
+			sc = (ShoppingCartBean) request.getSession().getAttribute("cart");
 		}
 		
-		String target = "/shopping_cart.jspx";
-		request.getRequestDispatcher(target).forward(request, response);
+		if (request.getParameter("changeQuantity") != null) {
+			String bid = request.getParameter("bid");
+			if (request.getParameter("changeQuantity").equals("increment")) {
+				sc.increment(bid);
+			} else if (request.getParameter("changeQuantity").equals("decrement")) {
+				sc.decrement(bid);
+			}
+			
+		} else if (request.getParameter("removeItem") != null){
+			String bid = request.getParameter("bid");
+			sc.removeItem(bid);
+		} else {
+		
+		
+			// If shopping cart button clicked, redirect to cart page 
+			String target = "/shopping_cart.jspx";
+			request.getRequestDispatcher(target).forward(request, response);
+		}
 	}
 
 	/**

@@ -43,7 +43,6 @@ public class Search extends HttpServlet {
 		String bookInfo_target = "/bookInfo_page.jspx";
 		
 		BookModel bmodel = new BookModel();
-
 		
 		if(request.getParameter("search") != null && !request.getParameter("search").equals("")) {
 
