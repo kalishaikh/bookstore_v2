@@ -2,14 +2,11 @@ package model;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 import dao.UserDao;
 import org.springframework.security.crypto.bcrypt.BCrypt;
-
-import bean.BookBean;
 
 /*
  * Creates instances of classes that pertain to LOGIN and REGISTRATION.
@@ -67,18 +64,13 @@ public class AuthModel {
 		
 	}
 	
-	public ArrayList<BookBean> getMostBooks() {
+	public LinkedHashMap<Integer,Integer> getMostBooks() {
 		
 		return userCon.getMostBooks();
 	}
 	
-	public ArrayList<BookBean> getBestGenres(){
+	public LinkedHashMap<String,Integer> getBestGenres(){
 		
 		return userCon.getBestSellingGenre();
-	}
-	
-	public LinkedHashMap<String,Integer> getCountries (){
-		
-		return userCon.getCountries();
 	}
 }

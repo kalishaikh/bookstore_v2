@@ -1,14 +1,11 @@
 package bean;
 
-import java.sql.Date;
-
-
 public class CartItemBean {
 	
 	public String bid, author, title, category; 
 	public double price; 
 	public int quantity;
-	public Date transactionDate;
+	
 	
 	public CartItemBean(String bid, double price, int quantity, String title, String author, String category) {
 		super();
@@ -22,14 +19,6 @@ public class CartItemBean {
 
 	public String getBid() {
 		return bid;
-	}
-
-	public Date getTransactionDate() {
-		return transactionDate;
-	}
-
-	public void setTransactionDate() {
-		this.transactionDate = new Date(System.currentTimeMillis());
 	}
 
 	public String getAuthor() {

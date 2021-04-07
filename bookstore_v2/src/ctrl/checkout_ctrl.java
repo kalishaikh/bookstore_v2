@@ -92,7 +92,9 @@ public class checkout_ctrl extends HttpServlet {
 			pid = pmodel.addPurchaseOrder(email, lname, fname, status, address);
 			
 			ShoppingCartBean sc = (ShoppingCartBean) request.getSession().getAttribute("cart");
-		
+			
+			
+			
 			// Redirect to confirmation/denial page
 			if (confirmed) {
 				// Add cart items to poitem db 
@@ -130,8 +132,7 @@ public class checkout_ctrl extends HttpServlet {
 		POItemModel poi = new POItemModel();
 		for (int i=0; i<cartItems.size(); i++) {
 			CartItemBean c = cartItems.get(i);
-			c.setTransactionDate();
-			poi.addPOItem(pid, c.getBid(), c.getPrice(), c.getQuantity(), c.getTransactionDate());
+			poi.addPOItem(pid, c.getBid(), c.getPrice(), c.getQuantity());
 		}
 	}
 

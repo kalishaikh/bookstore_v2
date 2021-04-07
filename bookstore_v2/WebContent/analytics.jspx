@@ -64,7 +64,7 @@
 	        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
 	          <a class="dropdown-item" id ="bestSellingBooks" href="#">Best Selling Books</a>
 	          <a class="dropdown-item" href="#" id="bestSellingGenre">Best Selling Genre</a>
-	          <a class="dropdown-item" href="#" id="mostVisits">Countries With Most Visits</a>
+	          <a class="dropdown-item" href="#" id="mostVisits">City With Most Visits</a>
 	          <a class="dropdown-item" href="#" id="totalBooksSold">Total Books Sold</a>
 	        </div>
 	      </li>

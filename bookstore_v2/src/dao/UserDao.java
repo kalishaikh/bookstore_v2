@@ -10,8 +10,6 @@ import java.util.LinkedHashMap;
 
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
-import bean.BookBean;
-
 /*
  * This class creates a data access for users. This DAO will create a user if a user is not already registered and it will authenticate
  * a user that is already in the database.
@@ -122,18 +120,16 @@ public class UserDao {
 	}
 	
 	/*
-	 * This method connects to the database and returns an ArrayList of BookBean objects. The index of the element in the ArrayList represents at what ranking it has
-	 * in terms of quantity sold. In other words index "0" correlates with the most popular book and index "n" is the least popular book.
+	 * This method connects to the database and returns a LinkedHashMap of book id's to quantity of books sold by that id. The is defined as LinkedHashMap(K,V) where "K" is the book id and "V" is the quantity.
 	 * This method can only be called by an admin user and thus the session should confirm whether or not the person accessing this method is an admin or not.
 	 * 
-	 * @return ArrayList<BookBean>;
+	 * @return LinkedHashMap(Integer,Integer);
 	 */
 	
-	public ArrayList<BookBean> getMostBooks(){
+	public LinkedHashMap<Integer,Integer> getMostBooks(){
 		
 		int counter = 1;
-	
-		ArrayList<BookBean> bookList = new ArrayList<BookBean>();
+		LinkedHashMap<Integer,Integer> map = new LinkedHashMap<Integer,Integer>();
 		
 		try {
 			
@@ -141,19 +137,16 @@ public class UserDao {
 			Connection con = DriverManager.getConnection("jdbc:mysql://us-cdbr-east-03.cleardb.com/heroku_e71303011de1bce", "bbb09bc37f79b0", "7c9226ac");
 			Statement stmt=con.createStatement();
 			System.out.println("Connected to Heroku...Retrieving Book Quantity...");
-			String query = String.format("select book.title, SUM(poitem.quantity) AS Quantity FROM poitem JOIN book ON  poitem.bid = book.bid GROUP BY book.title order by Quantity desc");
+			String query = String.format("SELECT bid, SUM(quantity) AS total FROM poitem GROUP BY bid ORDER BY total desc");
 			ResultSet set = stmt.executeQuery(query);
 			while(set.next() && counter < 11) {
 				
-				BookBean book = new BookBean();
 				/*
-				 * set.getInt(1) = Book Name
+				 * set.getInt(1) = Book Id
 				 * set.getInt(2) = Quantity
 				 */
-				book.setTitle(set.getString(1));
-				book.setQuantity(set.getInt(2));
-				bookList.add(book);
 				counter++;
+				map.put(set.getInt(1), set.getInt(2));
 			}
 				
 			con.close();
@@ -161,16 +154,20 @@ public class UserDao {
 				System.out.println(e);
 				
 			}
-		return bookList;
+		return map;
 	}
+	
 
 	/*
-	 * This method queries the database to return the highest selling genre and organizes them by descending quantity. 
-	 * @return ArrayList<BookBean>
+	 * This method returns queries the database and returns a LinkedHashMap of the top selling genre and the quantity of books sold. The map is defined as LinkedHashMap(K,V) where "K" is the Genre and
+	 * "V" is the quantity. This method can only be called by an admin user.
+	 * 
+	 * @return LinkedHashMap(String,Integer)
+	 * 
 	 */
-	public ArrayList<BookBean> getBestSellingGenre(){
+	public LinkedHashMap<String,Integer> getBestSellingGenre(){
 		
-		ArrayList<BookBean> bookList = new ArrayList<BookBean>();
+		LinkedHashMap<String,Integer> map = new LinkedHashMap<String,Integer>();
 		
 		try {
 			
@@ -181,50 +178,12 @@ public class UserDao {
 			String query = String.format("select book.category, SUM(poitem.quantity) AS Quantity FROM poitem JOIN book ON  poitem.bid = book.bid GROUP BY book.category order by Quantity desc");
 			ResultSet set = stmt.executeQuery(query);
 			while(set.next()) {
-				BookBean book = new BookBean();
-				book.setCategory(set.getString(1));
-				book.setQuantity(set.getInt(2));
+				
 				/*
 				 * set.getInt(1) = Book Id
 				 * set.getInt(2) = Quantity
 				 */
-				bookList.add(book);
-	
-			}
-				
-			con.close();
-			} catch(Exception e) {
-				System.out.println(e);
-				
-			}
-		
-		return bookList;
-	}
-	
-	/*
-	 * This method returns a map of countries that have purchased the most amount of books sorting by descending quantity. 
-	 * @return LinkedHashMap<String,Integer>
-	 * 
-	 */
-	
-	public LinkedHashMap<String,Integer> getCountries(){
-		
-		LinkedHashMap<String,Integer> map = new LinkedHashMap<String, Integer>();
-		
-		try {
-			
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://us-cdbr-east-03.cleardb.com/heroku_e71303011de1bce", "bbb09bc37f79b0", "7c9226ac");
-			Statement stmt=con.createStatement();
-			System.out.println("Connected to Heroku...Retrieving List of Countries...");
-			String query = String.format("Select country, count(country) AS Registered from address GROUP BY country ORDER BY Registered desc");
-			ResultSet set = stmt.executeQuery(query);
-			while(set.next()) {
-				/*
-				 * set.getInt(1) = Country Name
-				 * set.getInt(2) = Count
-				 */
-				map.put(set.getString(1),set.getInt(2));
+				map.put(set.getString(1), set.getInt(2));
 	
 			}
 				
@@ -235,9 +194,6 @@ public class UserDao {
 			}
 		
 		return map;
-	}		
-		
-		
 	}
-
+}
 
