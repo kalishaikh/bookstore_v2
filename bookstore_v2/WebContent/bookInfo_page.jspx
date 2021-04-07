@@ -49,6 +49,15 @@
 	<!-- Add icon library -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">;</script>
+	<script type="text/javascript" src="res/book.js">;</script>
+	<script>
+		$(document).ready(function(){
+		  $(".cart").click(function(){
+			      alert("Item added to cart!");
+ 
+		}); 
+	});
+</script>
 	
 	<title>${bookI.title} | BKNJ Bookstore</title>
 </head>
@@ -133,8 +142,8 @@
 							<input type="hidden" name="price" id="price" value="${bookI.price}"/>	
 									<input type="hidden" name="bid" id="bid" value="${bookI.bid}"/>
 									</form>
-		<button name="addToCart" value="true" class="btn btn-outline-primary" 
-								onclick="addToCart('/bookstore_v2/bookinfo_ctrl?addToCart=true',${bookI.bid},${bookI.price},'${bookI.title}','${bookI.authorsToString()}','${bookI.category}');">
+		<button name="addToCart" value="true" class="cart btn btn-outline-primary" 
+								onclick="addToCart('/bookstore_v2/bookinfo_ctrl?addToCart=true',${bookI.bid},${bookI.price},'${bookI.parseTitle()}','${bookI.authorsToString()}','${bookI.category}');">
 								Add to Cart</button>
 				</div>
 			</div>

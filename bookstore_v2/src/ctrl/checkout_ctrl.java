@@ -47,13 +47,17 @@ public class checkout_ctrl extends HttpServlet {
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		// If user not logged in, redirect to login page 
+		if (request.getSession().getAttribute("email") == null || request.getSession().getAttribute("email").equals("")) {
+			String target = "/login.html";
+			request.getRequestDispatcher(target).forward(request, response);
+		}
+		
 		// If fresh request, redirect to UI page
 		if (!request.getParameterMap().containsKey("checkout")) {			
-					
 			String target = "/checkout.jspx";
 			request.getRequestDispatcher(target).forward(request, response);
-			
-				
+							
 		// If not fresh request, process checkout 
 		} else {
 			
@@ -64,7 +68,7 @@ public class checkout_ctrl extends HttpServlet {
 			
 			fname = request.getParameter("firstName");
 			lname = request.getParameter("lastName");
-			email = request.getParameter("email");
+			email = (String) request.getSession().getAttribute("email");
 			phone = request.getParameter("phone");
 			address = request.getParameter("address");
 			country = request.getParameter("country");
@@ -75,10 +79,12 @@ public class checkout_ctrl extends HttpServlet {
 			if (count%3!=0) {
 			
 				status = statusType.COMPLETED;
+				request.setAttribute("confirmed", true);
 				confirmed = true;
 			} else {
 				status = statusType.DENIED;
 				confirmed = false;
+				request.setAttribute("confirmed", false);
 			}
 			count++;
 			
@@ -86,31 +92,28 @@ public class checkout_ctrl extends HttpServlet {
 			pid = pmodel.addPurchaseOrder(email, lname, fname, status, address);
 			
 			ShoppingCartBean sc = (ShoppingCartBean) request.getSession().getAttribute("cart");
-			
-			
-			
+		
 			// Redirect to confirmation/denial page
-			String target = "";
 			if (confirmed) {
 				// Add cart items to poitem db 
-				this.addPOItems(sc.cart, pid);
-				
-				target = "confirmation_page.jspx";
+				this.addPOItems(sc.cart, pid);	
 				System.out.println("\n************ CHECKOUT ************");
 				System.out.println("ORDER STATUS: CONFIRMED");
 				sc.printCartItems();
 				
-				// Reset to fresh shopping cart 
+				// Reset shopping cart
+				request.setAttribute("confirmationCart", sc);
 				sc = new ShoppingCartBean();
 				request.getSession().setAttribute("cart", sc);
+
 			} else {
-				target = "checkout_denied_page.jspx";
 				System.out.println("ORDER STATUS: DENIED");
 				System.out.println("Shopping cart will be persisted.");
 				sc.printCartItems();
 			};
 			
-			response.sendRedirect(target);
+			String target = "confirmation";
+			request.getRequestDispatcher(target).forward(request, response);
 		}
 	}
 
@@ -127,7 +130,8 @@ public class checkout_ctrl extends HttpServlet {
 		POItemModel poi = new POItemModel();
 		for (int i=0; i<cartItems.size(); i++) {
 			CartItemBean c = cartItems.get(i);
-			poi.addPOItem(pid, c.getBid(), c.getPrice(), c.getQuantity());
+			c.setTransactionDate();
+			poi.addPOItem(pid, c.getBid(), c.getPrice(), c.getQuantity(), c.getTransactionDate());
 		}
 	}
 
