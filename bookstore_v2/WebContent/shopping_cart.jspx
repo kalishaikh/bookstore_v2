@@ -15,6 +15,7 @@
 <!-- Bootstrap core CSS -->
 <link href="/bookstore_v2/res/bootstrap.min.css"
 	rel="stylesheet" />
+		<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">;</script>
 	
 	<script type="text/javascript"
 	src="res/cart.js">
@@ -88,14 +89,14 @@
 							<div>
 								<h6 class="my-0">Tax</h6>
 
-							</div> 							<span id="tax" class="text-muted"><f:formatNumber type="currency" currencySymbol="$" maxFractionDigits="2">${cart.getTax()}</f:formatNumber></span>
+							</div> 	<span id="tax" class="text-muted"><f:formatNumber type="currency" currencySymbol="$" maxFractionDigits="2">${cart.getTax()}</f:formatNumber></span>
 
 						</li>
 
 						<li class="list-group-item d-flex justify-content-between"><span>Total Amount (including 15% HST) in CAD</span> <span id="total"><strong><f:formatNumber type="currency" currencySymbol="$" maxFractionDigits="2">${cart.getTotal()}</f:formatNumber></strong></span></li>
 					</ul>
 
-					<a class="w-100 btn btn-primary btn-md" href="checkout">Checkout</a>	
+					<a class="cart w-100 btn btn-primary btn-md" href="checkout">Checkout</a>	
 				</div>
 				<div class="col-md-7 col-lg-8">
 
@@ -176,7 +177,20 @@
 
 		</main>
 	</div>
-	<!--Section: Block Content-->
+
+<script>
+$(".cart").click(function (e) {
+   var validationFailed = false;
+   		if ((${cart.getCartSize()}) == 0) {
+   			alert("Cannot checkout cart with zero items! Please add items to cart before proceeding.");
+   			validationFailed = true;
+   		}   		
+   if (validationFailed) {
+      e.preventDefault();
+      return false;
+   }
+}); 
+</script>
 
 </body>
 <footer class="blog-footer">

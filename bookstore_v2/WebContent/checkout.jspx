@@ -15,7 +15,11 @@
 <!-- Bootstrap core CSS -->
 <link href="res/bootstrap.min.css"
 	rel="stylesheet" />
-	
+	<link href="res/form-validation.css"
+	rel="stylesheet" />
+
+<script src="bootstrap/js/bootstrap.bundle.min.js">;</script>
+	<script src="res/form-validation.js">;</script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">;</script>
 <script type="text/javascript"
 	src="res/checkout.js">
@@ -124,7 +128,7 @@
 							<div class="col-sm-6">
 								<label for="firstName" class="form-label">First name</label> <input
 									type="text" class="form-control" id="firstName" placeholder=""
-									value="" required="" name="firstName"/>
+									value="" required="required" name="firstName"/>
 								<div class="invalid-feedback">Valid first name is
 									required.</div>
 							</div>
@@ -132,7 +136,7 @@
 							<div class="col-sm-6">
 								<label for="lastName" class="form-label">Last name</label> <input
 									type="text" class="form-control" id="lastName" placeholder=""
-									value="" required="" name="lastName"/>
+									value="" required="true" name="lastName"/>
 								<div class="invalid-feedback">Valid last name is required.
 								</div>
 							</div>
