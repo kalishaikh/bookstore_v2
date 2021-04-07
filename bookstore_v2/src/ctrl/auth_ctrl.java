@@ -2,6 +2,10 @@ package ctrl;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -35,11 +39,10 @@ public class auth_ctrl extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		AuthModel model = new AuthModel();
-
+		
 		/*
 		 * Detect AJAX calls below. Specifically for the login and register page
 		 */
-		
 		if(request.getRequestURI().equals("/bookstore_v2/auth_ctrl/register")) {
 			
 			PrintWriter out = response.getWriter();
@@ -93,6 +96,65 @@ public class auth_ctrl extends HttpServlet {
 			request.getSession().setAttribute("email", "");
 			ShoppingCartBean sc = new ShoppingCartBean();
 			request.getSession().setAttribute("cart", sc);
+		}
+		
+		else if(request.getRequestURI().equals("/bookstore_v2/auth_ctrl/analytics")) {
+			
+			PrintWriter out = response.getWriter();
+			System.out.println("Admin has requested for analytics");
+			
+			
+			
+			//html string to be returned
+			String html = "";
+			
+			//Type of request coming from the webpage
+			String type = request.getParameter("type");
+			
+			//0 Represents a request for most books
+			if (type.equals("0")) {
+				
+				html = "<table class='table'>   <thead class='thead-light'> <tr> <th scope='col'>Ranking</th><th scope='col'>Book ID</th> <th scope='col'>Copies Sold</th></tr></thead> <tbody>";
+				int counter = 1;
+				StringBuilder build = new StringBuilder();
+				build.append(html);
+				
+				LinkedHashMap<Integer,Integer> test = model.getMostBooks();
+				Set<Integer> keys = test.keySet();
+				
+				for (Integer key : keys) {
+					
+					build.append("<tr> <th scope='row'>"+counter+"</th> <td>"+key+"</td> <td>"+test.get(key)+"</td> </tr>");
+					counter += 1;
+				}
+				
+				build.append("</tbody></table>");
+				out.print(build);
+				out.flush();
+			}
+			
+			//1 Represents a request for best selling genre
+			if (type.equals("1")) {
+				
+				html = "<table class='table'>   <thead class='thead-light'> <tr> <th scope='col'>Ranking</th><th scope='col'>Genre</th> <th scope='col'>Copies Sold</th></tr></thead><tbody>";
+				int counter = 1;
+				StringBuilder build = new StringBuilder();
+				build.append(html);
+				
+				LinkedHashMap<String,Integer> test = model.getBestGenres();
+				Set<String> keys = test.keySet();
+				
+				for (String key : keys) {
+					
+					build.append("<tr> <th scope='row'>"+counter+"</th> <td>"+key+"</td> <td>"+test.get(key)+"</td> </tr>");
+					counter += 1;
+				}
+				
+				build.append("</tbody></table>");
+				out.print(build);
+				out.flush();
+			}
+			
 		}
 			
 	}

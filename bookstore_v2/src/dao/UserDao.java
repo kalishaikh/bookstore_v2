@@ -4,6 +4,10 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
 /*
@@ -114,4 +118,82 @@ public class UserDao {
 		System.out.println("FAILURE No user in database");
 		return "100";
 	}
+	
+	/*
+	 * This method connects to the database and returns a LinkedHashMap of book id's to quantity of books sold by that id. The is defined as LinkedHashMap(K,V) where "K" is the book id and "V" is the quantity.
+	 * This method can only be called by an admin user and thus the session should confirm whether or not the person accessing this method is an admin or not.
+	 * 
+	 * @return LinkedHashMap(Integer,Integer);
+	 */
+	
+	public LinkedHashMap<Integer,Integer> getMostBooks(){
+		
+		int counter = 1;
+		LinkedHashMap<Integer,Integer> map = new LinkedHashMap<Integer,Integer>();
+		
+		try {
+			
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://us-cdbr-east-03.cleardb.com/heroku_e71303011de1bce", "bbb09bc37f79b0", "7c9226ac");
+			Statement stmt=con.createStatement();
+			System.out.println("Connected to Heroku...Retrieving Book Quantity...");
+			String query = String.format("SELECT bid, SUM(quantity) AS total FROM poitem GROUP BY bid ORDER BY total desc");
+			ResultSet set = stmt.executeQuery(query);
+			while(set.next() && counter < 11) {
+				
+				/*
+				 * set.getInt(1) = Book Id
+				 * set.getInt(2) = Quantity
+				 */
+				counter++;
+				map.put(set.getInt(1), set.getInt(2));
+			}
+				
+			con.close();
+			} catch(Exception e) {
+				System.out.println(e);
+				
+			}
+		return map;
+	}
+	
+
+	/*
+	 * This method returns queries the database and returns a LinkedHashMap of the top selling genre and the quantity of books sold. The map is defined as LinkedHashMap(K,V) where "K" is the Genre and
+	 * "V" is the quantity. This method can only be called by an admin user.
+	 * 
+	 * @return LinkedHashMap(String,Integer)
+	 * 
+	 */
+	public LinkedHashMap<String,Integer> getBestSellingGenre(){
+		
+		LinkedHashMap<String,Integer> map = new LinkedHashMap<String,Integer>();
+		
+		try {
+			
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://us-cdbr-east-03.cleardb.com/heroku_e71303011de1bce", "bbb09bc37f79b0", "7c9226ac");
+			Statement stmt=con.createStatement();
+			System.out.println("Connected to Heroku...Retrieving Best Selling Genre...");
+			String query = String.format("select book.category, SUM(poitem.quantity) AS Quantity FROM poitem JOIN book ON  poitem.bid = book.bid GROUP BY book.category order by Quantity desc");
+			ResultSet set = stmt.executeQuery(query);
+			while(set.next()) {
+				
+				/*
+				 * set.getInt(1) = Book Id
+				 * set.getInt(2) = Quantity
+				 */
+				map.put(set.getString(1), set.getInt(2));
+	
+			}
+				
+			con.close();
+			} catch(Exception e) {
+				System.out.println(e);
+				
+			}
+		
+		return map;
+	}
 }
+
