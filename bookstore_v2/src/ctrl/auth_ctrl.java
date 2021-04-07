@@ -85,6 +85,10 @@ public class auth_ctrl extends HttpServlet {
 					System.out.println("Added a session variable: " + request.getSession().getAttribute("fname"));
 				}
 				
+				if(email.equals("admin@bknj.com")) {
+					request.getSession().setAttribute("admin", "1");
+				}
+				
 				out.print(result);
 				
 		}
