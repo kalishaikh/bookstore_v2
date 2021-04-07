@@ -4,6 +4,15 @@ var priceChanges = 0;
 var taxChanges = 0;
 var totalPriceChanges = 0;
 
+function validateCartNotEmpty(size) {
+	alert("Test");
+	if (size <= 0) {
+		alert("No items in cart!");
+		return false;
+		}
+	return true;
+}
+
 function validate(bid, quantity) {
 	var ok = true;
 	var tmp;

@@ -79,10 +79,12 @@ public class checkout_ctrl extends HttpServlet {
 			if (count%3!=0) {
 			
 				status = statusType.COMPLETED;
+				request.setAttribute("confirmed", true);
 				confirmed = true;
 			} else {
 				status = statusType.DENIED;
 				confirmed = false;
+				request.setAttribute("confirmed", false);
 			}
 			count++;
 			
@@ -94,27 +96,26 @@ public class checkout_ctrl extends HttpServlet {
 			
 			
 			// Redirect to confirmation/denial page
-			String target = "";
 			if (confirmed) {
 				// Add cart items to poitem db 
-				this.addPOItems(sc.cart, pid);
-				
-				target = "confirmation_page.jspx";
+				this.addPOItems(sc.cart, pid);	
 				System.out.println("\n************ CHECKOUT ************");
 				System.out.println("ORDER STATUS: CONFIRMED");
 				sc.printCartItems();
 				
-				// Reset to fresh shopping cart 
+				// Reset shopping cart
+				request.setAttribute("confirmationCart", sc);
 				sc = new ShoppingCartBean();
 				request.getSession().setAttribute("cart", sc);
+
 			} else {
-				target = "checkout_denied_page.jspx";
 				System.out.println("ORDER STATUS: DENIED");
 				System.out.println("Shopping cart will be persisted.");
 				sc.printCartItems();
 			};
 			
-			response.sendRedirect(target);
+			String target = "confirmation";
+			request.getRequestDispatcher(target).forward(request, response);
 		}
 	}
 

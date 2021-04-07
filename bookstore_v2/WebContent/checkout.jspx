@@ -73,8 +73,7 @@
 			<div class="row g-3">
 				<div class="col-md-5 col-lg-4 order-md-last">
 					<h4 class="d-flex justify-content-between align-items-center mb-3">
-						<span class="text-muted">Order Summary </span> <span
-							class="badge bg-secondary rounded-pill">${cart.getCartSize()}</span>
+						<span class="text-muted">Order Summary </span> <span>${cart.getCartSize()}</span>
 					</h4>
 					
 					<ul class="list-group mb-3">
@@ -83,7 +82,8 @@
 							<div>
 								<h6 class="text-muted">${item.getTitle()}</h6>
 								<small class="text-muted">${item.getAuthor()}</small>
-							</div> <span class="text-muted"><f:formatNumber type="currency" currencySymbol="$" maxFractionDigits="2">${item.getPrice() }</f:formatNumber></span>
+							</div> <span class="text-muted"><span
+						class="badge bg-secondary rounded-pill">&#160;&#160;${item.getQuantity()}  @ &#160;&#160;</span>  <p><f:formatNumber type="currency" currencySymbol="$" maxFractionDigits="2">${item.getPrice() }</f:formatNumber></p></span>
 						</li>
 					</c:forEach>
 						<li class="list-group-item d-flex justify-content-between lh-sm">
@@ -107,7 +107,7 @@
 							</div> <span class="text-success">- $5</span>
 						</li>-->
 						<li class="list-group-item d-flex justify-content-between"><span>Total
-								(USD)</span> <strong><f:formatNumber type="currency" currencySymbol="$" maxFractionDigits="2">${cart.getTotal() }</f:formatNumber></strong></li>
+								(CAD)</span> <strong><f:formatNumber type="currency" currencySymbol="$" maxFractionDigits="2">${cart.getTotal() }</f:formatNumber></strong></li>
 					</ul>
 
 					<form class="card p-2">
