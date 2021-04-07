@@ -68,7 +68,7 @@ public class ShoppingCartBean {
 		for (int i=0; i<cart.size(); i++) {
 			if (cart.get(i).getBid().equals(bid)) {
 				cart.get(i).setQuantity((cart.get(i).getQuantity()+1));
-				System.out.println("\nItem quantity incremented by 1");
+				System.out.println("\nItem with bid: " + bid + " quantity incremented by 1");
 			}
 		}
 	}
@@ -77,7 +77,7 @@ public class ShoppingCartBean {
 		for (int i=0; i<cart.size(); i++) {
 			if (cart.get(i).getBid().equals(bid)) {
 				cart.get(i).setQuantity((cart.get(i).getQuantity()-1));
-				System.out.println("\nItem quantity decremented by 1");
+				System.out.println("\nItem with bid: " + bid + " quantity decremented by 1");
 			}
 		}
 	}

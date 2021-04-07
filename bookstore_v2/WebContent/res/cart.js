@@ -4,8 +4,21 @@ var priceChanges = 0;
 var taxChanges = 0;
 var totalPriceChanges = 0;
 
-function validate() {
+function validate(bid, quantity) {
+	var ok = true;
+	var tmp;
 	
+	if (!count.has(bid)){
+		tmp = quantity;
+	} else {
+		tmp = count.get(bid);
+	}
+	
+	if (tmp <= 1) {
+		ok = false;
+		alert("Item quantity cannot be zero!");
+	}
+	return ok;
 }
 
 function changeQuantity(address, quantity, bid, type, cartSize, price, subtotal, tax, total) {
@@ -27,6 +40,7 @@ function handler(request, quantity, bid, count, type, cartSize, price, subtotal,
 		if (type == 'increment') {
 			if (!count.has(bid)){
 				count.set(bid, quantity+1);
+			
 			} else {
 				var tmp = count.get(bid);
 				count.set(bid, (tmp+1))
@@ -36,11 +50,14 @@ function handler(request, quantity, bid, count, type, cartSize, price, subtotal,
 			taxChanges = taxChanges + price*0.15;
 			
 		} else if (type == 'decrement') {
+		
+			
 			if (!count.has(bid)){
-				count.set(bid, quantity-1);
+				count.set(bid, quantity-1);			
 			} else {
 				var tmp = count.get(bid);
-				count.set(bid, (tmp-1))
+				count.set(bid, (tmp-1));
+				
 			}
 			cartChanges = cartChanges - 1;
 			priceChanges = priceChanges - price;

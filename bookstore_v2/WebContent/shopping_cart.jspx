@@ -120,7 +120,7 @@
 								<p class="mb-5 text-muted text-uppercase small">Genre: ${item.getCategory() }</p>
 								<div>
 								<label class="mb-2 text-muted text-uppercase small">Quantity:&#160;&#160;&#160;</label>
-								<button onclick="if (validate()){changeQuantity('/bookstore_v2/shopping_cart?changeQuantity=decrement', 
+								<button onclick="if (validate(${item.bid },${item.getQuantity() })) {changeQuantity('/bookstore_v2/shopping_cart?changeQuantity=decrement', 
 								${item.getQuantity()}, 
 								${item.bid }, 
 								'decrement', 
@@ -128,7 +128,7 @@
 								${item.getPrice()}, 
 								${cart.getSubtotal()},
 								${cart.getTax() },
-								${cart.getTotal() }) );">-</button>
+								${cart.getTotal() });}">-</button>
 								
 								<span id="${item.bid}quantity">&#160; ${item.getQuantity() }&#160; </span>
 								
