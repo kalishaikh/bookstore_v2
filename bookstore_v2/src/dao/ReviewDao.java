@@ -6,7 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-
+import java.util.Collections;
+import java.sql.Date;
 
 import bean.ReviewBean;
 
@@ -20,6 +21,7 @@ public class ReviewDao {
 		
 	}
 	
+	//add review to database
 	public int insertReview (ReviewBean rev) throws SQLException, ClassNotFoundException {
 		
 		String title = rev.getTitle().replace("'", "''").replace('"', '\"');
@@ -31,11 +33,12 @@ public class ReviewDao {
 		Statement stmt=con.createStatement();
 		System.out.println("Connected for insertReview in review");
 		
-		String insertq = "insert into review (bid,name,title,rate,content) values ('"+rev.getBid()+"','"+rev.getName()+"','"+title+"','"+rev.getRate()+"','"+content+"')";
+		String insertq = "insert into review (bid,name,title,rate,content,date) values ('"+rev.getBid()+"','"+rev.getName()+"','"+title+"','"+rev.getRate()+"','"+content+"','"+rev.getDate()+"')";
 		
 		return stmt.executeUpdate(insertq);
 	}
 	
+	//get all reviews for a book
 	public  ArrayList<ReviewBean> retrieveReviews(int bid) throws ClassNotFoundException, SQLException {
 		ArrayList<ReviewBean> reviews = new ArrayList<ReviewBean>(); 
 		
@@ -51,10 +54,11 @@ public class ReviewDao {
 			String title = rs.getString("title");
 			int rate = rs.getInt("rate");
 			String content = rs.getString("content");
-			reviews.add(new ReviewBean(id, name, title, rate, content));
+			Date date = rs.getDate("date");
+			reviews.add(new ReviewBean(id, name, title, rate, content, date));
 		}
 		  
-		
+		Collections.reverse(reviews);
 		rs.close();
 		stmt.close();
 		con.close();
@@ -62,10 +66,12 @@ public class ReviewDao {
 		return reviews;
 	}
 	
-	public int overallRateBook(int bid) throws ClassNotFoundException, SQLException {
-		int averageRate = 0;
-		int sumRate = 0;
-		int counter = 0;
+	//Returns both the overall average rating of the book and the number of reviews
+	public double[] overallRateBook(int bid) throws ClassNotFoundException, SQLException {
+		double[] result = new double[2];
+		double averageRate = 0;
+		double sumRate = 0;
+		double counter = 0;
 		
 		Class.forName("com.mysql.cj.jdbc.Driver");
 		Connection con = DriverManager.getConnection(url, user, password);
@@ -74,18 +80,20 @@ public class ReviewDao {
 		
 		ResultSet rs=stmt.executeQuery("select rate from review where bid = "+bid);  
 		while(rs.next()) {
-			sumRate += rs.getInt("rate");
+			sumRate += rs.getDouble("rate");
 			counter++;
 		}
-		  
-		averageRate = sumRate/counter;
+		if(counter != 0)  
+			averageRate = sumRate/counter;
+		
+		result[0] = averageRate;
+		result[1] = counter;
 		
 		rs.close();
 		stmt.close();
 		con.close();
-		
-		
-		return averageRate;
+				
+		return result;
 	}
 
 }

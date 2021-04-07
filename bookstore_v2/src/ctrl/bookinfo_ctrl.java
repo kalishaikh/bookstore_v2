@@ -2,7 +2,9 @@ package ctrl;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Date;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -39,6 +41,7 @@ public class bookinfo_ctrl extends HttpServlet {
 		
 		HttpSession this_session = request.getSession();
 		BookBean cbook;
+		double[] avgRate = new double[2];
 		String bookInfo_target = "bookInfo_page.jspx";
 		String error_target = "error_page.jspx";
 		
@@ -62,8 +65,16 @@ public class bookinfo_ctrl extends HttpServlet {
 			BookModel bmodel = new BookModel();
 			try {
 				cbook = bmodel.retrieveBook(isbn);
+				
 				if(cbook != null) {
+					avgRate = bmodel.overallRate(cbook.getBid());
+					if (avgRate[1] != 0) {
+						ArrayList<ReviewBean> revs  = bmodel.retrieveReviews(cbook.getBid());
+						this_session.setAttribute("reviews", revs);
+					}
 					this_session.setAttribute("bookI", cbook);
+					this_session.setAttribute("avgRate", avgRate);
+					
 					request.getRequestDispatcher(bookInfo_target).forward(request, response);
 				}else {
 					request.getRequestDispatcher(error_target).forward(request, response);
@@ -121,11 +132,15 @@ public class bookinfo_ctrl extends HttpServlet {
 	}
 	
 	public void addReview(HttpSession this_session, HttpServletRequest request, HttpServletResponse response) throws ClassNotFoundException, SQLException, IOException {
+		
+		Date date = new Date(System.currentTimeMillis());
+
 		ReviewBean rev = new ReviewBean(Integer.parseInt(request.getParameter("bid")),
 				request.getParameter("name"),
 				request.getParameter("reviewTitle"),
 				Integer.parseInt(request.getParameter("rate")),
-				request.getParameter("reviewContent"));
+				request.getParameter("reviewContent"), 
+				date);
 		BookModel bm = new BookModel();
 		
 		response.setContentType("application/json");
@@ -134,5 +149,6 @@ public class bookinfo_ctrl extends HttpServlet {
 		out.flush();
 		out.close();
 	}
+
 
 }

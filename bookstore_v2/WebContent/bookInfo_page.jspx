@@ -29,6 +29,10 @@
 			font-size: 3.5rem;
 		}
 	}
+	
+	[class$="checked"] {
+		color: #ffea00; 
+	}
 
 	</style>
 	
@@ -42,6 +46,8 @@
 	<link rel="StyleSheet" href="res/star-rating.css" type="text/css"/>
 	<script type="text/javascript" src="res/book.js">;</script>
 	
+	<!-- Add icon library -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">;</script>
 	
 	<title>${bookI.title} | BKNJ Bookstore</title>
@@ -105,18 +111,20 @@
 			<div class="m-4 col-5">
 				<strong class="d-inline-block mb-2 text-primary">${bookI.category}</strong>
 				<h3 class="mb-0">${bookI.title}</h3>
-				<c:if test="${fn:length(bookI.getAuthor()) == 1}">
-					<div class="mb-1 text-muted">By ${bookI.getAuthor()[0]}</div>
-				</c:if>
-				<c:if test="${fn:length(bookI.getAuthor()) > 1}">
-				<div class="d-inline">
-					<div class="d-inline mb-1 text-muted">By </div>
-					<c:forEach items="${bookI.getAuthor()}" var="auth" end="${fn:length(bookI.getAuthor())-2}">
-						<div class="d-inline mb-1 text-muted">${auth}, </div>
-					</c:forEach>
-					<div class="d-inline mb-1 text-muted">${bookI.getAuthor()[fn:length(bookI.getAuthor())-1]}</div>
-				</div>
-				</c:if>
+				<c:choose>
+					<c:when test="${fn:length(bookI.getAuthor()) == 1}">
+						<div class="mb-1 text-muted">By ${bookI.getAuthor()[0]}</div>
+					</c:when>
+					<c:otherwise>
+						<div class="d-inline">
+							<div class="d-inline mb-1 text-muted">By </div>
+							<c:forEach items="${bookI.getAuthor()}" var="auth" end="${fn:length(bookI.getAuthor())-2}">
+								<div class="d-inline mb-1 text-muted">${auth}, </div>
+							</c:forEach>
+							<div class="d-inline mb-1 text-muted">${bookI.getAuthor()[fn:length(bookI.getAuthor())-1]}</div>
+						</div>
+					</c:otherwise>
+				</c:choose>
 				<strong class="mb-1 ml-2 text-dark"><f:formatNumber type="currency" currencySymbol="$" maxFractionDigits="2">${bookI.price}</f:formatNumber></strong>
 				<BR />
 				<BR />
@@ -131,12 +139,13 @@
 				</div>
 			</div>
 		</div>
+		<BR />
+		<h5>Additional Info:</h5>
+		<div style="margin-left: 20px"><strong>ISBN-13:</strong> ${bookI.isbn}</div>
 		
 		
-		<div class="d-flex justify-content-center" >
-			<input type="hidden" name="fname" id="fname" value="${fname}"/>	
-			<input id="reviewShow" type="button" class="btn btn-outline-dark" onClick="isLoggedIn()" value="Write a Review" style="display: block;"></input>
-		</div>
+		
+		
 		
 		<div class="review" id="review" style="display: none;">
 			<fieldset>
@@ -167,6 +176,57 @@
 			</div>
 		</div>
 		
+		<HR />
+		
+		<div class="allReview" id="allReview">
+			<div class="d-flex justify-content-between">
+				<div class="flex-column">
+					<h3>Customer Reviews</h3>
+					<BR />
+					<c:if test="${avgRate[1] > 0}">
+						<div>
+						<span><h5>Customer Rating</h5></span>
+						<c:set var="aRate"><f:formatNumber type="number" maxFractionDigits="0" value="${avgRate[0]}" /></c:set>
+						<c:forEach var="i" begin="1" end="${aRate}">
+								<span class="fa fa-star" style="color: #ffea00; font-size:24px;"></span>
+							</c:forEach>
+							<c:forEach var="i" begin="${aRate}" end="4">
+								<span class="fa fa-star-o" style="color: #ffea00; font-size:24px;"></span>
+							</c:forEach>
+						</div>
+						<p><f:formatNumber maxFractionDigits="2">${avgRate[0]}</f:formatNumber> average based on
+						<f:formatNumber maxFractionDigits="0">${avgRate[1]}</f:formatNumber> reviews.
+						</p>
+					</c:if>
+				</div>
+				<div>
+					<input type="hidden" name="fname" id="fname" value="${fname}"/>	
+					<input id="reviewShow" type="button" class="btn btn-outline-dark" onClick="isLoggedIn()" value="Write a Review" style="display: block;"></input>
+				</div>
+			</div><BR />
+			<HR />
+			<c:choose>
+				<c:when test="${avgRate[1] == 0}"> 
+					<p>No reviews yet. Be the first to write a review</p>
+				</c:when>
+				<c:otherwise> 
+					<c:forEach items="${reviews}" var="rev">
+						<div>
+							<c:forEach var="i" begin="1" end="${rev.rate}">
+								<span class="fa fa-star"></span>
+							</c:forEach>
+							<c:forEach var="i" begin="${rev.rate}" end="4">
+								<span class="fa fa-star-o"></span>
+							</c:forEach>
+						</div>
+						<STRONG>${rev.name}</STRONG><small style="margin-left: 7px; color: grey;"><f:formatDate timeZone="Eastern Standard Time" value="${rev.date}" /></small> <BR />
+						<h5><strong>${rev.title}</strong></h5>
+						<p style="text-align: left;">${rev.content}</p><BR />
+						<HR />
+					</c:forEach> 
+				</c:otherwise>
+			</c:choose>
+		</div>
 		
 	</main>
 	
