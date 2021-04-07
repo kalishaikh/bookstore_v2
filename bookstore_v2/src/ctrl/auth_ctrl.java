@@ -2,6 +2,7 @@ package ctrl;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -13,6 +14,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import bean.BookBean;
 import model.AuthModel;
 
 /**
@@ -92,12 +95,14 @@ public class auth_ctrl extends HttpServlet {
 			request.getSession().setAttribute("fname", "");
 		}
 		
+		/*
+		 * Detect an analytics request
+		 */
+		
 		else if(request.getRequestURI().equals("/bookstore_v2/auth_ctrl/analytics")) {
 			
 			PrintWriter out = response.getWriter();
 			System.out.println("Admin has requested for analytics");
-			
-			
 			
 			//html string to be returned
 			String html = "";
@@ -108,17 +113,16 @@ public class auth_ctrl extends HttpServlet {
 			//0 Represents a request for most books
 			if (type.equals("0")) {
 				
-				html = "<table class='table'>   <thead class='thead-light'> <tr> <th scope='col'>Ranking</th><th scope='col'>Book ID</th> <th scope='col'>Copies Sold</th></tr></thead> <tbody>";
+				html = "<table class='table'>   <thead class='thead-light'> <tr> <th scope='col'>Ranking</th><th scope='col'>Book Name</th> <th scope='col'>Copies Sold</th></tr></thead> <tbody>";
 				int counter = 1;
 				StringBuilder build = new StringBuilder();
 				build.append(html);
 				
-				LinkedHashMap<Integer,Integer> test = model.getMostBooks();
-				Set<Integer> keys = test.keySet();
+				ArrayList<BookBean> test = model.getMostBooks();
 				
-				for (Integer key : keys) {
+				for (BookBean key : test) {
 					
-					build.append("<tr> <th scope='row'>"+counter+"</th> <td>"+key+"</td> <td>"+test.get(key)+"</td> </tr>");
+					build.append("<tr> <th scope='row'>"+counter+"</th> <td>"+key.getTitle()+"</td> <td>"+key.getQuantity()+"</td> </tr>");
 					counter += 1;
 				}
 				
@@ -128,22 +132,43 @@ public class auth_ctrl extends HttpServlet {
 			}
 			
 			//1 Represents a request for best selling genre
-			if (type.equals("1")) {
+			else if (type.equals("1")) {
 				
-				html = "<table class='table'>   <thead class='thead-light'> <tr> <th scope='col'>Ranking</th><th scope='col'>Genre</th> <th scope='col'>Copies Sold</th></tr></thead><tbody>";
+				html = "<table class='table'><thead class='thead-light'> <tr> <th scope='col'>Ranking</th><th scope='col'>Genre</th> <th scope='col'>Copies Sold</th></tr></thead><tbody>";
 				int counter = 1;
 				StringBuilder build = new StringBuilder();
 				build.append(html);
 				
-				LinkedHashMap<String,Integer> test = model.getBestGenres();
-				Set<String> keys = test.keySet();
+				ArrayList<BookBean> test = model.getBestGenres();
 				
-				for (String key : keys) {
+				for (BookBean key : test) {
 					
-					build.append("<tr> <th scope='row'>"+counter+"</th> <td>"+key+"</td> <td>"+test.get(key)+"</td> </tr>");
+					build.append("<tr> <th scope='row'>"+counter+"</th> <td>"+key.getCategory()+"</td> <td>"+key.getQuantity()+"</td> </tr>");
 					counter += 1;
 				}
 				
+				build.append("</tbody></table>");
+				out.print(build);
+				out.flush();
+			}
+			
+			//2 Represents a request for Most Popular Countries
+			else if (type.equals("2")) {
+				
+				html = "<table class='table'><thead class='thead-light'> <tr> <th scope='col'>Ranking</th><th scope='col'>Country</th> <th scope='col'>Copies Sold</th></tr></thead><tbody>";
+				int counter = 1;
+				StringBuilder build = new StringBuilder();
+				build.append(html);
+				
+				LinkedHashMap<String,Integer> test = model.getCountries();
+				
+				Set<String> key = test.keySet();
+				
+				for(String currKey : key) {
+					
+					build.append("<tr> <th scope='row'>"+counter+"</th> <td>"+currKey+"</td> <td>"+test.get(currKey)+"</td> </tr>");
+					counter += 1;
+				}
 				build.append("</tbody></table>");
 				out.print(build);
 				out.flush();
