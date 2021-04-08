@@ -27,21 +27,17 @@ function test(){
 	var ok = true;
 
 
-	if (document.getElementById("firstName").value == "") {
+	if (document.getElementById("firstName").value == "" || !document.getElementById("firstName").value.match(justChar)) {
 		document.getElementById("firstName").className = "form-control is-invalid";
 		ok = false;
-	}
-	
-	if (document.getElementById("firstName").value.match(justChar)) {
+	} else {
 		document.getElementById("firstName").className = "form-control is-valid";
 	}
 	
-	if (document.getElementById("lastName").value == "") {
+	if (document.getElementById("lastName").value == "" || !document.getElementById("lastName").value.match(justChar)) {
 		document.getElementById("lastName").className = "form-control is-invalid";
 		ok = false;
-	}
-	
-	if (document.getElementById("lastName").value.match(justChar)) {
+	} else {
 		document.getElementById("lastName").className = "form-control is-valid";
 	}
 	
@@ -69,6 +65,8 @@ function test(){
 	if (document.getElementById("zip").value == "" || !document.getElementById("zip").value.match(charNumSpace)) {
 		document.getElementById("zip").className = "form-control is-invalid";
 		ok = false;
+	} else {
+		document.getElementById("zip").className = "form-control is-valid";
 	}
 	
 	if (document.getElementById("cc-name").value == "" || !document.getElementById("cc-name").value.match(justChar)) {
