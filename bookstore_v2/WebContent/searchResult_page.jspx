@@ -42,14 +42,8 @@
 	<link rel="StyleSheet" href="res/bknj.css" type="text/css"/>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">;</script>
 	<script type="text/javascript" src="res/book.js">;</script>
-	<script>
-		$(document).ready(function(){
-		  $(".cart").click(function(){
-			      alert("Item added to cart!");
- 
-		}); 
-	});
-</script>
+
+
 	<c:choose>
 		<c:when test="${fn:length(search) == 0}">
 			<title>${category} | BKNJ Bookstore</title>
@@ -91,7 +85,7 @@
 					</c:choose>
 				</div>
 				<div class="col-4 text-center">
-					<a class="blog-header-logo text-dark" href="#">BKNJ Bookstore</a>
+					<a class="blog-header-logo text-dark" href="main_page.jspx">BKNJ Bookstore</a>
 				</div>
 				<div class="col-4 d-flex justify-content-end align-items-center">
 
@@ -183,7 +177,7 @@
 						
 
 								<button name="addToCart" value="true" class="cart btn btn-outline-primary" 
-								onclick="addToCart('/bookstore_v2/Search?addToCart=true',${book.bid},${book.price},'${book.parseTitle()}','${book.authorsToString()}','${book.category}');">
+								onclick="addToCart('Search?addToCart=true',${book.bid},${book.price},'${book.parseTitle()}','${book.authorsToString()}','${book.category}');">
 								Add to Cart </button> 
 							</div>
 							

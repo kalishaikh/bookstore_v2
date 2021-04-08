@@ -45,7 +45,7 @@ public class auth_ctrl extends HttpServlet {
 		/*
 		 * Detect AJAX calls below. Specifically for the login and register page
 		 */
-		if(request.getRequestURI().equals("/bookstore_v2/auth_ctrl/register")) {
+		if (request.getPathInfo().equals("/register"))  {
 			
 			PrintWriter out = response.getWriter();
 			String fname = request.getParameter("fname");
@@ -72,8 +72,8 @@ public class auth_ctrl extends HttpServlet {
 		/*
 		 * Detects if a user is trying to login
 		 */
-		else if (request.getRequestURI().equals("/bookstore_v2/auth_ctrl/login")) {
-			
+		else if (request.getPathInfo().equals("/login")) {
+
 				PrintWriter out = response.getWriter();
 				String email = request.getParameter("email");
 				String pass = request.getParameter("pass");	
@@ -96,7 +96,7 @@ public class auth_ctrl extends HttpServlet {
 		/*
 		 * Detects if a user is logging out
 		 */
-		else if (request.getRequestURI().equals("/bookstore_v2/auth_ctrl/logout")) {
+		else if (request.getPathInfo().equals("/logout"))  {
 			System.out.println(request.getSession().getAttribute("fname") + " Has successfully logged out");
 			request.getSession().setAttribute("fname", "");
 			request.getSession().setAttribute("email", "");
@@ -108,7 +108,7 @@ public class auth_ctrl extends HttpServlet {
 		 * Detect an analytics request
 		 */
 		
-		else if(request.getRequestURI().equals("/bookstore_v2/auth_ctrl/analytics")) {
+		else if (request.getPathInfo().equals("/analytics"))  {
 			
 			PrintWriter out = response.getWriter();
 			System.out.println("Admin has requested for analytics");
