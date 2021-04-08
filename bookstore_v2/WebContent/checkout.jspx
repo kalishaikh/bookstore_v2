@@ -48,8 +48,8 @@
 	href="https://fonts.googleapis.com/css?family=Playfair&#43;Display:700,900&amp;display=swap"
 	rel="stylesheet" />
 <!-- Custom styles for this template -->
-<link href="/bookstore_v2/res/form-validation.css" rel="stylesheet" />
-<link href="/bookstore_v2/res/blog.css" rel="stylesheet" />
+<link href="res/form-validation.css" rel="stylesheet" />
+<link href="res/blog.css" rel="stylesheet" />
 </head>
 <body class="bg-light">
 
