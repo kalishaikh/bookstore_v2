@@ -36,7 +36,7 @@ public class BookModel {
 		return (isInserted == 0)? false : true;
 	}
 	
-	public int overallRate(int bid) throws ClassNotFoundException, SQLException {
+	public double[] overallRate(int bid) throws ClassNotFoundException, SQLException {
 		return reviewData.overallRateBook(bid);
 	}
 

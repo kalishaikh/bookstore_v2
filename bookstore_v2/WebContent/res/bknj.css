@@ -8,6 +8,13 @@ div.review{
 	margin-bottom: 50px;
 }
 
+div.allReview{
+	margin-left: 100px;
+	margin-top: 50px;
+	margin-bottom: 50px;
+}
+
+
 div.searchpage{
 	width: 700px;
 	margin-left: auto;
