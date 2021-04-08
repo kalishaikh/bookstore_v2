@@ -60,7 +60,7 @@
 				</div>
 				<div class="col-4 text-center">
 					<a class="blog-header-logo text-dark" href="main_page.jspx">BKNJ
-						Bookstore</a>
+						Bookstore </a>
 				</div>
 				<div class="col-4 d-flex justify-content-end align-items-center">
 					<a class="btn btn-sm btn-outline-secondary" href="main_page.jspx">Continue Shopping</a>
@@ -121,7 +121,7 @@
 								<p class="mb-5 text-muted text-uppercase small">Genre: ${item.getCategory() }</p>
 								<div>
 								<label class="mb-2 text-muted text-uppercase small">Quantity:&#160;&#160;&#160;</label>
-								<button onclick="if (validate(${item.bid },${item.getQuantity() })) {changeQuantity('/bookstore_v2/shopping_cart?changeQuantity=decrement', 
+								<button onclick="if (validate(${item.bid },${item.getQuantity() })) {changeQuantity('shopping_cart?changeQuantity=decrement', 
 								${item.getQuantity()}, 
 								${item.bid }, 
 								'decrement', 
@@ -133,7 +133,7 @@
 								
 								<span id="${item.bid}quantity">&#160; ${item.getQuantity() }&#160; </span>
 								
-								<button onclick="changeQuantity('/bookstore_v2/shopping_cart?changeQuantity=increment', 
+								<button onclick="changeQuantity('shopping_cart?changeQuantity=increment', 
 								${item.getQuantity()}, 
 								${item.bid }, 
 								'increment', 
@@ -144,7 +144,7 @@
 								${cart.getTotal() } );">+</button>
 						
 								</div>
-								<a type="button" href="shopping_cart" onclick="removeItem('/bookstore_v2/shopping_cart?removeItem=true', ${item.bid});"
+								<a type="button" href="shopping_cart" onclick="removeItem('shopping_cart?removeItem=true', ${item.bid});"
 									class="card-link-secondary small text-uppercase mr-3">Remove item </a>
 							</div>
 							<div class="col-md-1 themed-grid-col">

@@ -98,9 +98,13 @@ function addToCart(address,bid,price,title,author,category) {
 	+ "&" + "author=" + author
 	+ "&" + "category=" + category;
 	
+	alert(title + " added to cart!");
+	
 	request.open("POST", (address + data), true);
 	request.send(null);
 }
+
+
 
 /**
  * Add review

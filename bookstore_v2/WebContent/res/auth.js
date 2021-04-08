@@ -129,7 +129,7 @@ $( document ).ready(function() {
 			
 			//Successful Login
 			else {
-				alert("User Authenticated, Welcome Back : " + data);
+				alert("User Authenticated, Welcome Back: " + data);
 				window.location.replace("main_page.jspx");
 			}
 		});
