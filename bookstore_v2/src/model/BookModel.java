@@ -27,6 +27,14 @@ public class BookModel {
 		return bookData.retrieveBookInfo(isbn);
 	}
 	
+	public ArrayList<BookBean> retrieveAll() throws ClassNotFoundException, SQLException {
+		return bookData.retrieveAll();
+	}
+	
+	public ArrayList<BookBean> retrieveCatSearch(String category) throws ClassNotFoundException, SQLException {
+		return bookData.searchCategory(category);
+	}
+	
 	public ArrayList<ReviewBean> retrieveReviews(int bid) throws ClassNotFoundException, SQLException {
 		return reviewData.retrieveReviews(bid);
 	}

@@ -32,14 +32,6 @@ function validateReview(){
 	if(!ok)
 		return false;
 		
-		
-//	var rateNames =['star5','star4','star3','star2','star1']; 
-//	var rateChecked = false;
-//	for (var i = 0; i < 5; i++){
-//		if(document.getElementById(rateNames).checked){
-//			rateChecked = true;
-//		}
-//	}
 	p  = $("input[type='radio'][name='rate']:checked").val();
 	
 	if (p === null || p === "" || p === undefined) {
@@ -143,3 +135,4 @@ function handlerReview(request){
 		}
 	}
 }
+

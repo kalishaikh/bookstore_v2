@@ -36,7 +36,7 @@
     <link href="https://fonts.googleapis.com/css?family=Playfair&#43;Display:700,900&amp;display=swap" rel="stylesheet"/>
     <!-- Custom styles for this template -->
     <link href="res/blog.css" rel="stylesheet"/>
-   
+   	<link rel="StyleSheet" href="res/bknj.css" type="text/css"/>
     <script type="text/javascript" src="res/book.js">;</script>
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">;</script>
@@ -44,61 +44,74 @@
 
   </head>
   <body>
- 
-<div class="container">
-  <header class="blog-header py-3">
-    <div class="row flex-nowrap justify-content-between align-items-center">
-      <div class="col-4 pt-1">
-         <c:choose>
-        	<c:when test="${empty fname}">
-       		<a class="btn btn-sm btn-outline-secondary" href="login.html">Log In</a>   
-       		</c:when>
-       		<c:when test="${admin == '1'}">
-       			<form id = "log" method = "post">
-       			<a>Welcome, ${fname}</a>
-       			<a class="btn pr-3 btn-sm btn-outline-secondary" id="logout" type="button" href="main_page.jspx">Log Out</a>
-       			<a class="btn btn-sm btn-outline-secondary" id="analytics" type="button" href="analytics.jspx">Analytics</a>
-       			</form>    
-       		</c:when>
-       		<c:otherwise>
-       		<form id = "log" method = "post">
-       			<a>Welcome, ${fname}</a>
-       			<a class="btn pr-3 btn-sm btn-outline-secondary" id="logout" type="button" href="main_page.jspx">Log Out</a>
-			</form>       	   
-       	   </c:otherwise>
-       	</c:choose>
-      </div>
-      <div class="col-4 text-center">
-        <a class="blog-header-logo text-dark" href="#">BKNJ Bookstore</a>
-      </div>
-      <div class="col-4 d-flex justify-content-end align-items-center">
 
-        <form action="Search" onsubmit="return validateSearch();" method="POST" name="mySearch">	
-			<input type="text" placeholder="Search..." name="search" value="${search}"/>	
-   			<button class="btn btn-sm btn-dark" type="submit" name="button" value="bookInfo">Go</button>
-		</form>
-         
-		<a class="btn btn-sm btn-outline-secondary" href="shopping_cart">Shopping Cart</a>
-      </div>
-    </div>
-  </header>
-  <div class="nav-scroller py-1 mb-2">
-    <nav class="nav d-flex justify-content-between">
-      <a class="p-2 link-secondary" href="#">Fiction</a>
-      <a class="p-2 link-secondary" href="#">Non-Fiction</a>
-      <a class="p-2 link-secondary" href="#">Cookbooks</a>
-      <a class="p-2 link-secondary" href="#">Wellness</a>
-      <a class="p-2 link-secondary" href="#">Kids Books</a>
-      <a class="p-2 link-secondary" href="#">Teen Books</a>
-      <a class="p-2 link-secondary" href="#">Politics</a>
-      <a class="p-2 link-secondary" href="#">Biography</a>
-      <a class="p-2 link-secondary" href="#">Science and Technology</a>
+	<div class="container">
+		<header class="blog-header py-3">
+			<div
+				class="row flex-nowrap justify-content-between align-items-center">
+				<div class="col-4 pt-1">
+					<c:choose>
+						<c:when test="${empty fname}">
+							<a class="btn btn-sm btn-outline-secondary" href="login.html">Log
+								In</a>
+						</c:when>
+						<c:when test="${admin == '1'}">
+							<form id="log" method="post">
+								<a>Welcome, ${fname}</a> <a
+									class="btn pr-3 btn-sm btn-outline-secondary" id="logout"
+									type="button" href="main_page.jspx">Log Out</a> <a
+									class="btn btn-sm btn-outline-secondary" id="analytics"
+									type="button" href="analytics.jspx">Analytics</a>
+							</form>
+						</c:when>
+						<c:otherwise>
+							<form id="log" method="post">
+								<a>Welcome, ${fname}</a> <a
+									class="btn pr-3 btn-sm btn-outline-secondary" id="logout"
+									type="button" href="main_page.jspx">Log Out</a>
+							</form>
+						</c:otherwise>
+					</c:choose>
+				</div>
+				<div class="col-4 text-center">
+					<a class="blog-header-logo text-dark" href="#">BKNJ Bookstore</a>
+				</div>
+				<div class="col-4 d-flex justify-content-end align-items-center">
 
-    </nav>
-  </div>
-</div>
+					<form action="Search" onsubmit="return validateSearch();"
+						method="POST" name="mySearch">
+						<input type="text" placeholder="Search..." name="search"
+							value="${search}" />
+						<button class="btn btn-sm btn-dark" type="submit" name="button"
+							value="bookInfo">Go</button>
+					</form>
 
-<main class="container">
+					<a class="btn btn-sm btn-outline-secondary" href="shopping_cart">Shopping
+						Cart</a>
+				</div>
+			</div>
+		</header>
+		<div class="bLink">
+			<form action="Search" method="POST">
+				<input type="hidden" name="catSearch" id="catSearch" value="true" />
+				<div class="nav-scroller py-1 mb-2">
+					<nav class="nav d-flex justify-content-between">
+						<button class="p-2 link-secondary" type="submit" name="category" value="Biography %26 Memoir">Biography &amp; Memoir</button>
+						<button class="p-2 link-secondary" type="submit" name="category" value="Business">Business</button>
+						<button class="p-2 link-secondary" type="submit" name="category" value="Cookbooks">Cookbooks</button>
+						<button class="p-2 link-secondary" type="submit" name="category" value="Engineering">Engineering</button>
+						<button class="p-2 link-secondary" type="submit" name="category" value="Manga">Manga</button>
+						<button class="p-2 link-secondary" type="submit" name="category" value="Science %26 Technology">Science &amp; Technology</button>
+						<button class="p-2 link-secondary" type="submit" name="category" value="All Fiction">All Fiction</button>
+						<button class="p-2 link-secondary" type="submit" name="category" value="All Non-Fiction">All Non-Fiction</button>
+						<button class="p-2 link-secondary" type="submit" name="category" value="All Books">All Books</button>
+					</nav>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<main class="container">
   <div class="p-4 p-md-5 mb-4 text-white rounded bg-dark">
     <div class="col-md-6 px-0">
       <h1 class="display-4 fst-italic">A featured book yay</h1>
@@ -215,35 +228,41 @@
         <p class="mb-0">About BKNJ Bookstore yayyyyyyyyyyy description description books we were founded in 2021 cause we were forced to for school. </p>
       </div>
 
+      <div class="p-3">
+      	<h4>Categories</h4>
+      </div>
+      <div class="bCat">
+	  <form action="Search" method="POST">
+	   <input type="hidden" name="catSearch" id="catSearch" value="true" />
       <div class="p-4">
-        <h4 class="fst-italic">Fiction</h4>
+        <h5 class="fst-italic">Fiction</h5>
         <ol class="list-unstyled mb-0">
-          <li><a href="#">Mystery &amp; Suspense</a></li>
-          <li><a href="#">Thrillers</a></li>
-          <li><a href="#">Sci-Fi &amp; Fantasy</a></li>
-          <li><a href="#">Romance</a></li>
-          <li><a href="#">Manga</a></li>
-          <li><a href="#">Historical Fiction</a></li>
-          <li><a href="#">Classics</a></li>
-          <li><a href="#">Shop All Fiction</a></li>
-     
+          <li><button class="p-2 link-secondary" type="submit" name="category" value="Mystery %26 Suspense">Mystery &amp; Suspense</button></li>
+          <li><button class="p-2 link-secondary" type="submit" name="category" value="Thriller">Thriller</button></li>
+          <li><button class="p-2 link-secondary" type="submit" name="category" value="Sci-Fi %26 Fantasy">Sci-Fi &amp; Fantasy</button></li>
+          <li><button class="p-2 link-secondary" type="submit" name="category" value="Romance">Romance</button></li>
+          <li><button class="p-2 link-secondary" type="submit" name="category" value="Manga">Manga</button></li>
+          <li><button class="p-2 link-secondary" type="submit" name="category" value="Historical Fiction">Historical Fiction</button></li>
+          <li><button class="p-2 link-secondary" type="submit" name="category" value="Classics">Classics</button></li>
+          <li><button class="p-2 link-secondary" type="submit" name="category" value="All Fiction"><strong>All Fiction</strong></button></li>
         </ol>
       </div>
 
       <div class="p-4">
-        <h4 class="fst-italic">Non-Fiction</h4>
+        <h5 class="fst-italic">Non-Fiction</h5>
         <ol class="list-unstyled">
-          <li><a href="#">Biography and Memoir</a></li>
-          <li><a href="#">Business</a></li>
-          <li><a href="#">History &amp; Politics</a></li>
-          <li><a href="#">Engineering</a></li>
-          <li><a href="#">Science &amp; Technology</a></li>
-          <li><a href="#">Cookbooks</a></li>
-          <li><a href="#">Faith and Spirituality</a></li>
-          <li><a href="#">Shop All Non-Fiction</a></li>
+          <li><button class="p-2 link-secondary" type="submit" name="category" value="Biography %26 Memoir">Biography &amp; Memoir</button></li>
+          <li><button class="p-2 link-secondary" type="submit" name="category" value="Business">Business</button></li>
+          <li><button class="p-2 link-secondary" type="submit" name="category" value="History %26 Politics">History &amp; Politics</button></li>
+          <li><button class="p-2 link-secondary" type="submit" name="category" value="Engineering">Engineering</button></li>
+          <li><button class="p-2 link-secondary" type="submit" name="category" value="Science %26 Technology">Science &amp; Technology</button></li>
+          <li><button class="p-2 link-secondary" type="submit" name="category" value="Cookbooks">Cookbooks</button></li>
+          <li><button class="p-2 link-secondary" type="submit" name="category" value="Faith %26 Spirituality">Faith &amp; Spirituality</button></li>
+          <li><button class="p-2 link-secondary" type="submit" name="category" value="All Non-Fiction"><strong>All Non-Fiction</strong></button></li>
         </ol>
       </div>
-      
+      </form>
+      </div>
     </div>
 
   </div><!-- /.row -->

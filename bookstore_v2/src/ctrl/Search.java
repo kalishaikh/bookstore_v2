@@ -35,7 +35,7 @@ public class Search extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String search;
+		String search, category;
 		//ServletContext context = this.getServletContext();
 		HttpSession this_session = request.getSession();
 		String search_target = "/searchResult_page.jspx";
@@ -44,7 +44,31 @@ public class Search extends HttpServlet {
 		
 		BookModel bmodel = new BookModel();
 		
-		if(request.getParameter("search") != null && !request.getParameter("search").equals("")) {
+		if (request.getParameter("addToCart") != null && request.getParameter("addToCart").equals("true")) { // Add to Cart button clicked. 
+			
+			this.addToCart(this_session, request);
+			
+		} else if(request.getParameter("catSearch") != null && request.getParameter("catSearch").equals("true") ) {
+			category = request.getParameter("category").replace("%26", "&");
+			ArrayList<BookBean> searchResult;
+			
+			try {
+				if(category.equals("All Books")) {
+					searchResult = bmodel.retrieveAll();
+				}else {
+					searchResult = bmodel.retrieveCatSearch(category);
+				}
+		
+				this_session.setAttribute("searchResult", searchResult);
+				this_session.setAttribute("category", category);
+				this_session.setAttribute("search", "");
+				request.getRequestDispatcher(search_target).forward(request, response);
+			} catch (ClassNotFoundException | SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		} else if(request.getParameter("search") != null && !request.getParameter("search").equals("")) {
 
 			search = request.getParameter("search");
 			
@@ -65,10 +89,6 @@ public class Search extends HttpServlet {
 			
 			
 			request.getRequestDispatcher(search_target).forward(request, response);
-		} else if (request.getParameter("addToCart").equals("true")) { // Add to Cart button clicked. 
-			
-			this.addToCart(this_session, request);
-			
 		} else {//backup on server side, should be handled on client side
 			if(request.getParameter("button").equals("Search"))
 				request.getRequestDispatcher(search_target).forward(request, response);

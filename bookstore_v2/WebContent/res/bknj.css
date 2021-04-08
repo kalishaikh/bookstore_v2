@@ -60,6 +60,32 @@ legend
 	padding: 0.5em;
 }
 
+div.bLink button {
+  background: none!important;
+  border: none;
+  padding: 8px;
+  font-family: var(--bs-font-sans-serif);
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #6C757D;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+div.bCat button {
+  background: none!important;
+  border: none;
+  padding: 0!important;
+  font-family: var(--bs-font-sans-serif);
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #212529;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 div.bookcover {
   
 	display: flex;

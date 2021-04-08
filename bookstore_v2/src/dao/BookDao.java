@@ -6,8 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Collections;
+import java.util.Comparator;
 
 import bean.BookBean;
 
@@ -21,9 +21,9 @@ public class BookDao {
 		
 	}
 	
-	public Map<Integer,BookBean> retrieveAll() throws ClassNotFoundException, SQLException {
+	public ArrayList<BookBean> retrieveAll() throws ClassNotFoundException, SQLException {
 		
-		Map<Integer,BookBean> allBooks = new HashMap<Integer,BookBean>(); 
+		ArrayList<BookBean> allBooks = new ArrayList<BookBean>(); 
 		
 		Class.forName("com.mysql.cj.jdbc.Driver");
 		Connection con = DriverManager.getConnection(url, user, password);
@@ -38,9 +38,12 @@ public class BookDao {
 			Double price = rs.getDouble("price");
 			String category = rs.getString("category");
 			String isbn = rs.getString("isbn");
-			allBooks.put(bid, new BookBean(bid, title, author, price, category, isbn));
+			allBooks.add(new BookBean(bid, title, author, price, category, isbn));
 		}
-		  
+		
+		Comparator<BookBean> titleCompare = this.getComparator();
+		
+		Collections.sort(allBooks, titleCompare);
 		
 		rs.close();
 		stmt.close();
@@ -71,7 +74,7 @@ public class BookDao {
 			String isbn = rs.getString("isbn");
 			search.add(new BookBean(bid, title, author, price, category, isbn));
 		}
-		  
+	
 		
 		rs.close();
 		stmt.close();
@@ -110,13 +113,19 @@ public class BookDao {
 	public ArrayList<BookBean> searchCategory(String q) throws ClassNotFoundException, SQLException {
 		
 		ArrayList<BookBean> search = new ArrayList<BookBean>(); 
+		ResultSet rs;
 		
 		Class.forName("com.mysql.cj.jdbc.Driver");
 		Connection con = DriverManager.getConnection(url, user, password);
 		Statement stmt=con.createStatement();
-		System.out.println("Connected for searchCategory in book");
+		System.out.println("Connected for searchCategory in book: "+q);
+		if(q.equals("All Fiction"))
+			rs=stmt.executeQuery("select * from book where category in ('Mystery & Suspense', 'Thriller', 'Sci-Fi & Fantasy', 'Romance', 'Manga', 'Historical Fiction','Classics')"); 
+		else if(q.equals("All Non-Fiction"))
+			rs=stmt.executeQuery("select * from book where category in ('Biography & Memoir','Business','History & Politics','Engineering','Science & Technology','Cookbooks','Faith & Spirituality')");
+		else
+			rs=stmt.executeQuery("select * from book where category = '"+q+"'");
 		
-		ResultSet rs=stmt.executeQuery("select * from book where category = '"+q+"'");  
 		while(rs.next()) {
 			int bid = rs.getInt("bid");
 			String title = rs.getString("title");
@@ -128,6 +137,9 @@ public class BookDao {
 			search.add(new BookBean(bid, title, author, price, category, isbn));
 		}
 		  
+		Comparator<BookBean> titleCompare = this.getComparator();
+		
+		Collections.sort(search, titleCompare);
 		
 		rs.close();
 		stmt.close();
@@ -136,17 +148,17 @@ public class BookDao {
 		return search;
 	}
 	
-	public int insertBook (String title, ArrayList<String> author, double price, String category, String isbn) throws SQLException, ClassNotFoundException {
-
-		Class.forName("com.mysql.cj.jdbc.Driver");
-		Connection con = DriverManager.getConnection(url, user, password);
-		Statement stmt=con.createStatement();
-		System.out.println("Connected for searchBook in book");
-		
-		String insertq = "insert into book (title,author,price,category,isbn) values ('"+title+"','"+makeAuthorString(author)+"','"+price+"','"+category+"','"+isbn+"')";
-		
-		return stmt.executeUpdate(insertq);
-	}
+//	public int insertBook (String title, ArrayList<String> author, double price, String category, String isbn) throws SQLException, ClassNotFoundException {
+//
+//		Class.forName("com.mysql.cj.jdbc.Driver");
+//		Connection con = DriverManager.getConnection(url, user, password);
+//		Statement stmt=con.createStatement();
+//		System.out.println("Connected for searchBook in book");
+//		
+//		String insertq = "insert into book (title,author,price,category,isbn) values ('"+title+"','"+makeAuthorString(author)+"','"+price+"','"+category+"','"+isbn+"')";
+//		
+//		return stmt.executeUpdate(insertq);
+//	}
 
 	
 	public ArrayList<String> getAuthor (String [] auth) {
@@ -169,6 +181,19 @@ public class BookDao {
 			authA = author.get(0);
 		}
 		return authA;
+	}
+	
+	public Comparator<BookBean> getComparator(){
+		return new Comparator<BookBean>() {
+			@Override
+			public int compare(BookBean obj1, BookBean obj2) {
+				if (obj1 != null && obj2 != null && obj1.getTitle() != null && obj2.getTitle() != null) {
+                    return obj1.getTitle().compareTo(obj2.getTitle());
+                } else {
+                    return -1;
+                }
+			}
+		};
 	}
 	
 	
