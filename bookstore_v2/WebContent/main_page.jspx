@@ -64,6 +64,13 @@
 									type="button" href="analytics.jspx">Analytics</a>
 							</form>
 						</c:when>
+						<c:when test="${partner == 2}">
+							<form id="log" method="post">
+								<a>Welcome, ${fname}</a> 
+								<a class="btn pr-3 btn-sm btn-outline-secondary" id="logout" type="button" href="main_page.jspx">Log Out</a>
+								<a class="btn pr-3 btn-sm btn-outline-secondary" id="partner" type="button" href="partners.jspx">Partners</a>
+							</form>
+						</c:when>
 						<c:otherwise>
 							<form id="log" method="post">
 								<a>Welcome, ${fname}</a> <a
