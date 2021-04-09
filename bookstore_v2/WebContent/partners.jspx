@@ -42,8 +42,9 @@
 	
 	<link rel="StyleSheet" href="res/bknj.css" type="text/css"/>
 	    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">;</script>
-	<script type="text/javascript" src="res/book.js">;</script>
 
+	<script type="text/javascript" src="res/main_page_javascript.js">;</script>
+	<script type="text/javascript" src="res/book.js">;</script>
 			
 	<title>External Partners | BKNJ Bookstore</title>
 </head>
@@ -57,6 +58,7 @@
 				<div class="col-4 pt-1">
 					<a class="link-secondary" href="#"><form id="log" method="post">
 			<a>Welcome, ${fname} &#160;</a> 
+						<a class="btn pr-3 btn-sm btn-outline-secondary" id="logout" type="button" href="main_page.jspx">Log Out</a>
 			
 		
 		</form></a>
@@ -66,7 +68,6 @@
 						Bookstore </a>
 				</div>
 				<div class="col-4 d-flex justify-content-end align-items-center">
-			<a class="btn pr-3 btn-sm btn-outline-secondary" id="logout" type="button" href="main_page.jspx">Back to Main Page</a>
 				</div>
 			</div>
 		</header>
