@@ -16,8 +16,8 @@ public class Product {
 	public String getProductInfo(@QueryParam("bid") int bid) throws Exception {
 		
 		System.out.println("REST call for product catalogue received...");
-		BookModel bm = new BookModel();
-		String res = bm.exportJSON(bid);
+		BookModel bm = BookModel.getInstance();
+		String res = bm.exportJSONbyBid(bid);
 		return res;
 	}
 

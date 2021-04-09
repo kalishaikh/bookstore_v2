@@ -66,6 +66,8 @@
 	          <a class="dropdown-item" href="#" id="bestSellingGenre">Best Selling Genre</a>
 	          <a class="dropdown-item" href="#" id="mostVisits">Countries With Most Visits</a>
 	          <a class="dropdown-item" href="#" id="totalBooksSold">Total Books Sold</a>
+	          <a class="dropdown-item" href="#" id="totalSpent">Amount Spent By Each User</a>
+	          <a class="dropdown-item" href="#" id="favBook">Favourite Book By Rating</a>
 	        </div>
 	      </li>
 	    </ul>

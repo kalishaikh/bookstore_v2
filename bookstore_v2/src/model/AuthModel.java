@@ -10,6 +10,8 @@ import dao.UserDao;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import bean.BookBean;
+import bean.ReviewBean;
+import bean.UserBean;
 
 /*
  * Creates instances of classes that pertain to LOGIN and REGISTRATION.
@@ -80,5 +82,15 @@ public class AuthModel {
 	public LinkedHashMap<String,Integer> getCountries (){
 		
 		return userCon.getCountries();
+	}
+	
+	public ArrayList<UserBean> getTopUsers(){
+		
+		return userCon.getTopUsers();
+	}
+	
+	public ArrayList<ReviewBean> getBestBooks(){
+		
+		return userCon.getBestBooks();
 	}
 }

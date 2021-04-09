@@ -11,6 +11,8 @@ import java.util.LinkedHashMap;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import bean.BookBean;
+import bean.ReviewBean;
+import bean.UserBean;
 
 /*
  * This class creates a data access for users. This DAO will create a user if a user is not already registered and it will authenticate
@@ -236,8 +238,87 @@ public class UserDao {
 		
 		return map;
 	}		
+	
+	/*
+	 * This method returns an ArrayList of users and how much they've spent since they started shopping at BKNJ Bookstore.
+	 * @return ArrayList<UserBean>
+	 * 
+	 */
+	
+	public ArrayList<UserBean> getTopUsers(){
 		
+		
+		ArrayList<UserBean> list = new ArrayList<UserBean>();
+		
+		try {
+			
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://us-cdbr-east-03.cleardb.com/heroku_e71303011de1bce", "bbb09bc37f79b0", "7c9226ac");
+			Statement stmt=con.createStatement();
+			System.out.println("Connected to Heroku...Retrieving Lists of users purchase sum");
+			String query = String.format("Select email, Sum(price) as total_spent from poitem group by email order by total_spent desc");
+			ResultSet set = stmt.executeQuery(query);
+			while(set.next()) {
+				/*
+				 * set.getInt(1) = Customer Name
+				 * set.getInt(2) = Total Spent
+				 */
+				UserBean customer = new UserBean();
+				customer.setEmail(set.getString(1));
+				customer.setAmtSpent(set.getDouble(2));
+				list.add(customer);
+	
+			}
+				
+			con.close();
+			} catch(Exception e) {
+				System.out.println(e);
+				
+			}
+		
+		return list; 
+		
+		}
+	
+		/*
+		 * This method returns an ArrayList<ReviewBean> which includes all the books from best review to worst review. The first element will be the highest rated book.
+		 * 
+		 */
+	
+	public ArrayList<ReviewBean> getBestBooks(){
+			
+		ArrayList<ReviewBean> list = new ArrayList<ReviewBean>();
+		try {
+			
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://us-cdbr-east-03.cleardb.com/heroku_e71303011de1bce", "bbb09bc37f79b0", "7c9226ac");
+			Statement stmt=con.createStatement();
+			System.out.println("Connected to Heroku...Retrieving Lists of best books");
+			String query = String.format("SELECT book.title, review.bid, AVG(rate) as rating from review JOIN book on book.bid = review.bid group by bid order by rating desc");
+			ResultSet set = stmt.executeQuery(query);
+			while(set.next()) {
+				/*
+				 * set.getString(1) = Tile of Book
+				 * set.getDouble(3) = Average Rating
+				 */
+				ReviewBean rev = new ReviewBean();
+				rev.setTitle(set.getString(1));
+				rev.setAvgRate(set.getDouble(3));
+				list.add(rev);
+	
+			}
+				
+			con.close();
+			} catch(Exception e) {
+				System.out.println(e);
+				
+			}
+		
+		return list; 
+		
+		}
 		
 	}
+	
 
 

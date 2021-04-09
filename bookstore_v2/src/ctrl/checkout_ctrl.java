@@ -1,6 +1,6 @@
 package ctrl;
 
-import java.awt.Component;
+
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -9,10 +9,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 
 import bean.CartItemBean;
 import bean.ShoppingCartBean;

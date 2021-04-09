@@ -62,8 +62,9 @@ public class bookinfo_ctrl extends HttpServlet {
 		} else if(request.getParameter("isbn") != null && !request.getParameter("isbn").equals("")) {
 			String isbn = request.getParameter("isbn");
 			
-			BookModel bmodel = new BookModel();
+			
 			try {
+				BookModel bmodel = BookModel.getInstance();
 				cbook = bmodel.retrieveBook(isbn);
 				
 				if(cbook != null) {
@@ -141,7 +142,8 @@ public class bookinfo_ctrl extends HttpServlet {
 				Integer.parseInt(request.getParameter("rate")),
 				request.getParameter("reviewContent"), 
 				date);
-		BookModel bm = new BookModel();
+		
+		BookModel bm = BookModel.getInstance();;
 		
 		response.setContentType("application/json");
 		PrintWriter out = response.getWriter();

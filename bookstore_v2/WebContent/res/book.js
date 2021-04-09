@@ -14,6 +14,40 @@ function validateSearch(){
 }
 
 /**
+ * Ensure ISBN is filled in 
+ */
+function validateISBN(){
+	var ok = true;
+	var p = document.forms["getBookForm"]["isbn"].value;
+	
+	if (p === null || p === "") {
+  		
+		alert("Nothing entered. Please enter an ISBN!");
+        return false;
+    }
+		
+	return ok;
+}
+
+
+/**
+ * Ensure order ID is filled in 
+ */
+function validatePID(){
+	var ok = true;
+	var p = document.forms["getOrderForm"]["pid"].value;
+	
+	if (p === null || p === "") {
+  		
+		alert("Nothing entered. Please enter an Order ID!");
+        return false;
+    }
+		
+	return ok;
+}
+
+
+/**
  * Ensure that the Review is complete
  */
 function validateReview(){
