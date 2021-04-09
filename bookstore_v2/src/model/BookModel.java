@@ -78,23 +78,6 @@ public class BookModel {
 	public double[] overallRate(int bid) throws ClassNotFoundException, SQLException {
 		return reviewData.overallRateBook(bid);
 	}
-	
-
-	public String exportJSONbyBid(int bid) throws Exception {
-		
-		BookBean b = bookData.retrieveBook(bid);
-		JsonArrayBuilder jarr = Json.createArrayBuilder();
-		JsonObject tmp = Json.createObjectBuilder()
-				.add("bid", b.getBid())
-				.add("title", b.getTitle())
-				.add("authors", b.getAuthor().get(0))
-				.add("price", b.getPrice())
-				.add("category", b.getCategory())
-				.add("isbn", b.getIsbn())
-				.build();
-		
-		return tmp.toString();
-	}
 
 	public String exportJSON(String isbn) throws Exception {
 		double[] rate = new double[2];

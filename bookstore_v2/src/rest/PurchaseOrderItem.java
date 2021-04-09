@@ -13,11 +13,11 @@ public class PurchaseOrderItem {
 	@GET
 	@Path("/read/")
 	@Produces("text/plain")
-	public String getProductInfo(@QueryParam("bid") int bid) throws Exception {
+	public String getProductInfo(@QueryParam("isbn") String isbn) throws Exception {
 		
 		System.out.println("REST call for order catalogue received...");
-		POItemModel pm = new POItemModel();
-		String res = pm.exportJSON(bid);
+		POItemModel pm = POItemModel.getInstance();
+		String res = pm.exportJSON(isbn);
 		return res;
 	}
 

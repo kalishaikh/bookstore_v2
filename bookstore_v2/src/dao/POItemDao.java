@@ -40,15 +40,25 @@ public class POItemDao {
 		}
 	}
 
-	public ArrayList<POItemBean> retrieveOrders(int bid) throws SQLException, ClassNotFoundException {
+	public ArrayList<POItemBean> retrieveOrders(String isbn) throws SQLException, ClassNotFoundException {
 		Class.forName("com.mysql.cj.jdbc.Driver");
 		Connection con = DriverManager.getConnection("jdbc:mysql://us-cdbr-east-03.cleardb.com/heroku_e71303011de1bce",
 				"bbb09bc37f79b0", "7c9226ac");
-
-		String query = "select * from poitem where bid=" + bid;
-
+		
+		int bid = 0;
+		String query = "select bid from book where isbn='" + isbn + "'";
+		
 		PreparedStatement p = con.prepareStatement(query);
 		ResultSet r = p.executeQuery();
+		while (r.next()) {
+			bid = r.getInt("bid");
+
+		}
+
+		query = "select * from poitem where bid=" + bid;
+
+		p = con.prepareStatement(query);
+		r = p.executeQuery();
 
 		ArrayList<POItemBean> arr = new ArrayList<POItemBean>();
 		POItemBean poi;

@@ -123,7 +123,13 @@ public class checkout_ctrl extends HttpServlet {
 	
 	public void addPOItems(ArrayList<CartItemBean> cartItems, String pid) {
 		System.out.println("\nAdding cart items to poitem db...");
-		POItemModel poi = new POItemModel();
+		POItemModel poi = null;
+		try {
+			poi = POItemModel.getInstance();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		for (int i=0; i<cartItems.size(); i++) {
 			CartItemBean c = cartItems.get(i);
 			c.setTransactionDate();
