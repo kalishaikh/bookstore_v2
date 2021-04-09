@@ -82,7 +82,7 @@
 					</c:choose>
 				</div>
 				<div class="col-4 text-center">
-					<a class="blog-header-logo text-dark" href="#">BKNJ Bookstore</a>
+					<a class="blog-header-logo text-dark" href="main_page.jspx">BKNJ Bookstore</a>
 				</div>
 				<div class="col-4 d-flex justify-content-end align-items-center">
 
@@ -94,8 +94,19 @@
 							value="bookInfo">Go</button>
 					</form>
 
-					<a class="btn btn-sm btn-outline-secondary" href="shopping_cart">Shopping
-						Cart</a>
+		<c:choose>
+						<c:when test="${empty cart}">
+							<a class="btn btn-sm btn-outline-secondary" href="shopping_cart"> <span id="cart"> Shopping Cart (0)</span>
+						</a>
+						</c:when>
+						<c:otherwise>
+						<a class="btn btn-sm btn-outline-secondary" href="shopping_cart"> <span id="cart"> Shopping Cart (${cart.getCartSize()})
+						</span>
+						</a>
+						</c:otherwise>
+							
+						
+					</c:choose>
 				</div>
 			</div>
 		</header>
@@ -152,7 +163,7 @@
 									<input type="hidden" name="bid" id="bid" value="${bookI.bid}"/>
 									</form>
 		<button name="addToCart" value="true" class="cart btn btn-outline-primary" 
-								onclick="addToCart('bookinfo_ctrl?addToCart=true',${bookI.bid},${bookI.price},'${bookI.parseTitle()}','${bookI.authorsToString()}','${bookI.category}');">
+								onclick="addToCart('bookinfo_ctrl?addToCart=true',${bookI.bid},${bookI.price},'${bookI.parseTitle()}','${bookI.authorsToString()}','${bookI.category}');incrementCartCount(${cart.getCartSize()});">
 								Add to Cart</button>
 				</div>
 			</div>

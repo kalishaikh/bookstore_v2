@@ -2,13 +2,15 @@ package dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-
+import java.util.HashMap;
+import java.util.Map;
 import bean.BookBean;
 
 public class BookDao {
@@ -194,6 +196,41 @@ public class BookDao {
                 }
 			}
 		};
+	}
+	
+	public BookBean retrieveBook(int bid) throws SQLException, ClassNotFoundException {
+		Class.forName("com.mysql.cj.jdbc.Driver");
+		Connection con = DriverManager.getConnection(url, user, password);
+		
+		String query = "select * from book where bid=" + bid;
+
+		PreparedStatement p = con.prepareStatement(query);
+		ResultSet r = p.executeQuery();
+		String title = "";
+		String author = "";
+		String category = "";
+		String isbn = ""; 
+		ArrayList<String> authors = new ArrayList<String>();
+		double price = 0;
+		
+		while (r.next()) {
+			title = r.getString("title");
+			author = r.getString("author");
+
+			authors.add(author);
+			price = r.getDouble("price");
+			category = r.getString("category");
+			isbn = r.getString("isbn");
+			
+		}
+		
+		BookBean b  = new BookBean(bid, title, authors, price, category, isbn);
+		r.close();
+		p.close();
+		con.close();
+
+		return b;
+
 	}
 	
 	

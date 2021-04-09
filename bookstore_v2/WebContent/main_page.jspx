@@ -85,9 +85,21 @@
 						<button class="btn btn-sm btn-dark" type="submit" name="button"
 							value="bookInfo">Go</button>
 					</form>
-
-					<a class="btn btn-sm btn-outline-secondary" href="shopping_cart">Shopping
-						Cart</a>
+					
+					<c:choose>
+						<c:when test="${empty cart}">
+							<a class="btn btn-sm btn-outline-secondary" href="shopping_cart">Shopping Cart (0)
+						</a>
+						</c:when>
+						<c:otherwise>
+						<a class="btn btn-sm btn-outline-secondary" href="shopping_cart"> Shopping Cart (${cart.getCartSize()})
+						
+						</a>
+						</c:otherwise>
+							
+						
+					</c:choose>
+			
 				</div>
 			</div>
 		</header>

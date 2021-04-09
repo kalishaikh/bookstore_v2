@@ -1,8 +1,19 @@
 package model;
 
+import java.io.StringWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map.Entry;
 
+import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonObject;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
+import javax.xml.transform.stream.StreamResult;
 
 import bean.BookBean;
 import bean.ReviewBean;
@@ -46,6 +57,22 @@ public class BookModel {
 	
 	public double[] overallRate(int bid) throws ClassNotFoundException, SQLException {
 		return reviewData.overallRateBook(bid);
+	}
+	
+	public String exportJSON(int bid) throws Exception {
+		
+		BookBean b = bookData.retrieveBook(bid);
+		JsonArrayBuilder jarr = Json.createArrayBuilder();
+		JsonObject tmp = Json.createObjectBuilder()
+				.add("bid", b.getBid())
+				.add("title", b.getTitle())
+				.add("authors", b.getAuthor().get(0))
+				.add("price", b.getPrice())
+				.add("category", b.getCategory())
+				.add("isbn", b.getIsbn())
+				.build();
+		
+		return tmp.toString();
 	}
 
 }

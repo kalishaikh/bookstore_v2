@@ -97,8 +97,19 @@
 							value="bookInfo">Go</button>
 					</form>
 
-					<a class="btn btn-sm btn-outline-secondary" href="shopping_cart">Shopping
-						Cart</a>
+	<c:choose>
+						<c:when test="${empty cart}">
+							<a class="btn btn-sm btn-outline-secondary" href="shopping_cart"> <span id="cart"> Shopping Cart (0)</span>
+						</a>
+						</c:when>
+						<c:otherwise>
+						<a class="btn btn-sm btn-outline-secondary" href="shopping_cart"> <span id="cart"> Shopping Cart (${cart.getCartSize()})
+						</span>
+						</a>
+						</c:otherwise>
+							
+						
+					</c:choose>
 				</div>
 			</div>
 		</header>
@@ -177,7 +188,7 @@
 						
 
 								<button name="addToCart" value="true" class="cart btn btn-outline-primary" 
-								onclick="addToCart('Search?addToCart=true',${book.bid},${book.price},'${book.parseTitle()}','${book.authorsToString()}','${book.category}');">
+								onclick="addToCart('Search?addToCart=true',${book.bid},${book.price},'${book.parseTitle()}','${book.authorsToString()}','${book.category}');incrementCartCount(${cart.getCartSize()});">
 								Add to Cart </button> 
 							</div>
 							

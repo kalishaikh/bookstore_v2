@@ -100,10 +100,18 @@ function addToCart(address,bid,price,title,author,category) {
 	
 	alert(title + " added to cart!");
 	
+	
 	request.open("POST", (address + data), true);
 	request.send(null);
 }
 
+var cartChanges = 0;
+
+function incrementCartCount(quantity) {
+	target = document.getElementById("cart");
+	cartChanges = cartChanges + 1;
+	target.innerHTML = ("Shopping Cart (" + (quantity + cartChanges) + ")");
+}
 
 
 /**

@@ -1,6 +1,16 @@
 package model;
 
+import java.util.ArrayList;
+
+import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonObject;
+
+import bean.BookBean;
+import bean.POItemBean;
 import dao.PODao;
+import dao.POItemDao;
 
 public class POModel {
 	
@@ -36,5 +46,6 @@ public class POModel {
 		return pdao.addPO(email, lname, fname, status, aid);
 		
 	}
+	
 	
 }
