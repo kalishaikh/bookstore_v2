@@ -89,6 +89,17 @@ public class auth_ctrl extends HttpServlet {
 					request.getSession().setAttribute("admin", "1");
 				}
 				
+				else if (email.equals("partner@bknj.com")) {
+					request.getSession().setAttribute("partner", "2");
+				}
+				
+				else {
+					/*
+					 * If no partner or admin logs in we set them to zero
+					 */
+					request.getSession().setAttribute("admin", "0");
+					request.getSession().setAttribute("partner", "0");
+				}
 				out.print(result);
 				
 		}
