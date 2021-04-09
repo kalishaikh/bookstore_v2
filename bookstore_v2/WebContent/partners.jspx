@@ -11,6 +11,7 @@
 		omit-xml-declaration="true" />
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+
 	<!-- Bootstrap core CSS -->
 	<link href="res/bootstrap.min.css"
 		rel="stylesheet" />
@@ -40,21 +41,35 @@
 	<link href="res/blog.css" rel="stylesheet" />
 	
 	<link rel="StyleSheet" href="res/bknj.css" type="text/css"/>
-	
+	    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">;</script>
 	<script type="text/javascript" src="res/book.js">;</script>
-	
 
-	
+			
 	<title>External Partners | BKNJ Bookstore</title>
 </head>
 <body>
 
 <c:choose>
 	<c:when test="${partner == 2}">
-		<form id="log" method="post">
-			<a>Welcome, ${fname}</a> 
-			<a class="btn pr-3 btn-sm btn-outline-secondary" id="logout" type="button" href="main_page.jspx">Log Out</a>
-		</form>
+		<header class="blog-header py-3">
+			<div
+				class="row flex-nowrap justify-content-between align-items-center">
+				<div class="col-4 pt-1">
+					<a class="link-secondary" href="#"><form id="log" method="post">
+			<a>Welcome, ${fname} &#160;</a> 
+			
+		
+		</form></a>
+				</div>
+				<div class="col-4 text-center">
+					<a class="blog-header-logo text-dark" href="main_page.jspx">BKNJ
+						Bookstore </a>
+				</div>
+				<div class="col-4 d-flex justify-content-end align-items-center">
+			<a class="btn pr-3 btn-sm btn-outline-secondary" id="logout" type="button" href="main_page.jspx">Back to Main Page</a>
+				</div>
+			</div>
+		</header>
 		
 			
 	<main>
@@ -64,13 +79,10 @@
 			<label for="isbn">Enter ISBN:</label>
 			<input type="text" name="isbn" id="isbn"/>
 			<button class="btn btn-dark" type="submit" name="getBook" id="getBook" value="true">Get Product Info</button>
+		<button class="btn btn-dark" type="submit" name="getOrders" id="getOrders" value="true">Get Order Info</button>
 		</form>
 		<BR />
-		<form action="partner_ctrl"	method="POST" name="getOrderForm" onsubmit="return validatePID();">
-			<label for="pid">Enter Order Number:</label>
-			<input type="text" name="pid" id="pid"/>
-			<button class="btn btn-dark" type="submit" name="getOrders" id="getOrders" value="true">Get Order Info</button>
-		</form>
+
 	</div>
 	
 	

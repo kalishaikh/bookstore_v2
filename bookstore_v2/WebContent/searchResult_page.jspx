@@ -68,7 +68,7 @@
 						</c:when>
 						<c:when test="${admin == '1'}">
 							<form id="log" method="post">
-								<a>Welcome, ${fname}</a> <a
+								<a>Welcome, ${fname} &#160;</a> <a
 									class="btn pr-3 btn-sm btn-outline-secondary" id="logout"
 									type="button" href="main_page.jspx">Log Out</a> <a
 									class="btn btn-sm btn-outline-secondary" id="analytics"
@@ -77,7 +77,7 @@
 						</c:when>
 						<c:otherwise>
 							<form id="log" method="post">
-								<a>Welcome, ${fname}</a> <a
+								<a>Welcome, ${fname} &#160;</a> <a
 									class="btn pr-3 btn-sm btn-outline-secondary" id="logout"
 									type="button" href="main_page.jspx">Log Out</a>
 							</form>
