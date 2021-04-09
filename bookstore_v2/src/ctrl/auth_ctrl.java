@@ -4,10 +4,12 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -81,6 +83,14 @@ public class auth_ctrl extends HttpServlet {
 				String email = request.getParameter("email");
 				String pass = request.getParameter("pass");	
 				String result = model.loginUser(email, pass);
+				
+				ArrayList<UserBean> testListen = new ArrayList<UserBean>();
+				UserBean test = new UserBean();
+				test.setEmail("kas_109@hotmail.com");
+				testListen.add(test);
+				
+ 				
+				request.setAttribute("login", testListen);
 				
 				if (!result.equals("200") && !result.equals("100")) {
 					request.getSession().setAttribute("fname", result);
@@ -247,11 +257,54 @@ public class auth_ctrl extends HttpServlet {
 				build.append("</tbody></table>");
 				out.print(build);
 				out.flush();
-			}
-				
-			}
+				}
 			
-		}
+			//testing speed of listenr vs db connection
+			else if (type.equals("5")) {
+				
+				html = "<table class='table'><thead class='thead-light'> <tr> <th scope='col'>Ranking</th><th scope='col'>Book Title</th> <th scope='col'>Amount Sold</th></tr></thead><tbody>";
+				int counter = 1;
+				StringBuilder build = new StringBuilder();
+				build.append(html);
+				
+				if (request.getServletContext().getAttribute("popularBooks") != null) {
+					HashMap<String, Integer> popularBooks = new HashMap<String,Integer>();
+
+					popularBooks = (HashMap<String, Integer>) request.getServletContext().getAttribute("popularBooks");
+					
+					LinkedHashMap<String, Integer> map2 = 
+						    popularBooks.entrySet()
+						       .stream()             
+						       .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+						       .collect(Collectors.toMap(e -> e.getKey(), 
+						                                 e -> e.getValue(), 
+						                                 (e1, e2) -> null, // or throw an exception
+						                                 () -> new LinkedHashMap<String, Integer>()));
+					System.out.println(map2);
+					
+					
+					for(String currKey : map2.keySet()) {
+						
+						build.append("<tr> <th scope='row'>"+counter+"</th> <td>"+currKey+"</td> <td>"+map2.get(currKey)+"</td> </tr>");
+						counter += 1;
+					}
+					build.append("</tbody></table>");
+					out.print(build);
+					out.flush();
+					
+			
+				}
+				else {
+					
+						out.print("<h1>No books have been sold yet</h1>");
+						out.flush();
+					
+						}
+					}
+					
+				}
+	
+			}
 			
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)

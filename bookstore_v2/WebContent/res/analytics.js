@@ -2,13 +2,6 @@ $( document ).ready(function() {
 	
 	/**Detect which dropdown menu has been click*/
 	
-		/**Create a post command with type 0 if Best Selling Books is Selected */
-		$("#bestSellingBooks").click(function() {
-				$.post("auth_ctrl/analytics", {type:"0"}, function(data, success){
-						$("body").append("<h1 class ='text-center'>Displaying Top 10 Books Sold</h1>")
-						$("body").append(data);
-					});
-		});
 		
 		/**Create a post command with type 1 if Best Genre is Selected */
 		$("#bestSellingGenre").click(function(){
@@ -39,6 +32,14 @@ $( document ).ready(function() {
 		$("#favBook").click(function(){
 				$.post("auth_ctrl/analytics", {type:"4"}, function(data, success){
 						$("body").append("<h1 class ='text-center'>Displaying Top Rated Books By Users</h1>")
+						$("body").append(data);
+					});
+		});
+		
+		/**Create a post command with type 5 if Favourite Books is selected */
+		$("#bestSellingBooks").click(function(){
+				$.post("auth_ctrl/analytics", {type:"5"}, function(data, success){
+						$("body").append("<h1 class ='text-center'>Displaying Total Books Sold Since Going Live</h1>")
 						$("body").append(data);
 					});
 		});
