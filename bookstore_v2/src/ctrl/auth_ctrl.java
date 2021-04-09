@@ -2,6 +2,7 @@ package ctrl;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -16,7 +17,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import bean.BookBean;
+import bean.ReviewBean;
 import bean.ShoppingCartBean;
+import bean.UserBean;
 import model.AuthModel;
 
 /**
@@ -194,10 +197,62 @@ public class auth_ctrl extends HttpServlet {
 				out.flush();
 			}
 			
+			//3 Represents a request for users who spend the most
+			else if(type.equals("3")) {
+				html = "<table class='table'><thead class='thead-light'> <tr> <th scope='col'>Ranking</th><th scope='col'>User Email</th> <th scope='col'>Total Spent</th></tr></thead><tbody>";
+				int counter = 1;
+				StringBuilder build = new StringBuilder();
+				build.append(html);
+				
+				ArrayList<UserBean> test = model.getTopUsers();
+				
+				for (UserBean key : test) {
+					
+					DecimalFormat df = new DecimalFormat("#.##");
+					String amt = df.format(key.getAmtSpent()); 
+					StringBuilder nameProtected = new StringBuilder(key.getEmail());
+					for (int i = 0; i < nameProtected.length()/2; i++) {
+						nameProtected.setCharAt(i, '*'); 
+					}
+					
+					
+					build.append("<tr> <th scope='row'>"+counter+"</th> <td>"+nameProtected+"</td> <td>"+amt+"</td> </tr>");
+					counter += 1;
+				}
+				
+				build.append("</tbody></table>");
+				out.print(build);
+				out.flush();
+			}
+			
+			//4 represents a request for the top rated books
+			
+			else if (type.equals("4")) {
+				html = "<table class='table'><thead class='thead-light'> <tr> <th scope='col'>Ranking</th><th scope='col'>Book Title</th> <th scope='col'>Book Rating</th></tr></thead><tbody>";
+				int counter = 1;
+				StringBuilder build = new StringBuilder();
+				build.append(html);
+				
+				ArrayList<ReviewBean> test = model.getBestBooks();
+				
+				for (ReviewBean key : test) {
+					
+					DecimalFormat df = new DecimalFormat("#.##");
+					String amt = df.format(key.getAvgRate()); 
+					
+					build.append("<tr> <th scope='row'>"+counter+"</th> <td>"+key.getTitle()+"</td> <td>"+amt+"</td> </tr>");
+					counter += 1;
+				}
+				
+				build.append("</tbody></table>");
+				out.print(build);
+				out.flush();
+			}
+				
+			}
+			
 		}
 			
-	}
-
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */

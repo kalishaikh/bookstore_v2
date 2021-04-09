@@ -8,6 +8,40 @@ public class ReviewBean {
 	private String name;
 	private String title;
 	private int rate;
+	private double avgRate;
+	
+	public double getAvgRate() {
+		return avgRate;
+	}
+
+	public void setAvgRate(double avgRate) {
+		this.avgRate = avgRate;
+	}
+
+	public void setBid(int bid) {
+		this.bid = bid;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public void setRate(int rate) {
+		this.rate = rate;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
 	private String content;
 	private Date date;
 	
@@ -19,6 +53,10 @@ public class ReviewBean {
 		this.rate = rate;
 		this.content = content;
 		this.date = date;
+	}
+	
+	public ReviewBean() {
+		
 	}
 
 	public int getBid() {
