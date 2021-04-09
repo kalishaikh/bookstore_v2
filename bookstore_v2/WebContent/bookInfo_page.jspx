@@ -129,20 +129,7 @@
 			<div class="m-4 col-5">
 				<strong class="d-inline-block mb-2 text-primary">${bookI.category}</strong>
 				<h3 class="mb-0">${bookI.title}</h3>
-				<c:choose>
-					<c:when test="${fn:length(bookI.getAuthor()) == 1}">
-						<div class="mb-1 text-muted">By ${bookI.getAuthor()[0]}</div>
-					</c:when>
-					<c:otherwise>
-						<div class="d-inline">
-							<div class="d-inline mb-1 text-muted">By </div>
-							<c:forEach items="${bookI.getAuthor()}" var="auth" end="${fn:length(bookI.getAuthor())-2}">
-								<div class="d-inline mb-1 text-muted">${auth}, </div>
-							</c:forEach>
-							<div class="d-inline mb-1 text-muted">${bookI.getAuthor()[fn:length(bookI.getAuthor())-1]}</div>
-						</div>
-					</c:otherwise>
-				</c:choose>
+				<div class="mb-1 text-muted">By ${bookI.authorsToString()}</div>
 				<strong class="mb-1 ml-2 text-dark"><f:formatNumber type="currency" currencySymbol="$" maxFractionDigits="2">${bookI.price}</f:formatNumber></strong>
 				<BR />
 				<BR />

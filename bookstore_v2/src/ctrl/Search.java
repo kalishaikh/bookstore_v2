@@ -42,7 +42,13 @@ public class Search extends HttpServlet {
 		String main_target = "/main_page.jspx";
 		String bookInfo_target = "/bookInfo_page.jspx";
 		
-		BookModel bmodel = new BookModel();
+		BookModel bmodel = null;
+		try {
+			bmodel = BookModel.getInstance();
+		} catch (ClassNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
 		if (request.getParameter("addToCart") != null && request.getParameter("addToCart").equals("true")) { // Add to Cart button clicked. 
 			
