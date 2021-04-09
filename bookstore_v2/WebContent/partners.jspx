@@ -65,6 +65,7 @@
 			<input type="text" name="isbn" id="isbn"/>
 			<button class="btn btn-dark" type="submit" name="getBook" id="getBook" value="true">Get Product Info</button>
 		</form>
+		
 		<BR />
 		<form action="partner_ctrl"	method="POST" name="getOrderForm" onsubmit="return validatePID();">
 			<label for="pid">Enter Order Number:</label>
