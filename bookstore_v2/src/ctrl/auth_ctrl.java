@@ -301,10 +301,32 @@ public class auth_ctrl extends HttpServlet {
 					
 						}
 					}
+			
+			else if (type.equals("6")) {
+				
+				
+				html = "<table class='table'><thead class='thead-light'> <tr> <th scope='col'>Ranking</th><th scope='col'>Book Title</th> <th scope='col'>Amount Sold</th></tr></thead><tbody>";
+				int counter = 1;
+				StringBuilder build = new StringBuilder();
+				build.append(html);
+				
+				ArrayList<BookBean> test = model.getMarchBooks();
+				for (BookBean key : test) {
 					
+					build.append("<tr> <th scope='row'>"+counter+"</th> <td>"+key.getTitle()+"</td> <td>"+key.getQuantity()+"</td> </tr>");
+					counter += 1;
 				}
-	
+				
+				build.append("</tbody></table>");
+				out.print(build);
+				out.flush();
 			}
+				
+			}
+					
+		}
+	
+
 			
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)

@@ -93,4 +93,8 @@ public class AuthModel {
 		
 		return userCon.getBestBooks();
 	}
+
+	public ArrayList<BookBean> getMarchBooks(){
+		return userCon.getMarchBooks();
+	}
 }

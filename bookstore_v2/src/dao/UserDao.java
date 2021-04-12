@@ -256,7 +256,7 @@ public class UserDao {
 			Connection con = DriverManager.getConnection("jdbc:mysql://us-cdbr-east-03.cleardb.com/heroku_e71303011de1bce", "bbb09bc37f79b0", "7c9226ac");
 			Statement stmt=con.createStatement();
 			System.out.println("Connected to Heroku...Retrieving Lists of users purchase sum");
-			String query = String.format("Select email, Sum(price) as total_spent from poitem group by email order by total_spent desc");
+			String query = String.format("Select po.email, Sum(price) as total_spent from poitem JOIN po where po.pid = poitem.pid group by po.email order by total_spent desc");
 			ResultSet set = stmt.executeQuery(query);
 			while(set.next()) {
 				/*
@@ -317,6 +317,40 @@ public class UserDao {
 		return list; 
 		
 		}
+	
+	public ArrayList<BookBean> getMarchBooks(){
+		int counter = 1;
+		ArrayList<BookBean> book = new ArrayList<BookBean>();
+		
+		try {
+			
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://us-cdbr-east-03.cleardb.com/heroku_e71303011de1bce", "bbb09bc37f79b0", "7c9226ac");
+			Statement stmt=con.createStatement();
+			System.out.println("Connected to Heroku...Retrieving Book Quantity...");
+			String query = String.format("select book.title, SUM(poitem.quantity) AS Quantity FROM poitem JOIN book ON  poitem.bid = book.bid GROUP BY book.title order by Quantity desc");
+			ResultSet set = stmt.executeQuery(query);
+			
+			while(set.next() && counter < 11) {
+				
+				/*
+				 * set.getString(1) = Book Id
+				 * set.getInt(2) = Quantity
+				 */
+				BookBean rbook = new BookBean();
+				rbook.setTitle(set.getString(1));
+				rbook.setQuantity(set.getInt(2));
+				counter++;
+				book.add(rbook);
+			}
+				
+			con.close();
+			} catch(Exception e) {
+				System.out.println(e);
+				
+			}
+		return book;
+	}
 		
 	}
 	
