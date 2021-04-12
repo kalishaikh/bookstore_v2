@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import bean.BookBean;
 import bean.CartItemBean;
 import bean.ShoppingCartBean;
 import model.POItemModel;
@@ -88,14 +89,18 @@ public class checkout_ctrl extends HttpServlet {
 			pid = pmodel.addPurchaseOrder(email, lname, fname, status, address);
 			
 			ShoppingCartBean sc = (ShoppingCartBean) request.getSession().getAttribute("cart");
-		
+			ArrayList<BookBean> purchasedBooks = new ArrayList<BookBean>();
+			
 			// Redirect to confirmation/denial page
 			if (confirmed) {
 				// Add cart items to poitem db 
-				this.addPOItems(sc.cart, pid);	
+				this.addPOItems(sc.cart, purchasedBooks, pid);	
 				System.out.println("\n************ CHECKOUT ************");
 				System.out.println("ORDER STATUS: CONFIRMED");
 				sc.printCartItems();
+				
+				//Send Book List to Listner
+				request.setAttribute("purchasedBooks", purchasedBooks);
 				
 				// Reset shopping cart
 				request.setAttribute("confirmationCart", sc);
@@ -121,7 +126,7 @@ public class checkout_ctrl extends HttpServlet {
 		doGet(request, response);
 	}
 	
-	public void addPOItems(ArrayList<CartItemBean> cartItems, String pid) {
+	public void addPOItems(ArrayList<CartItemBean> cartItems, ArrayList<BookBean> bookListner, String pid) {
 		System.out.println("\nAdding cart items to poitem db...");
 		POItemModel poi = null;
 		try {
@@ -132,7 +137,11 @@ public class checkout_ctrl extends HttpServlet {
 		}
 		for (int i=0; i<cartItems.size(); i++) {
 			CartItemBean c = cartItems.get(i);
+			BookBean newBook = new BookBean();
+			newBook.setTitle(c.getTitle());
+			newBook.setQuantity(c.getQuantity());
 			c.setTransactionDate();
+			bookListner.add(newBook);
 			poi.addPOItem(pid, c.getBid(), c.getPrice(), c.getQuantity(), c.getTransactionDate());
 		}
 	}

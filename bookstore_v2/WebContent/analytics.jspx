@@ -47,6 +47,7 @@
   <div class="container-fluid text-center">
 	<nav class="navbar navbar-light bg-light">
 	  <h2 class="text-dark mx-auto text-dark">BKNJ Analytics</h2>
+	  <a href="main_page.jspx">Return to the bookstore</a>
      </nav>
 	</div>
  <div class="container-fluid text-center">	
