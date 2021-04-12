@@ -142,6 +142,9 @@ function addToCart(address,bid,price,title,author,category) {
 var cartChanges = 0;
 
 function incrementCartCount(quantity) {
+	if (Number.isNan(quantity)) {
+	quantity = 0;
+	}
 	target = document.getElementById("cart");
 	cartChanges = cartChanges + 1;
 	target.innerHTML = ("Shopping Cart (" + (quantity + cartChanges) + ")");
