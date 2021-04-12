@@ -103,21 +103,22 @@
 							</div> <span class="text-muted"><f:formatNumber type="currency" currencySymbol="$" maxFractionDigits="2">${cart.getTax() }</f:formatNumber></span>
 						</li>
 		
-	<!--  					<li
+	 					<li
 							class="list-group-item d-flex justify-content-between bg-light">
 							<div class="text-success">
 								<h6 class="my-0">Promo code</h6>
-								<small>EXAMPLECODE</small>
-							</div> <span class="text-success">- $5</span>
-						</li>-->
+								<small id="code_message">Enter valid promo code</small>
+							</div> <span class="text-success" id="promo_amt">--</span>
+						</li>
+				
 						<li class="list-group-item d-flex justify-content-between"><span>Total
-								(CAD)</span> <strong><f:formatNumber type="currency" currencySymbol="$" maxFractionDigits="2">${cart.getTotal() }</f:formatNumber></strong></li>
+								(CAD)</span> <span id="total_amt"> <strong><f:formatNumber type="currency" currencySymbol="$" maxFractionDigits="2">${cart.getTotal() }</f:formatNumber></strong> </span></li>
 					</ul>
-
+<!-- <strong><f:formatNumber type="currency" currencySymbol="$" maxFractionDigits="2">${cart.getTotal() }</f:formatNumber></strong> -->
 					<form class="card p-2">
 						<div class="input-group">
-							<input type="text" class="form-control" placeholder="Promo code" />
-							<button type="submit" class="btn btn-secondary">Redeem</button>
+							<input type="text" id="enter_promo" class="form-control" placeholder="Promo code" />
+							<a type="button" id="promo" onclick="promo(${cart.getTotal()});return false;" class="btn btn-secondary">Redeem</a>
 						</div>
 					</form>
 				</div>
