@@ -68,6 +68,9 @@ public class auth_ctrl extends HttpServlet {
 				System.out.println("Added a session variable: " + request.getSession().getAttribute("fname"));
 			}
 			
+				request.getSession().setAttribute("admin", "0");
+				request.getSession().setAttribute("partner", "0");
+			
 			//Tell JavaScript (auth.js) if the result was successful or not;
 			
 			out.print(result);
