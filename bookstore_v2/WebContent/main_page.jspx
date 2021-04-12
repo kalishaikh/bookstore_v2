@@ -95,11 +95,11 @@
 					
 					<c:choose>
 						<c:when test="${empty cart}">
-							<a class="btn btn-sm btn-outline-secondary" href="shopping_cart">Shopping Cart (0)
+							<a class="btn btn-sm btn-outline-secondary" id="cart" href="shopping_cart">Shopping Cart (0)
 						</a>
 						</c:when>
 						<c:otherwise>
-						<a class="btn btn-sm btn-outline-secondary" href="shopping_cart"> Shopping Cart (${cart.getCartSize()})
+						<a class="btn btn-sm btn-outline-secondary" id="cart" href="shopping_cart"> Shopping Cart (${cart.getCartSize()})
 						
 						</a>
 						</c:otherwise>
